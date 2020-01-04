@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Fwd Seg Size Avg,Min,0.0
+Fwd Seg Size Avg,Max,238.0
+Fwd Seg Size Avg,Mean,79.31495027115912
+Fwd Seg Size Avg,Unique,3
+Fwd Seg Size Avg,Distinct,46
+Fwd Seg Size Avg,StandardDeviation,82.4692247976149
+Fwd Seg Size Min,Min,20.0
+Fwd Seg Size Min,Max,40.0
+Fwd Seg Size Min,Mean,33.488262056414925
+Fwd Seg Size Min,Unique,0
+Fwd Seg Size Min,Distinct,3
+Fwd Seg Size Min,StandardDeviation,3.5243335291748425
+Fwd URG Flags,Min,0.0
+Fwd URG Flags,Max,0.0
+Fwd URG Flags,Mean,0.0
+Fwd URG Flags,Unique,0
+Fwd URG Flags,Distinct,1
+Fwd URG Flags,StandardDeviation,0.0
+Idle Max,Min,0.0
+Idle Max,Max,119464308.0
+Idle Max,Mean,46904736.7799818
+Idle Max,Unique,3289
+Idle Max,Distinct,4333
+Idle Max,StandardDeviation,39020353.57442129
+Idle Mean,Min,0.0
+Idle Mean,Max,119464308.0
+Idle Mean,Mean,34721440.093175605
+Idle Mean,Unique,6053
+Idle Mean,Distinct,6573
+Idle Mean,StandardDeviation,39769773.33307384
+Idle Min,Min,0.0
+Idle Min,Max,119464308.0
+Idle Min,Mean,27534411.898544133
+Idle Min,Unique,3205
+Idle Min,Distinct,4093
+Idle Min,StandardDeviation,42549031.41220678
+Idle Std,Min,0.0
+Idle Std,Max,21372405.7864311
+Idle Std,Mean,8594353.863656238
+Idle Std,Unique,4685
+Idle Std,Distinct,4686
+Idle Std,StandardDeviation,10100157.793624783
+Init Bwd Win Byts,Min,-1.0
+Init Bwd Win Byts,Max,26847.0
+Init Bwd Win Byts,Mean,580.5906278434941
+Init Bwd Win Byts,Unique,0
+Init Bwd Win Byts,Distinct,4
+Init Bwd Win Byts,StandardDeviation,3631.8151760889155
+Init Fwd Win Byts,Min,0.0
+Init Fwd Win Byts,Max,26883.0
+Init Fwd Win Byts,Mean,17796.58771610555
+Init Fwd Win Byts,Unique,0
+Init Fwd Win Byts,Distinct,3
+Init Fwd Win Byts,StandardDeviation,12643.354657565844
+PSH Flag Cnt,Min,0.0
+PSH Flag Cnt,Max,1.0
+PSH Flag Cnt,Mean,0.659417652411283
+PSH Flag Cnt,Unique,0
+PSH Flag Cnt,Distinct,2
+PSH Flag Cnt,StandardDeviation,0.4739050665478006
+ALL,NumberOfRows,10990

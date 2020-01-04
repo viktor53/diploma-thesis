@@ -1,0 +1,470 @@
+Column,Analyzer,Result
+ACK Flag Cnt,Min,0.0
+ACK Flag Cnt,Max,1.0
+ACK Flag Cnt,Mean,0.3292083712465878
+ACK Flag Cnt,Unique,0
+ACK Flag Cnt,Distinct,2
+ACK Flag Cnt,StandardDeviation,0.46992575961289523
+Active Max,Min,0.0
+Active Max,Max,10997486.0
+Active Max,Mean,3236319.3299363055
+Active Max,Unique,4232
+Active Max,Distinct,4599
+Active Max,StandardDeviation,3735617.4154657405
+Active Mean,Min,0.0
+Active Mean,Max,9859197.0
+Active Mean,Mean,2594140.324021838
+Active Mean,Unique,4053
+Active Mean,Distinct,4495
+Active Mean,StandardDeviation,2988533.749375328
+Active Min,Min,0.0
+Active Min,Max,9859197.0
+Active Min,Mean,1951961.3181073703
+Active Min,Unique,4604
+Active Min,Distinct,4796
+Active Min,StandardDeviation,2261404.7368831625
+Active Std,Min,0.0
+Active Std,Max,7774624.20990369
+Active Std,Mean,908178.2596355159
+Active Std,Unique,4471
+Active Std,Distinct,4552
+Active Std,StandardDeviation,1098235.3647639866
+Bwd Blk Rate Avg,Min,0.0
+Bwd Blk Rate Avg,Max,0.0
+Bwd Blk Rate Avg,Mean,0.0
+Bwd Blk Rate Avg,Unique,0
+Bwd Blk Rate Avg,Distinct,1
+Bwd Blk Rate Avg,StandardDeviation,0.0
+Bwd Byts/b Avg,Min,0.0
+Bwd Byts/b Avg,Max,0.0
+Bwd Byts/b Avg,Mean,0.0
+Bwd Byts/b Avg,Unique,0
+Bwd Byts/b Avg,Distinct,1
+Bwd Byts/b Avg,StandardDeviation,0.0
+Bwd Header Len,Min,0.0
+Bwd Header Len,Max,136.0
+Bwd Header Len,Mean,63.47333939945405
+Bwd Header Len,Unique,0
+Bwd Header Len,Distinct,10
+Bwd Header Len,StandardDeviation,40.03198867453197
+Bwd IAT Max,Min,0.0
+Bwd IAT Max,Max,119464319.0
+Bwd IAT Max,Mean,56287231.01310282
+Bwd IAT Max,Unique,5975
+Bwd IAT Max,Distinct,6541
+Bwd IAT Max,StandardDeviation,41910106.70041034
+Bwd IAT Mean,Min,0.0
+Bwd IAT Mean,Max,119464319.0
+Bwd IAT Mean,Mean,45963404.80532302
+Bwd IAT Mean,Unique,5967
+Bwd IAT Mean,Distinct,6553
+Bwd IAT Mean,StandardDeviation,38506169.620475315
+Bwd IAT Min,Min,0.0
+Bwd IAT Min,Max,119464319.0
+Bwd IAT Min,Mean,36093507.348316655
+Bwd IAT Min,Unique,2936
+Bwd IAT Min,Distinct,4710
+Bwd IAT Min,StandardDeviation,38660132.923163414
+Bwd IAT Std,Min,0.0
+Bwd IAT Std,Max,60622710.3971772
+Bwd IAT Std,Mean,14098059.2951283
+Bwd IAT Std,Unique,4679
+Bwd IAT Std,Distinct,4728
+Bwd IAT Std,StandardDeviation,16443930.003055656
+Bwd IAT Tot,Min,0.0
+Bwd IAT Tot,Max,119464319.0
+Bwd IAT Tot,Mean,69073902.57142857
+Bwd IAT Tot,Unique,5964
+Bwd IAT Tot,Distinct,6551
+Bwd IAT Tot,StandardDeviation,49852376.31724653
+Bwd PSH Flags,Min,0.0
+Bwd PSH Flags,Max,0.0
+Bwd PSH Flags,Mean,0.0
+Bwd PSH Flags,Unique,0
+Bwd PSH Flags,Distinct,1
+Bwd PSH Flags,StandardDeviation,0.0
+Bwd Pkt Len Max,Min,0.0
+Bwd Pkt Len Max,Max,516.0
+Bwd Pkt Len Max,Mean,6.667151956323931
+Bwd Pkt Len Max,Unique,0
+Bwd Pkt Len Max,Distinct,2
+Bwd Pkt Len Max,StandardDeviation,58.273488777096865
+Bwd Pkt Len Mean,Min,0.0
+Bwd Pkt Len Mean,Max,258.0
+Bwd Pkt Len Mean,Mean,3.3335759781619654
+Bwd Pkt Len Mean,Unique,0
+Bwd Pkt Len Mean,Distinct,2
+Bwd Pkt Len Mean,StandardDeviation,29.136744388548433
+Bwd Pkt Len Min,Min,0.0
+Bwd Pkt Len Min,Max,0.0
+Bwd Pkt Len Min,Mean,0.0
+Bwd Pkt Len Min,Unique,0
+Bwd Pkt Len Min,Distinct,1
+Bwd Pkt Len Min,StandardDeviation,0.0
+Bwd Pkt Len Std,Min,0.0
+Bwd Pkt Len Std,Max,364.8670990923
+Bwd Pkt Len Std,Mean,4.714388359518329
+Bwd Pkt Len Std,Unique,0
+Bwd Pkt Len Std,Distinct,2
+Bwd Pkt Len Std,StandardDeviation,41.20557907768799
+Bwd Pkts/b Avg,Min,0.0
+Bwd Pkts/b Avg,Max,0.0
+Bwd Pkts/b Avg,Mean,0.0
+Bwd Pkts/b Avg,Unique,0
+Bwd Pkts/b Avg,Distinct,1
+Bwd Pkts/b Avg,StandardDeviation,0.0
+Bwd Pkts/s,Min,0.0
+Bwd Pkts/s,Max,1000000.0
+Bwd Pkts/s,Mean,31251.485382260475
+Bwd Pkts/s,Unique,6623
+Bwd Pkts/s,Distinct,7117
+Bwd Pkts/s,StandardDeviation,122040.84336342373
+Bwd Seg Size Avg,Min,0.0
+Bwd Seg Size Avg,Max,258.0
+Bwd Seg Size Avg,Mean,3.3335759781619654
+Bwd Seg Size Avg,Unique,0
+Bwd Seg Size Avg,Distinct,2
+Bwd Seg Size Avg,StandardDeviation,29.136744388548433
+Bwd URG Flags,Min,0.0
+Bwd URG Flags,Max,0.0
+Bwd URG Flags,Mean,0.0
+Bwd URG Flags,Unique,0
+Bwd URG Flags,Distinct,1
+Bwd URG Flags,StandardDeviation,0.0
+CWE Flag Count,Min,0.0
+CWE Flag Count,Max,0.0
+CWE Flag Count,Mean,0.0
+CWE Flag Count,Unique,0
+CWE Flag Count,Distinct,1
+CWE Flag Count,StandardDeviation,0.0
+Down/Up Ratio,Min,0.0
+Down/Up Ratio,Max,2.0
+Down/Up Ratio,Mean,0.32101910828025476
+Down/Up Ratio,Unique,0
+Down/Up Ratio,Distinct,3
+Down/Up Ratio,StandardDeviation,0.4937686853664603
+Dst Port,Min,80.0
+Dst Port,Max,80.0
+Dst Port,Mean,80.0
+Dst Port,Unique,0
+Dst Port,Distinct,1
+Dst Port,StandardDeviation,0.0
+ECE Flag Cnt,Min,0.0
+ECE Flag Cnt,Max,0.0
+ECE Flag Cnt,Mean,0.0
+ECE Flag Cnt,Unique,0
+ECE Flag Cnt,Distinct,1
+ECE Flag Cnt,StandardDeviation,0.0
+FIN Flag Cnt,Min,0.0
+FIN Flag Cnt,Max,1.0
+FIN Flag Cnt,Mean,0.011373976342129208
+FIN Flag Cnt,Unique,0
+FIN Flag Cnt,Distinct,2
+FIN Flag Cnt,StandardDeviation,0.10604060073527447
+Flow Byts/s,Min,0.0
+Flow Byts/s,Max,230000000.0
+Flow Byts/s,Mean,311909.61415834574
+Flow Byts/s,Unique,6647
+Flow Byts/s,Distinct,7132
+Flow Byts/s,StandardDeviation,2751936.820815341
+Flow Duration,Min,1.0
+Flow Duration,Max,119464329.0
+Flow Duration,Mean,71980336.26979072
+Flow Duration,Unique,8267
+Flow Duration,Distinct,9047
+Flow Duration,StandardDeviation,48239038.78535705
+Flow IAT Max,Min,1.0
+Flow IAT Max,Max,119464308.0
+Flow IAT Max,Mean,48763340.13384895
+Flow IAT Max,Unique,4481
+Flow IAT Max,Distinct,5807
+Flow IAT Max,StandardDeviation,38340727.878940724
+Flow IAT Mean,Min,1.0
+Flow IAT Mean,Max,58103347.5
+Flow IAT Mean,Mean,11566544.092718635
+Flow IAT Mean,Unique,8290
+Flow IAT Mean,Distinct,9058
+Flow IAT Mean,StandardDeviation,13487393.037290892
+Flow IAT Min,Min,1.0
+Flow IAT Min,Max,1071338.0
+Flow IAT Min,Mean,207585.9135577798
+Flow IAT Min,Unique,1592
+Flow IAT Min,Distinct,1923
+Flow IAT Min,StandardDeviation,411180.9568145042
+Flow IAT Std,Min,0.0
+Flow IAT Std,Max,82170516.5979327
+Flow IAT Std,Mean,20671968.6399787
+Flow IAT Std,Unique,8905
+Flow IAT Std,Distinct,9406
+Flow IAT Std,StandardDeviation,22934567.81343496
+Flow Pkts/s,Min,0.0258160685
+Flow Pkts/s,Max,2000000.0
+Flow Pkts/s,Mean,65291.94327761572
+Flow Pkts/s,Unique,8295
+Flow Pkts/s,Distinct,9061
+Flow Pkts/s,StandardDeviation,247862.51754873947
+Fwd Act Data Pkts,Min,0.0
+Fwd Act Data Pkts,Max,11.0
+Fwd Act Data Pkts,Mean,5.004367606915378
+Fwd Act Data Pkts,Unique,0
+Fwd Act Data Pkts,Distinct,12
+Fwd Act Data Pkts,StandardDeviation,5.204514299632045
+Fwd Blk Rate Avg,Min,0.0
+Fwd Blk Rate Avg,Max,0.0
+Fwd Blk Rate Avg,Mean,0.0
+Fwd Blk Rate Avg,Unique,0
+Fwd Blk Rate Avg,Distinct,1
+Fwd Blk Rate Avg,StandardDeviation,0.0
+Fwd Byts/b Avg,Min,0.0
+Fwd Byts/b Avg,Max,0.0
+Fwd Byts/b Avg,Mean,0.0
+Fwd Byts/b Avg,Unique,0
+Fwd Byts/b Avg,Distinct,1
+Fwd Byts/b Avg,StandardDeviation,0.0
+Fwd Header Len,Min,32.0
+Fwd Header Len,Max,536.0
+Fwd Header Len,Mean,256.24021838034577
+Fwd Header Len,Unique,3
+Fwd Header Len,Distinct,31
+Fwd Header Len,StandardDeviation,201.8189040888688
+Fwd IAT Max,Min,0.0
+Fwd IAT Max,Max,119464312.0
+Fwd IAT Max,Mean,48763313.81610555
+Fwd IAT Max,Unique,4413
+Fwd IAT Max,Distinct,5695
+Fwd IAT Max,StandardDeviation,38340763.06852095
+Fwd IAT Mean,Min,0.0
+Fwd IAT Mean,Max,119464312.0
+Fwd IAT Mean,Mean,28326226.77927112
+Fwd IAT Mean,Unique,8138
+Fwd IAT Mean,Distinct,8896
+Fwd IAT Mean,StandardDeviation,41739788.60886189
+Fwd IAT Min,Min,0.0
+Fwd IAT Min,Max,119464312.0
+Fwd IAT Min,Mean,24465987.224476796
+Fwd IAT Min,Unique,3228
+Fwd IAT Min,Distinct,4407
+Fwd IAT Min,StandardDeviation,43699277.699900836
+Fwd IAT Std,Min,0.0
+Fwd IAT Std,Max,52501015.1687439
+Fwd IAT Std,Mean,7212256.093618308
+Fwd IAT Std,Unique,6816
+Fwd IAT Std,Distinct,7014
+Fwd IAT Std,StandardDeviation,8853277.085794702
+Fwd IAT Tot,Min,0.0
+Fwd IAT Tot,Max,119464312.0
+Fwd IAT Tot,Mean,71980306.37525022
+Fwd IAT Tot,Unique,8104
+Fwd IAT Tot,Distinct,8879
+Fwd IAT Tot,StandardDeviation,48239077.32182827
+Fwd PSH Flags,Min,0.0
+Fwd PSH Flags,Max,1.0
+Fwd PSH Flags,Mean,0.32474977252047316
+Fwd PSH Flags,Unique,0
+Fwd PSH Flags,Distinct,2
+Fwd PSH Flags,StandardDeviation,0.4682812806085399
+Fwd Pkt Len Max,Min,0.0
+Fwd Pkt Len Max,Max,238.0
+Fwd Pkt Len Max,Mean,109.78980891719745
+Fwd Pkt Len Max,Unique,0
+Fwd Pkt Len Max,Distinct,4
+Fwd Pkt Len Max,StandardDeviation,112.68509369921874
+Fwd Pkt Len Mean,Min,0.0
+Fwd Pkt Len Mean,Max,238.0
+Fwd Pkt Len Mean,Mean,79.31495027115912
+Fwd Pkt Len Mean,Unique,3
+Fwd Pkt Len Mean,Distinct,46
+Fwd Pkt Len Mean,StandardDeviation,82.4692247976149
+Fwd Pkt Len Min,Min,0.0
+Fwd Pkt Len Min,Max,238.0
+Fwd Pkt Len Min,Mean,4.443130118289354
+Fwd Pkt Len Min,Unique,0
+Fwd Pkt Len Min,Distinct,4
+Fwd Pkt Len Min,StandardDeviation,22.164128353101752
+Fwd Pkt Len Std,Min,0.0
+Fwd Pkt Len Std,Max,162.6345596729
+Fwd Pkt Len Std,Mean,47.93866871117722
+Fwd Pkt Len Std,Unique,6
+Fwd Pkt Len Std,Distinct,45
+Fwd Pkt Len Std,StandardDeviation,52.19603158132317
+Fwd Pkts/b Avg,Min,0.0
+Fwd Pkts/b Avg,Max,0.0
+Fwd Pkts/b Avg,Mean,0.0
+Fwd Pkts/b Avg,Unique,0
+Fwd Pkts/b Avg,Distinct,1
+Fwd Pkts/b Avg,StandardDeviation,0.0
+Fwd Pkts/s,Min,0.016741399
+Fwd Pkts/s,Max,2000000.0
+Fwd Pkts/s,Mean,34040.457895355525
+Fwd Pkts/s,Unique,8291
+Fwd Pkts/s,Distinct,9061
+Fwd Pkts/s,StandardDeviation,130110.54157081187
+Fwd Seg Size Avg,Min,0.0
+Fwd Seg Size Avg,Max,238.0
+Fwd Seg Size Avg,Mean,79.31495027115912
+Fwd Seg Size Avg,Unique,3
+Fwd Seg Size Avg,Distinct,46
+Fwd Seg Size Avg,StandardDeviation,82.4692247976149
+Fwd Seg Size Min,Min,20.0
+Fwd Seg Size Min,Max,40.0
+Fwd Seg Size Min,Mean,33.488262056414925
+Fwd Seg Size Min,Unique,0
+Fwd Seg Size Min,Distinct,3
+Fwd Seg Size Min,StandardDeviation,3.5243335291748425
+Fwd URG Flags,Min,0.0
+Fwd URG Flags,Max,0.0
+Fwd URG Flags,Mean,0.0
+Fwd URG Flags,Unique,0
+Fwd URG Flags,Distinct,1
+Fwd URG Flags,StandardDeviation,0.0
+Idle Max,Min,0.0
+Idle Max,Max,119464308.0
+Idle Max,Mean,46904736.7799818
+Idle Max,Unique,3289
+Idle Max,Distinct,4333
+Idle Max,StandardDeviation,39020353.57442129
+Idle Mean,Min,0.0
+Idle Mean,Max,119464308.0
+Idle Mean,Mean,34721440.093175605
+Idle Mean,Unique,6053
+Idle Mean,Distinct,6573
+Idle Mean,StandardDeviation,39769773.33307384
+Idle Min,Min,0.0
+Idle Min,Max,119464308.0
+Idle Min,Mean,27534411.898544133
+Idle Min,Unique,3205
+Idle Min,Distinct,4093
+Idle Min,StandardDeviation,42549031.41220678
+Idle Std,Min,0.0
+Idle Std,Max,21372405.7864311
+Idle Std,Mean,8594353.863656238
+Idle Std,Unique,4685
+Idle Std,Distinct,4686
+Idle Std,StandardDeviation,10100157.793624783
+Init Bwd Win Byts,Min,-1.0
+Init Bwd Win Byts,Max,26847.0
+Init Bwd Win Byts,Mean,580.5906278434941
+Init Bwd Win Byts,Unique,0
+Init Bwd Win Byts,Distinct,4
+Init Bwd Win Byts,StandardDeviation,3631.8151760889155
+Init Fwd Win Byts,Min,0.0
+Init Fwd Win Byts,Max,26883.0
+Init Fwd Win Byts,Mean,17796.58771610555
+Init Fwd Win Byts,Unique,0
+Init Fwd Win Byts,Distinct,3
+Init Fwd Win Byts,StandardDeviation,12643.354657565844
+PSH Flag Cnt,Min,0.0
+PSH Flag Cnt,Max,1.0
+PSH Flag Cnt,Mean,0.659417652411283
+PSH Flag Cnt,Unique,0
+PSH Flag Cnt,Distinct,2
+PSH Flag Cnt,StandardDeviation,0.4739050665478006
+Pkt Len Max,Min,0.0
+Pkt Len Max,Max,516.0
+Pkt Len Max,Mean,114.43657870791628
+Pkt Len Max,Unique,0
+Pkt Len Max,Distinct,5
+Pkt Len Max,StandardDeviation,120.90871480302538
+Pkt Len Mean,Min,0.0
+Pkt Len Mean,Max,248.0
+Pkt Len Mean,Mean,62.82290156572765
+Pkt Len Mean,Unique,8
+Pkt Len Mean,Distinct,53
+Pkt Len Mean,StandardDeviation,66.6632802594867
+Pkt Len Min,Min,0.0
+Pkt Len Min,Max,0.0
+Pkt Len Min,Mean,0.0
+Pkt Len Min,Unique,0
+Pkt Len Min,Distinct,1
+Pkt Len Min,StandardDeviation,0.0
+Pkt Len Std,Min,0.0
+Pkt Len Std,Max,258.0
+Pkt Len Std,Mean,56.69851755522784
+Pkt Len Std,Unique,7
+Pkt Len Std,Distinct,51
+Pkt Len Std,StandardDeviation,59.18742588565175
+Pkt Len Var,Min,0.0
+Pkt Len Var,Max,66564.0
+Pkt Len Var,Mean,6717.873275931012
+Pkt Len Var,Unique,7
+Pkt Len Var,Distinct,51
+Pkt Len Var,StandardDeviation,8511.478379881573
+Pkt Size Avg,Min,0.0
+Pkt Size Avg,Max,330.6666666667
+Pkt Size Avg,Mean,67.61225864524836
+Pkt Size Avg,Unique,7
+Pkt Size Avg,Distinct,53
+Pkt Size Avg,StandardDeviation,72.18009808234903
+Protocol,Min,6.0
+Protocol,Max,6.0
+Protocol,Mean,6.0
+Protocol,Unique,0
+Protocol,Distinct,1
+Protocol,StandardDeviation,0.0
+RST Flag Cnt,Min,0.0
+RST Flag Cnt,Max,0.0
+RST Flag Cnt,Mean,0.0
+RST Flag Cnt,Unique,0
+RST Flag Cnt,Distinct,1
+RST Flag Cnt,StandardDeviation,0.0
+SYN Flag Cnt,Min,0.0
+SYN Flag Cnt,Max,1.0
+SYN Flag Cnt,Mean,0.32474977252047316
+SYN Flag Cnt,Unique,0
+SYN Flag Cnt,Distinct,2
+SYN Flag Cnt,StandardDeviation,0.4682812806085399
+Subflow Bwd Byts,Min,0.0
+Subflow Bwd Byts,Max,516.0
+Subflow Bwd Byts,Mean,6.667151956323931
+Subflow Bwd Byts,Unique,0
+Subflow Bwd Byts,Distinct,2
+Subflow Bwd Byts,StandardDeviation,58.273488777096865
+Subflow Bwd Pkts,Min,0.0
+Subflow Bwd Pkts,Max,4.0
+Subflow Bwd Pkts,Mean,1.9177434030937215
+Subflow Bwd Pkts,Unique,0
+Subflow Bwd Pkts,Distinct,5
+Subflow Bwd Pkts,StandardDeviation,1.19506263751672
+Subflow Fwd Byts,Min,0.0
+Subflow Fwd Byts,Max,2530.0
+Subflow Fwd Byts,Mean,1091.52593266606
+Subflow Fwd Byts,Unique,2
+Subflow Fwd Byts,Distinct,26
+Subflow Fwd Byts,StandardDeviation,1230.3242759662078
+Subflow Fwd Pkts,Min,1.0
+Subflow Fwd Pkts,Max,16.0
+Subflow Fwd Pkts,Mean,7.66533212010919
+Subflow Fwd Pkts,Unique,0
+Subflow Fwd Pkts,Distinct,16
+Subflow Fwd Pkts,StandardDeviation,6.188361875803061
+Tot Bwd Pkts,Min,0.0
+Tot Bwd Pkts,Max,4.0
+Tot Bwd Pkts,Mean,1.9177434030937215
+Tot Bwd Pkts,Unique,0
+Tot Bwd Pkts,Distinct,5
+Tot Bwd Pkts,StandardDeviation,1.19506263751672
+Tot Fwd Pkts,Min,1.0
+Tot Fwd Pkts,Max,16.0
+Tot Fwd Pkts,Mean,7.66533212010919
+Tot Fwd Pkts,Unique,0
+Tot Fwd Pkts,Distinct,16
+Tot Fwd Pkts,StandardDeviation,6.188361875803061
+TotLen Bwd Pkts,Min,0.0
+TotLen Bwd Pkts,Max,516.0
+TotLen Bwd Pkts,Mean,6.667151956323931
+TotLen Bwd Pkts,Unique,0
+TotLen Bwd Pkts,Distinct,2
+TotLen Bwd Pkts,StandardDeviation,58.273488777096865
+TotLen Fwd Pkts,Min,0.0
+TotLen Fwd Pkts,Max,2530.0
+TotLen Fwd Pkts,Mean,1091.52593266606
+TotLen Fwd Pkts,Unique,2
+TotLen Fwd Pkts,Distinct,26
+TotLen Fwd Pkts,StandardDeviation,1230.3242759662078
+URG Flag Cnt,Min,0.0
+URG Flag Cnt,Max,1.0
+URG Flag Cnt,Mean,0.013011828935395814
+URG Flag Cnt,Unique,0
+URG Flag Cnt,Distinct,2
+URG Flag Cnt,StandardDeviation,0.11332484830412
+ALL,NumberOfRows,10990

@@ -1,0 +1,14 @@
+- Subflow Bwd Pkts: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Subflow Fwd Byts: *id001
+  Subflow Fwd Pkts: *id001
+  Tot Bwd Pkts: *id001
+  Tot Fwd Pkts: *id001
+  TotLen Bwd Pkts: *id001
+  TotLen Fwd Pkts: *id001
+  URG Flag Cnt: *id001

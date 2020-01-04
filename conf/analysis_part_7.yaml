@@ -1,0 +1,16 @@
+- Pkt Len Max: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Pkt Len Mean: *id001
+  Pkt Len Min: *id001
+  Pkt Len Std: *id001
+  Pkt Len Var: *id001
+  Pkt Size Avg: *id001
+  Protocol: *id001
+  RST Flag Cnt: *id001
+  SYN Flag Cnt: *id001
+  Subflow Bwd Byts: *id001

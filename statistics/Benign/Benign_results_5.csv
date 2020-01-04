@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Fwd IAT Min,Min,-947405000000.0
+Fwd IAT Min,Max,120000000.0
+Fwd IAT Min,Mean,2379919.4467281755
+Fwd IAT Min,Unique,720104
+Fwd IAT Min,Distinct,1006047
+Fwd IAT Min,StandardDeviation,820267316.6044707
+Fwd IAT Std,Min,0.0
+Fwd IAT Std,Max,474354474600.909
+Fwd IAT Std,Mean,1659254.6807123928
+Fwd IAT Std,Unique,5099346
+Fwd IAT Std,Distinct,5261910
+Fwd IAT Std,StandardDeviation,370976566.7921748
+Fwd IAT Tot,Min,-919011000000.0
+Fwd IAT Tot,Max,120000000.0
+Fwd IAT Tot,Mean,13144149.729275266
+Fwd IAT Tot,Unique,3819959
+Fwd IAT Tot,Distinct,4668659
+Fwd IAT Tot,StandardDeviation,541966508.7454149
+Fwd PSH Flags,Min,0.0
+Fwd PSH Flags,Max,1.0
+Fwd PSH Flags,Mean,0.05179696883314047
+Fwd PSH Flags,Unique,0
+Fwd PSH Flags,Distinct,2
+Fwd PSH Flags,StandardDeviation,0.22161688305009422
+Fwd Pkt Len Max,Min,0.0
+Fwd Pkt Len Max,Max,64440.0
+Fwd Pkt Len Max,Mean,226.4911304716424
+Fwd Pkt Len Max,Unique,34
+Fwd Pkt Len Max,Distinct,2965
+Fwd Pkt Len Max,StandardDeviation,318.4705252240549
+Fwd Pkt Len Mean,Min,0.0
+Fwd Pkt Len Mean,Max,16529.3138401559
+Fwd Pkt Len Mean,Mean,56.522056171084756
+Fwd Pkt Len Mean,Unique,103150
+Fwd Pkt Len Mean,Distinct,175269
+Fwd Pkt Len Mean,StandardDeviation,62.01493103775672
+Fwd Pkt Len Min,Min,0.0
+Fwd Pkt Len Min,Max,1460.0
+Fwd Pkt Len Min,Mean,13.153041726969542
+Fwd Pkt Len Min,Unique,279
+Fwd Pkt Len Min,Distinct,725
+Fwd Pkt Len Min,StandardDeviation,25.83630002672623
+Fwd Pkt Len Std,Min,0.0
+Fwd Pkt Len Std,Max,18401.5827717299
+Fwd Pkt Len Std,Mean,78.70835076779545
+Fwd Pkt Len Std,Unique,275698
+Fwd Pkt Len Std,Distinct,372059
+Fwd Pkt Len Std,StandardDeviation,122.59470040865209
+Fwd Pkts/b Avg,Min,0.0
+Fwd Pkts/b Avg,Max,0.0
+Fwd Pkts/b Avg,Mean,0.0
+Fwd Pkts/b Avg,Unique,0
+Fwd Pkts/b Avg,Distinct,1
+Fwd Pkts/b Avg,StandardDeviation,0.0
+Fwd Pkts/s,Min,0.0
+Fwd Pkts/s,Max,6000000.0
+Fwd Pkts/s,Mean,29764.43323037454
+Fwd Pkts/s,Unique,5077764
+Fwd Pkts/s,Distinct,5765452
+Fwd Pkts/s,StandardDeviation,215230.7318047202
+ALL,NumberOfRows,13484708

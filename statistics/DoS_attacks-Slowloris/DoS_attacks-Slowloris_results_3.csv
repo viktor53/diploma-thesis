@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Bwd Seg Size Avg,Min,0.0
+Bwd Seg Size Avg,Max,258.0
+Bwd Seg Size Avg,Mean,3.3335759781619654
+Bwd Seg Size Avg,Unique,0
+Bwd Seg Size Avg,Distinct,2
+Bwd Seg Size Avg,StandardDeviation,29.136744388548433
+Bwd URG Flags,Min,0.0
+Bwd URG Flags,Max,0.0
+Bwd URG Flags,Mean,0.0
+Bwd URG Flags,Unique,0
+Bwd URG Flags,Distinct,1
+Bwd URG Flags,StandardDeviation,0.0
+CWE Flag Count,Min,0.0
+CWE Flag Count,Max,0.0
+CWE Flag Count,Mean,0.0
+CWE Flag Count,Unique,0
+CWE Flag Count,Distinct,1
+CWE Flag Count,StandardDeviation,0.0
+Down/Up Ratio,Min,0.0
+Down/Up Ratio,Max,2.0
+Down/Up Ratio,Mean,0.32101910828025476
+Down/Up Ratio,Unique,0
+Down/Up Ratio,Distinct,3
+Down/Up Ratio,StandardDeviation,0.4937686853664603
+Dst Port,Min,80.0
+Dst Port,Max,80.0
+Dst Port,Mean,80.0
+Dst Port,Unique,0
+Dst Port,Distinct,1
+Dst Port,StandardDeviation,0.0
+ECE Flag Cnt,Min,0.0
+ECE Flag Cnt,Max,0.0
+ECE Flag Cnt,Mean,0.0
+ECE Flag Cnt,Unique,0
+ECE Flag Cnt,Distinct,1
+ECE Flag Cnt,StandardDeviation,0.0
+FIN Flag Cnt,Min,0.0
+FIN Flag Cnt,Max,1.0
+FIN Flag Cnt,Mean,0.011373976342129208
+FIN Flag Cnt,Unique,0
+FIN Flag Cnt,Distinct,2
+FIN Flag Cnt,StandardDeviation,0.10604060073527447
+Flow Byts/s,Min,0.0
+Flow Byts/s,Max,230000000.0
+Flow Byts/s,Mean,311909.61415834574
+Flow Byts/s,Unique,6647
+Flow Byts/s,Distinct,7132
+Flow Byts/s,StandardDeviation,2751936.820815341
+Flow Duration,Min,1.0
+Flow Duration,Max,119464329.0
+Flow Duration,Mean,71980336.26979072
+Flow Duration,Unique,8267
+Flow Duration,Distinct,9047
+Flow Duration,StandardDeviation,48239038.78535705
+Flow IAT Max,Min,1.0
+Flow IAT Max,Max,119464308.0
+Flow IAT Max,Mean,48763340.13384895
+Flow IAT Max,Unique,4481
+Flow IAT Max,Distinct,5807
+Flow IAT Max,StandardDeviation,38340727.878940724
+ALL,NumberOfRows,10990

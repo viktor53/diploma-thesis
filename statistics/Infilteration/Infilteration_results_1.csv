@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+ACK Flag Cnt,Min,0.0
+ACK Flag Cnt,Max,1.0
+ACK Flag Cnt,Mean,0.20382995541393406
+ACK Flag Cnt,Unique,0
+ACK Flag Cnt,Distinct,2
+ACK Flag Cnt,StandardDeviation,0.40284402029804006
+Active Max,Min,0.0
+Active Max,Max,114000000.0
+Active Max,Mean,424227.27981770353
+Active Max,Unique,20706
+Active Max,Distinct,21569
+Active Max,StandardDeviation,4187636.7743044393
+Active Mean,Min,0.0
+Active Mean,Max,114000000.0
+Active Mean,Mean,298785.8569394078
+Active Mean,Unique,21183
+Active Mean,Distinct,21843
+Active Mean,StandardDeviation,3179258.9348704596
+Active Min,Min,0.0
+Active Min,Max,114000000.0
+Active Min,Mean,215257.89266614793
+Active Min,Unique,13892
+Active Min,Distinct,16564
+Active Min,StandardDeviation,2715438.8503362774
+Active Std,Min,0.0
+Active Std,Max,65000000.0
+Active Std,Mean,124368.74835493433
+Active Std,Unique,13277
+Active Std,Distinct,13403
+Active Std,StandardDeviation,1867625.591080652
+Bwd Blk Rate Avg,Min,0.0
+Bwd Blk Rate Avg,Max,0.0
+Bwd Blk Rate Avg,Mean,0.0
+Bwd Blk Rate Avg,Unique,0
+Bwd Blk Rate Avg,Distinct,1
+Bwd Blk Rate Avg,StandardDeviation,0.0
+Bwd Byts/b Avg,Min,0.0
+Bwd Byts/b Avg,Max,0.0
+Bwd Byts/b Avg,Mean,0.0
+Bwd Byts/b Avg,Unique,0
+Bwd Byts/b Avg,Distinct,1
+Bwd Byts/b Avg,StandardDeviation,0.0
+Bwd Header Len,Min,0.0
+Bwd Header Len,Max,376372.0
+Bwd Header Len,Mean,90.00607654970544
+Bwd Header Len,Unique,254
+Bwd Header Len,Distinct,680
+Bwd Header Len,StandardDeviation,1086.2971182590536
+Bwd IAT Max,Min,0.0
+Bwd IAT Max,Max,120000000.0
+Bwd IAT Max,Mean,3193208.6121012266
+Bwd IAT Max,Unique,22240
+Bwd IAT Max,Distinct,24688
+Bwd IAT Max,StandardDeviation,11202867.232524665
+Bwd IAT Mean,Min,0.0
+Bwd IAT Mean,Max,114000000.0
+Bwd IAT Mean,Mean,924359.7135362257
+Bwd IAT Mean,Unique,44439
+Bwd IAT Mean,Distinct,45533
+Bwd IAT Mean,StandardDeviation,3804004.745092284
+ALL,NumberOfRows,161934

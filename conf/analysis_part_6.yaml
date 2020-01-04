@@ -1,0 +1,16 @@
+- Fwd Seg Size Avg: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Fwd Seg Size Min: *id001
+  Fwd URG Flags: *id001
+  Idle Max: *id001
+  Idle Mean: *id001
+  Idle Min: *id001
+  Idle Std: *id001
+  Init Bwd Win Byts: *id001
+  Init Fwd Win Byts: *id001
+  PSH Flag Cnt: *id001

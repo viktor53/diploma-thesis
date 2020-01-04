@@ -1,0 +1,17 @@
+- ACK Flag Cnt: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Active Max: *id001
+  Active Mean: *id001
+  Active Min: *id001
+  Active Std: *id001
+  Bwd Blk Rate Avg: *id001
+  Bwd Byts/b Avg: *id001
+  Bwd Header Len: *id001
+  Bwd IAT Max: *id001
+  Bwd IAT Mean: *id001
+

@@ -1,0 +1,16 @@
+- Bwd Seg Size Avg: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Bwd URG Flags: *id001
+  CWE Flag Count: *id001
+  Down/Up Ratio: *id001
+  Dst Port: *id001
+  ECE Flag Cnt: *id001
+  FIN Flag Cnt: *id001
+  Flow Byts/s: *id001
+  Flow Duration: *id001
+  Flow IAT Max: *id001

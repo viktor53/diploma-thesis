@@ -1,0 +1,17 @@
+- Label:
+  - ComplianceBenign
+  - ComplianceInfilteration
+  - ComplianceSQLInjection
+  - ComplianceBot
+  - ComplianceBruteForce-Web
+  - ComplianceBruteForce-XSS
+  - ComplianceFTP-BruteForce
+  - ComplianceSSH-BruteForce
+  - ComplianceDDOSAttack-HOIC
+  - ComplianceDDOSAttack-LOIC-UDP
+  - ComplianceDDoSAttacks-LOIC-HTTP
+  - ComplianceDoSAttacks-Hulk
+  - ComplianceDoSAttacks-SlowHTTPTest
+  - ComplianceDoSAttacks-Slowloris
+  - ComplianceDoSAttacks-GoldenEye
+  - Distinct

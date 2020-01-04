@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Flow IAT Mean,Min,-828220000000.0
+Flow IAT Mean,Max,120000000.0
+Flow IAT Mean,Mean,3335396.5878693354
+Flow IAT Mean,Unique,5467124
+Flow IAT Mean,Distinct,6201095
+Flow IAT Mean,StandardDeviation,222948339.81240824
+Flow IAT Min,Min,-947405000000.0
+Flow IAT Min,Max,120000000.0
+Flow IAT Min,Mean,2321853.562383913
+Flow IAT Min,Unique,675095
+Flow IAT Min,Distinct,865854
+Flow IAT Min,StandardDeviation,747621090.946355
+Flow IAT Std,Min,0.0
+Flow IAT Std,Max,474354474600.909
+Flow IAT Std,Mean,1275574.0872856185
+Flow IAT Std,Unique,7234838
+Flow IAT Std,Distinct,7404593
+Flow IAT Std,StandardDeviation,338112780.51930106
+Flow Pkts/s,Min,-0.0088953248
+Flow Pkts/s,Max,inf
+Flow Pkts/s,Mean,inf
+Flow Pkts/s,Unique,5838237
+Flow Pkts/s,Distinct,6608549
+Flow Pkts/s,StandardDeviation,nan
+Fwd Act Data Pkts,Min,0.0
+Fwd Act Data Pkts,Max,309628.0
+Fwd Act Data Pkts,Mean,19.89527838544126
+Fwd Act Data Pkts,Unique,2639
+Fwd Act Data Pkts,Distinct,2933
+Fwd Act Data Pkts,StandardDeviation,1519.916566709887
+Fwd Blk Rate Avg,Min,0.0
+Fwd Blk Rate Avg,Max,0.0
+Fwd Blk Rate Avg,Mean,0.0
+Fwd Blk Rate Avg,Unique,0
+Fwd Blk Rate Avg,Distinct,1
+Fwd Blk Rate Avg,StandardDeviation,0.0
+Fwd Byts/b Avg,Min,0.0
+Fwd Byts/b Avg,Max,0.0
+Fwd Byts/b Avg,Mean,0.0
+Fwd Byts/b Avg,Unique,0
+Fwd Byts/b Avg,Distinct,1
+Fwd Byts/b Avg,StandardDeviation,0.0
+Fwd Header Len,Min,0.0
+Fwd Header Len,Max,2477032.0
+Fwd Header Len,Mean,257.54076189388456
+Fwd Header Len,Unique,5890
+Fwd Header Len,Distinct,8276
+Fwd Header Len,StandardDeviation,12263.51896488223
+Fwd IAT Max,Min,-828220000000.0
+Fwd IAT Max,Max,979781000000.0
+Fwd IAT Max,Mean,6409624.945660007
+Fwd IAT Max,Unique,2341324
+Fwd IAT Max,Distinct,3418576
+Fwd IAT Max,StandardDeviation,659508376.7079588
+Fwd IAT Mean,Min,-828220000000.0
+Fwd IAT Mean,Max,120000000.0
+Fwd IAT Mean,Mean,3661299.9694628157
+Fwd IAT Mean,Unique,4646498
+Fwd IAT Mean,Distinct,5351656
+Fwd IAT Mean,StandardDeviation,222960177.7138228
+ALL,NumberOfRows,16232943

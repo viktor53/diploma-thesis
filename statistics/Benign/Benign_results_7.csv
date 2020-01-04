@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Pkt Len Max,Min,0.0
+Pkt Len Max,Max,65160.0
+Pkt Len Max,Mean,419.07667833815907
+Pkt Len Max,Unique,62
+Pkt Len Max,Distinct,2968
+Pkt Len Max,StandardDeviation,528.4370839170442
+Pkt Len Mean,Min,0.0
+Pkt Len Mean,Max,17344.98473
+Pkt Len Mean,Mean,86.14442142470268
+Pkt Len Mean,Unique,343197
+Pkt Len Mean,Distinct,479962
+Pkt Len Mean,StandardDeviation,108.4964105784745
+Pkt Len Min,Min,0.0
+Pkt Len Min,Max,1460.0
+Pkt Len Min,Mean,12.997891092636191
+Pkt Len Min,Unique,38
+Pkt Len Min,Distinct,260
+Pkt Len Min,StandardDeviation,24.053039516713888
+Pkt Len Std,Min,0.0
+Pkt Len Std,Max,22788.28621
+Pkt Len Std,Mean,129.82084299378647
+Pkt Len Std,Unique,553351
+Pkt Len Std,Distinct,667150
+Pkt Len Std,StandardDeviation,166.213812659702
+Pkt Len Var,Min,0.0
+Pkt Len Var,Max,519000000.0
+Pkt Len Var,Mean,44480.460102689925
+Pkt Len Var,Unique,557912
+Pkt Len Var,Distinct,671447
+Pkt Len Var,StandardDeviation,232530.75182412972
+Pkt Size Avg,Min,0.0
+Pkt Size Avg,Max,17478.40769
+Pkt Size Avg,Mean,99.51751845027675
+Pkt Size Avg,Unique,264234
+Pkt Size Avg,Distinct,393228
+Pkt Size Avg,StandardDeviation,112.1505439843346
+Protocol,Min,0.0
+Protocol,Max,17.0
+Protocol,Mean,9.272473604916028
+Protocol,Unique,0
+Protocol,Distinct,3
+Protocol,StandardDeviation,5.203036391577071
+RST Flag Cnt,Min,0.0
+RST Flag Cnt,Max,1.0
+RST Flag Cnt,Mean,0.17894543953046665
+RST Flag Cnt,Unique,0
+RST Flag Cnt,Distinct,2
+RST Flag Cnt,StandardDeviation,0.38330662556459255
+SYN Flag Cnt,Min,0.0
+SYN Flag Cnt,Max,1.0
+SYN Flag Cnt,Mean,0.05179696883314047
+SYN Flag Cnt,Unique,0
+SYN Flag Cnt,Distinct,2
+SYN Flag Cnt,StandardDeviation,0.22161688305009422
+Subflow Bwd Byts,Min,0.0
+Subflow Bwd Byts,Max,156360426.0
+Subflow Bwd Byts,Mean,5614.316375037561
+Subflow Bwd Byts,Unique,48255
+Subflow Bwd Byts,Distinct,90591
+Subflow Bwd Byts,StandardDeviation,257095.08622343425
+ALL,NumberOfRows,13484708

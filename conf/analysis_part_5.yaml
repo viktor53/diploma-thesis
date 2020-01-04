@@ -1,0 +1,16 @@
+- Fwd IAT Min: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Fwd IAT Std: *id001
+  Fwd IAT Tot: *id001
+  Fwd PSH Flags: *id001
+  Fwd Pkt Len Max: *id001
+  Fwd Pkt Len Mean: *id001
+  Fwd Pkt Len Min: *id001
+  Fwd Pkt Len Std: *id001
+  Fwd Pkts/b Avg: *id001
+  Fwd Pkts/s: *id001

@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Flow IAT Mean,Min,29.78613281
+Flow IAT Mean,Max,1993.590118
+Flow IAT Mean,Mean,1017.9875504148041
+Flow IAT Mean,Unique,1730
+Flow IAT Mean,Distinct,1730
+Flow IAT Mean,StandardDeviation,233.0329272420307
+Flow IAT Min,Min,0.0
+Flow IAT Min,Max,1.0
+Flow IAT Min,Mean,0.18554913294797687
+Flow IAT Min,Unique,0
+Flow IAT Min,Distinct,2
+Flow IAT Min,StandardDeviation,0.3887423982668097
+Flow IAT Std,Min,31.56533633
+Flow IAT Std,Max,38301.02238
+Flow IAT Std,Mean,20567.75580522158
+Flow IAT Std,Unique,1730
+Flow IAT Std,Distinct,1730
+Flow IAT Std,StandardDeviation,4261.937187789484
+Flow Pkts/s,Min,501.6159815
+Flow Pkts/s,Max,33589.06265
+Flow Pkts/s,Mean,1078.1448437390195
+Flow Pkts/s,Unique,1730
+Flow Pkts/s,Distinct,1730
+Flow Pkts/s,StandardDeviation,916.0634813012937
+Fwd Act Data Pkts,Min,713.0
+Fwd Act Data Pkts,Max,309628.0
+Fwd Act Data Pkts,Mean,117350.4289017341
+Fwd Act Data Pkts,Unique,1679
+Fwd Act Data Pkts,Distinct,1701
+Fwd Act Data Pkts,StandardDeviation,28270.174800927594
+Fwd Blk Rate Avg,Min,0.0
+Fwd Blk Rate Avg,Max,0.0
+Fwd Blk Rate Avg,Mean,0.0
+Fwd Blk Rate Avg,Unique,0
+Fwd Blk Rate Avg,Distinct,1
+Fwd Blk Rate Avg,StandardDeviation,0.0
+Fwd Byts/b Avg,Min,0.0
+Fwd Byts/b Avg,Max,0.0
+Fwd Byts/b Avg,Mean,0.0
+Fwd Byts/b Avg,Unique,0
+Fwd Byts/b Avg,Distinct,1
+Fwd Byts/b Avg,StandardDeviation,0.0
+Fwd Header Len,Min,5712.0
+Fwd Header Len,Max,2477032.0
+Fwd Header Len,Mean,938811.4312138729
+Fwd Header Len,Unique,1679
+Fwd Header Len,Distinct,1701
+Fwd Header Len,StandardDeviation,226161.39840742075
+Fwd IAT Max,Min,456.0
+Fwd IAT Max,Max,1527529.0
+Fwd IAT Max,Mean,717645.6023121388
+Fwd IAT Max,Unique,1720
+Fwd IAT Max,Distinct,1725
+Fwd IAT Max,StandardDeviation,133823.4130818624
+Fwd IAT Mean,Min,29.78613281
+Fwd IAT Mean,Max,1993.590118
+Fwd IAT Mean,Mean,1017.9875504148041
+Fwd IAT Mean,Unique,1730
+Fwd IAT Mean,Distinct,1730
+Fwd IAT Mean,StandardDeviation,233.0329272420307
+ALL,NumberOfRows,1730

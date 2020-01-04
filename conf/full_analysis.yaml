@@ -1,0 +1,101 @@
+- Label:
+  - ComplianceBenign
+  - ComplianceInfilteration
+  - ComplianceSQLInjection
+  - ComplianceBot
+  - ComplianceBruteForce-Web
+  - ComplianceBruteForce-XSS
+  - ComplianceFTP-BruteForce
+  - ComplianceSSH-BruteForce
+  - ComplianceDDOSAttack-HOIC
+  - ComplianceDDOSAttack-LOIC-UDP
+  - ComplianceDDoSAttacks-LOIC-HTTP
+  - ComplianceDoSAttacks-Hulk
+  - ComplianceDoSAttacks-SlowHTTPTest
+  - ComplianceDoSAttacks-Slowloris
+  - ComplianceDoSAttacks-GoldenEye
+  - Distinct
+  ACK Flag Cnt: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Active Max: *id001
+  Active Mean: *id001
+  Active Min: *id001
+  Active Std: *id001
+  Bwd Blk Rate Avg: *id001
+  Bwd Byts/b Avg: *id001
+  Bwd Header Len: *id001
+  Bwd IAT Max: *id001
+  Bwd IAT Mean: *id001
+  Bwd IAT Min: *id001
+  Bwd IAT Std: *id001
+  Bwd IAT Tot: *id001
+  Bwd PSH Flags: *id001
+  Bwd Pkt Len Max: *id001
+  Bwd Pkt Len Mean: *id001
+  Bwd Pkt Len Min: *id001
+  Bwd Pkt Len Std: *id001
+  Bwd Pkts/b Avg: *id001
+  Bwd Pkts/s: *id001
+  Bwd Seg Size Avg: *id001
+  Bwd URG Flags: *id001
+  CWE Flag Count: *id001
+  Down/Up Ratio: *id001
+  Dst Port: *id001
+  ECE Flag Cnt: *id001
+  FIN Flag Cnt: *id001
+  Flow Byts/s: *id001
+  Flow Duration: *id001
+  Flow IAT Max: *id001
+  Flow IAT Mean: *id001
+  Flow IAT Min: *id001
+  Flow IAT Std: *id001
+  Flow Pkts/s: *id001
+  Fwd Act Data Pkts: *id001
+  Fwd Blk Rate Avg: *id001
+  Fwd Byts/b Avg: *id001
+  Fwd Header Len: *id001
+  Fwd IAT Max: *id001
+  Fwd IAT Mean: *id001
+  Fwd IAT Min: *id001
+  Fwd IAT Std: *id001
+  Fwd IAT Tot: *id001
+  Fwd PSH Flags: *id001
+  Fwd Pkt Len Max: *id001
+  Fwd Pkt Len Mean: *id001
+  Fwd Pkt Len Min: *id001
+  Fwd Pkt Len Std: *id001
+  Fwd Pkts/b Avg: *id001
+  Fwd Pkts/s: *id001
+  Fwd Seg Size Avg: *id001
+  Fwd Seg Size Min: *id001
+  Fwd URG Flags: *id001
+  Idle Max: *id001
+  Idle Mean: *id001
+  Idle Min: *id001
+  Idle Std: *id001
+  Init Bwd Win Byts: *id001
+  Init Fwd Win Byts: *id001
+  PSH Flag Cnt: *id001
+  Pkt Len Max: *id001
+  Pkt Len Mean: *id001
+  Pkt Len Min: *id001
+  Pkt Len Std: *id001
+  Pkt Len Var: *id001
+  Pkt Size Avg: *id001
+  Protocol: *id001
+  RST Flag Cnt: *id001
+  SYN Flag Cnt: *id001
+  Subflow Bwd Byts: *id001
+  Subflow Bwd Pkts: *id001
+  Subflow Fwd Byts: *id001
+  Subflow Fwd Pkts: *id001
+  Tot Bwd Pkts: *id001
+  Tot Fwd Pkts: *id001
+  TotLen Bwd Pkts: *id001
+  TotLen Fwd Pkts: *id001
+  URG Flag Cnt: *id001

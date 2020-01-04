@@ -1,0 +1,16 @@
+- Flow IAT Mean: &id001
+  - Min
+  - Max
+  - Mean
+  - Unique
+  - Distinct
+  - StandardDeviation
+  Flow IAT Min: *id001
+  Flow IAT Std: *id001
+  Flow Pkts/s: *id001
+  Fwd Act Data Pkts: *id001
+  Fwd Blk Rate Avg: *id001
+  Fwd Byts/b Avg: *id001
+  Fwd Header Len: *id001
+  Fwd IAT Max: *id001
+  Fwd IAT Mean: *id001

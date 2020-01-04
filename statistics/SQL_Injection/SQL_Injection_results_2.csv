@@ -1,0 +1,62 @@
+Column,Analyzer,Result
+Bwd IAT Min,Min,0.0
+Bwd IAT Min,Max,4559.0
+Bwd IAT Min,Mean,1034.0689655172414
+Bwd IAT Min,Unique,48
+Bwd IAT Min,Distinct,49
+Bwd IAT Min,StandardDeviation,1189.4699852532935
+Bwd IAT Std,Min,0.0
+Bwd IAT Std,Max,2889117.9798596
+Bwd IAT Std,Mean,958581.1289230996
+Bwd IAT Std,Unique,48
+Bwd IAT Std,Distinct,49
+Bwd IAT Std,StandardDeviation,1310783.2421752778
+Bwd IAT Tot,Min,0.0
+Bwd IAT Tot,Max,12903213.0
+Bwd IAT Tot,Mean,2026758.2183908045
+Bwd IAT Tot,Unique,48
+Bwd IAT Tot,Distinct,49
+Bwd IAT Tot,StandardDeviation,2839893.199999211
+Bwd PSH Flags,Min,0.0
+Bwd PSH Flags,Max,0.0
+Bwd PSH Flags,Mean,0.0
+Bwd PSH Flags,Unique,0
+Bwd PSH Flags,Distinct,1
+Bwd PSH Flags,StandardDeviation,0.0
+Bwd Pkt Len Max,Min,0.0
+Bwd Pkt Len Max,Max,4012.0
+Bwd Pkt Len Max,Mean,925.264367816092
+Bwd Pkt Len Max,Unique,18
+Bwd Pkt Len Max,Distinct,31
+Bwd Pkt Len Max,StandardDeviation,1101.5637313599195
+Bwd Pkt Len Mean,Min,0.0
+Bwd Pkt Len Mean,Max,1575.2666666667
+Bwd Pkt Len Mean,Mean,294.28086903517936
+Bwd Pkt Len Mean,Unique,33
+Bwd Pkt Len Mean,Distinct,41
+Bwd Pkt Len Mean,StandardDeviation,384.67786009841603
+Bwd Pkt Len Min,Min,0.0
+Bwd Pkt Len Min,Max,0.0
+Bwd Pkt Len Min,Mean,0.0
+Bwd Pkt Len Min,Unique,0
+Bwd Pkt Len Min,Distinct,1
+Bwd Pkt Len Min,StandardDeviation,0.0
+Bwd Pkt Len Std,Min,0.0
+Bwd Pkt Len Std,Max,2316.3292799888
+Bwd Pkt Len Std,Mean,468.2481887116079
+Bwd Pkt Len Std,Unique,33
+Bwd Pkt Len Std,Distinct,41
+Bwd Pkt Len Std,StandardDeviation,560.1434291890796
+Bwd Pkts/b Avg,Min,0.0
+Bwd Pkts/b Avg,Max,0.0
+Bwd Pkts/b Avg,Mean,0.0
+Bwd Pkts/b Avg,Unique,0
+Bwd Pkts/b Avg,Distinct,1
+Bwd Pkts/b Avg,StandardDeviation,0.0
+Bwd Pkts/s,Min,0.0
+Bwd Pkts/s,Max,5263.1578947368
+Bwd Pkts/s,Mean,224.74699070458965
+Bwd Pkts/s,Unique,58
+Bwd Pkts/s,Distinct,59
+Bwd Pkts/s,StandardDeviation,930.0388383033285
+ALL,NumberOfRows,87
