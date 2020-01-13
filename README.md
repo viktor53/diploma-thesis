@@ -1,21 +1,22 @@
 # IDS-2018
 
 **classes:**
-  * Benign
-  * Bot
-  * Infilteration
-  * SQL Injection
-  * Brute Force -Web
-  * Brute Force -XSS
-  * FTP-BruteForce
-  * SSH-Bruteforce
-  * DDOS attack-HOIC
-  * DDOS attack-LOIC-UDP
-  * DDoS attacks-LOIC-HTTP
-  * DoS attacks-Hulk
-  * DoS attacks-SlowHTTPTest
-  * DoS attacks-Slowloris
-  * DoS attacks-GoldenEye
+
+* Benign
+* Bot
+* Infilteration
+* SQL Injection
+* Brute Force -Web
+* Brute Force -XSS
+* FTP-BruteForce
+* SSH-Bruteforce
+* DDOS attack-HOIC
+* DDOS attack-LOIC-UDP
+* DDoS attacks-LOIC-HTTP
+* DoS attacks-Hulk
+* DoS attacks-SlowHTTPTest
+* DoS attacks-Slowloris
+* DoS attacks-GoldenEye
 
 **files**:
 
@@ -112,8 +113,29 @@
   * Idle Max
   * Idle Min
   * Label
-* thuesday file header has two more 4 more columns:
+* thuesday file header has 4 more columns:
   * Flow ID
   * Src IP
   * Src Port
   * Dst IP
+  
+**classes ratio:**
+
+* Number of samples: 16 232 943
+* Benign: 13 484 708 (83.0700139%)
+* Bot: 286 191 (1.7630260%)
+* Infilteration: 161 934 (0.9975640%)
+* SQL Injection: 87 (0.0005359%)
+* Brute Force -Web: 611 (0.0037640%)
+* Brute Force -XSS: 230 (0.0014169%)
+* FTP-BruteForce: 193 360 (1.1911580%)
+* SSH-Bruteforce: 187 589 (1.1556068%)
+* DDOS attack-HOIC: 686 012 (4.2260482%)
+* DDOS attack-LOIC-UDP: 1 730 (0.0106573%)
+* DDoS attacks-LOIC-HTTP: 576 191 (3.5495166%)
+* DoS attacks-Hulk: 461 912 (2.8455222%)
+* DoS attacks-SlowHTTPTest: 139 890 (0.8617661%)
+* DoS attacks-Slowloris: 10 990 (0.0677018%)
+* DoS attacks-GoldenEye: 41 508 (0.2557022%)
+
+![pie chart](graphs/classes_ratio.png)
