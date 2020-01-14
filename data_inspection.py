@@ -3,7 +3,8 @@ from os import sep, linesep
 import concurrent.futures
 from functools import partial
 from collections import Counter
-from constants import PATH_TO_DATA, SPLIT_FILES, CONF_DIR, CLASSES_ANALYSIS_CONF, ANALYSIS_BY_PARTS, CLASSES
+from constants import PATH_TO_DATA, SPLIT_FILES, CONF_DIR, CLASSES_ANALYSIS_CONF, ANALYSIS_BY_PARTS, CLASSES,\
+    FILES_WITH_RESULTS
 import logging
 import yaml
 from math import sqrt
@@ -651,6 +652,36 @@ def drop_columns(input: str, output: str, columns_to_drop: List[str]):
                 out_file.write(linesep)
 
 
+def join_analysis_results(files: List[str], result: str):
+    header = ["Column", "Analyzer"]
+    rows = []
+
+    first = True
+    for file in files:
+        with open(sep.join(["statistics", file]), "r") as f:
+            header.append(file[:file.index("/")])
+            skip = True
+            i = 0
+            for line in f:
+                if skip:
+                    skip = False
+                elif first:
+                    rows.append(line[:-1].split(','))
+                elif line != "":
+                    rows[i].append(line[:-1].split(',')[2])
+                    i += 1
+
+        first = False
+
+    with open(result, "w") as r:
+        r.write(",".join(header))
+        r.write(linesep)
+
+        for row in rows:
+            r.write(",".join(row))
+            r.write(linesep)
+
+
 def run_classes_analysis():
     shuffle(SPLIT_FILES)
     dataset = Dataset(PATH_TO_DATA, SPLIT_FILES)
@@ -706,5 +737,7 @@ if __name__ == "__main__":
 
     # run_analysis_by_part()
 
-    run_analysis_for_all_classes()
+    # run_analysis_for_all_classes()
+
+    join_analysis_results(FILES_WITH_RESULTS, "results.csv")
 

@@ -140,3 +140,20 @@ CLASSES = [
     "DoS attacks-Slowloris",
     "DoS attacks-GoldenEye"
 ]
+
+FILES_WITH_RESULTS = [
+    "Benign/Benign_results.csv",
+    "Bot/Bot_results.csv",
+    "Brute_Force_-Web/Brute_Force_-Web_results.csv",
+    "Brute_Force_-XSS/Brute_Force_-XSS_results.csv",
+    "DDOS_attack-HOIC/DDOS_attack-HOIC_results.csv",
+    "DDOS_attack-LOIC-UDP/DDOS_attack-LOIC-UDP_results.csv",
+    "DDoS_attacks-LOIC-HTTP/DDoS_attacks-LOIC-HTTP_results.csv",
+    "DoS_attacks-GoldenEye/DoS_attacks-GoldenEye_results.csv",
+    "DoS_attacks-SlowHTTPTest/DoS_attacks-SlowHTTPTest_results.csv",
+    "DoS_attacks-Slowloris/DoS_attacks-Slowloris_results.csv",
+    "FTP-BruteForce/FTP-BruteForce_results.csv",
+    "Infilteration/Infilteration_results.csv",
+    "SQL_Injection/SQL_Injection_results.csv",
+    "SSH-Bruteforce/SSH-Bruteforce_results.csv"
+]
