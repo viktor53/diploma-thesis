@@ -126,19 +126,19 @@ ANALYSIS_BY_PARTS = [
 CLASSES = [
     "Benign",
     "Bot",
-    "Infilteration",
-    "SQL Injection",
     "Brute Force -Web",
     "Brute Force -XSS",
-    "FTP-BruteForce",
-    "SSH-Bruteforce",
     "DDOS attack-HOIC",
     "DDOS attack-LOIC-UDP",
     "DDoS attacks-LOIC-HTTP",
+    "DoS attacks-GoldenEye",
     "DoS attacks-Hulk",
     "DoS attacks-SlowHTTPTest",
     "DoS attacks-Slowloris",
-    "DoS attacks-GoldenEye"
+    "FTP-BruteForce",
+    "Infilteration",
+    "SQL Injection",
+    "SSH-Bruteforce",
 ]
 
 FILES_WITH_RESULTS = [

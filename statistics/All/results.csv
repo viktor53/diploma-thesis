@@ -163,11 +163,11 @@ FIN Flag Cnt,Unique,0
 FIN Flag Cnt,Distinct,2
 FIN Flag Cnt,StandardDeviation,0.06908282998654777
 Flow Byts/s,Min,0.0
-Flow Byts/s,Max,inf
-Flow Byts/s,Mean,nan
+Flow Byts/s,Max,1806642857.14286
+Flow Byts/s,Mean,257034.89325757686
 Flow Byts/s,Unique,6451728
 Flow Byts/s,Distinct,7064823
-Flow Byts/s,StandardDeviation,nan
+Flow Byts/s,StandardDeviation,3667840.8766061333
 Flow Duration,Min,-919011000000.0
 Flow Duration,Max,120000000.0
 Flow Duration,Mean,11813800.896990892
@@ -199,11 +199,11 @@ Flow IAT Std,Unique,7234838
 Flow IAT Std,Distinct,7404593
 Flow IAT Std,StandardDeviation,338112780.51930106
 Flow Pkts/s,Min,-0.0088953248
-Flow Pkts/s,Max,inf
-Flow Pkts/s,Mean,inf
+Flow Pkts/s,Max,6000000.0
+Flow Pkts/s,Mean,52296.982151722594
 Flow Pkts/s,Unique,5838237
 Flow Pkts/s,Distinct,6608549
-Flow Pkts/s,StandardDeviation,nan
+Flow Pkts/s,StandardDeviation,264725.03271950025
 Fwd Act Data Pkts,Min,0.0
 Fwd Act Data Pkts,Max,309628.0
 Fwd Act Data Pkts,Mean,19.89527838544126

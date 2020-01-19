@@ -18,11 +18,11 @@ Flow IAT Std,Unique,0
 Flow IAT Std,Distinct,1
 Flow IAT Std,StandardDeviation,0.0
 Flow Pkts/s,Min,31746.0317460317
-Flow Pkts/s,Max,inf
-Flow Pkts/s,Mean,inf
+Flow Pkts/s,Max,2000000.0
+Flow Pkts/s,Mean,1189160.5102337922
 Flow Pkts/s,Unique,1
 Flow Pkts/s,Distinct,54
-Flow Pkts/s,StandardDeviation,nan
+Flow Pkts/s,StandardDeviation,637377.9651997713
 Fwd Act Data Pkts,Min,0.0
 Fwd Act Data Pkts,Max,0.0
 Fwd Act Data Pkts,Mean,0.0

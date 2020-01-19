@@ -42,11 +42,11 @@ FIN Flag Cnt,Unique,0
 FIN Flag Cnt,Distinct,2
 FIN Flag Cnt,StandardDeviation,0.0746049604566928
 Flow Byts/s,Min,0.0
-Flow Byts/s,Max,inf
-Flow Byts/s,Mean,nan
+Flow Byts/s,Max,1806642857.14286
+Flow Byts/s,Mean,302498.8410208901
 Flow Byts/s,Unique,5958598
 Flow Byts/s,Distinct,6487851
-Flow Byts/s,StandardDeviation,nan
+Flow Byts/s,StandardDeviation,4007369.813356037
 Flow Duration,Min,-919011000000.0
 Flow Duration,Max,120000000.0
 Flow Duration,Mean,13453462.373821294

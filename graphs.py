@@ -1,5 +1,11 @@
 import matplotlib.pyplot as plt
 import math
+from typing import List
+from os import sep
+from constants import PATH_TO_DATA, SPLIT_FILES, CLASSES
+import logging
+from timeit import default_timer as timer
+
 
 def plot_classes_ratio(data: str):
     labels = []
@@ -108,6 +114,67 @@ def plot_comparison(data: str):
                 i = 1
 
 
+def get_number_of_class(cls: str) -> int:
+    return CLASSES.index(cls)
+
+
+def plot_boxplot(path_to_data: str, files: List[str], column: int):
+    plt.style.use('seaborn-whitegrid')
+    data = []
+    header = []
+
+    for _ in range(15):
+        data.append([])
+
+    logging.info("Starting to process column {}.".format(column + 1))
+    start = timer()
+    for file in files:
+        logging.info("Processing file - {}".format(file))
+        with open(path_to_data + sep + file, "r") as in_file:
+            first_file = True
+            for line in in_file:
+                if first_file:
+                    header = line[:-1].split(",")
+                    first_file = False
+                else:
+                    split_line = line[:-1].split(",")
+
+                    value = float(split_line[column])
+                    if value is not None and not math.isnan(value) and not math.isinf(value):
+                        data[get_number_of_class(split_line[-1])].append(value)
+
+    logging.info("Data are collected, starting creating graph.")
+
+    plt.clf()
+
+    fig, ax = plt.subplots(figsize=(10, 5))
+
+    ax.boxplot(data)
+    plt.title(header[column])
+    plt.xlabel("classes")
+    plt.ylabel("value")
+    plt.gca().set_position((.1, .3, .6, .6))
+    plt.figtext(.75, .4, "\n".join(["{} - {}".format(i + 1, cls) for i, cls in enumerate(CLASSES)]))
+
+    plt.savefig("box_plots/" + header[column].replace(" ", "_").replace("/", "_over_") + ".png", dpi=300)
+
+    plt.close('all')
+
+    end = timer()
+
+    logging.info("Graph is created.")
+    logging.info("Processing column {} took {}.".format(column + 1, end - start))
+
+
+def plot_boxplot_for_all():
+    for i in range(80):
+        if i != 2 and i != 79:
+            plot_boxplot(PATH_TO_DATA, SPLIT_FILES, i)
+
+
 if __name__ == "__main__":
+    logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
+
     # plot_classes_ratio("statistics/classes_results.csv")
-    plot_comparison("statistics/comparison_results.csv")
+    # plot_comparison("statistics/comparison_results.csv")
+    plot_boxplot_for_all()
