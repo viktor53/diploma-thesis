@@ -1,0 +1,42 @@
+Column,Analyzer,Result
+Fwd IAT Min,Min,-947405000000.0
+Fwd IAT Min,Max,120000000.0
+Fwd IAT Min,Mean,1630678.0644321418
+Fwd IAT Min,StandardDeviation,835819179.7700982
+Fwd IAT Std,Min,0.0
+Fwd IAT Std,Max,474354474600.909
+Fwd IAT Std,Mean,1551848.1592706619
+Fwd IAT Std,StandardDeviation,378026869.59196204
+Fwd IAT Tot,Min,-919011000000.0
+Fwd IAT Tot,Max,120000000.0
+Fwd IAT Tot,Mean,11407584.269448437
+Fwd IAT Tot,StandardDeviation,552125255.2785652
+Fwd PSH Flags,Min,0.0
+Fwd PSH Flags,Max,1.0
+Fwd PSH Flags,Mean,0.04811794580046135
+Fwd PSH Flags,StandardDeviation,0.21401544124760066
+Fwd Pkt Len Max,Min,0.0
+Fwd Pkt Len Max,Max,64440.0
+Fwd Pkt Len Max,Mean,199.37674034262122
+Fwd Pkt Len Max,StandardDeviation,302.772159614269
+Fwd Pkt Len Mean,Min,0.0
+Fwd Pkt Len Mean,Max,16529.3138401559
+Fwd Pkt Len Mean,Mean,50.5343643194022
+Fwd Pkt Len Mean,StandardDeviation,60.48399055153595
+Fwd Pkt Len Min,Min,0.0
+Fwd Pkt Len Min,Max,1460.0
+Fwd Pkt Len Min,Mean,11.651024207476285
+Fwd Pkt Len Min,StandardDeviation,24.848575542171965
+Fwd Pkt Len Std,Min,0.0
+Fwd Pkt Len Std,Max,18401.5827717299
+Fwd Pkt Len Std,Mean,70.44592808466125
+Fwd Pkt Len Std,StandardDeviation,116.54655266066513
+Fwd Pkts/b Avg,Min,0.0
+Fwd Pkts/b Avg,Max,0.0
+Fwd Pkts/b Avg,Mean,0.0
+Fwd Pkts/b Avg,StandardDeviation,0.0
+Fwd Pkts/s,Min,0.0
+Fwd Pkts/s,Max,4000000.0
+Fwd Pkts/s,Mean,38192.409631962284
+Fwd Pkts/s,StandardDeviation,220663.4822685431
+ALL,NumberOfRows,12986236

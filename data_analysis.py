@@ -436,7 +436,8 @@ class AnalysisRunner:
 
         for column, analyzers in self._conf.items():
             for analyzer in analyzers:
-                result.append(self._analyzers_mapping[analyzer](column))
+                if analyzer in self._analyzers_mapping.keys():
+                    result.append(self._analyzers_mapping[analyzer](column))
         result.append(NumberOfRows())
 
         return result
@@ -482,8 +483,8 @@ class AnalysisRunner:
         self._logger.info("Running analysis.")
 
         analyzers = self._load_analyzers()
-        partitions = int(len(analyzers) / self._max_analyzers)
-        rest = int((len(analyzers) % self._max_analyzers) / partitions) + 1
+        partitions = int(len(analyzers) / self._max_analyzers) if len(analyzers) > self._max_analyzers else 1
+        rest = int((len(analyzers) % self._max_analyzers) / partitions) + 1 if partitions > 0 else 0
 
         new = True
         for i in range(partitions):

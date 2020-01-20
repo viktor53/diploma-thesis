@@ -10,6 +10,9 @@ class Row:
         self._mapping = mapping
         self._row = row
 
+    def get_raw_row(self) -> List[str]:
+        return self._row
+
     def get_int_by_column(self, column: str) -> int:
         if column in self._mapping:
             return int(self._row[self._mapping[column]])

@@ -1,0 +1,34 @@
+Column,Analyzer,Result
+Subflow Bwd Pkts,Min,0.0
+Subflow Bwd Pkts,Max,123118.0
+Subflow Bwd Pkts,Mean,6.394184658279736
+Subflow Bwd Pkts,StandardDeviation,171.0855234782852
+Subflow Fwd Byts,Min,0.0
+Subflow Fwd Byts,Max,144391846.0
+Subflow Fwd Byts,Mean,1024.6935889660406
+Subflow Fwd Byts,StandardDeviation,66714.74660016045
+Subflow Fwd Pkts,Min,1.0
+Subflow Fwd Pkts,Max,309629.0
+Subflow Fwd Pkts,Mean,25.005667077049885
+Subflow Fwd Pkts,StandardDeviation,1587.701955456185
+Tot Bwd Pkts,Min,0.0
+Tot Bwd Pkts,Max,123118.0
+Tot Bwd Pkts,Mean,6.394184658279736
+Tot Bwd Pkts,StandardDeviation,171.0855234782852
+Tot Fwd Pkts,Min,1.0
+Tot Fwd Pkts,Max,309629.0
+Tot Fwd Pkts,Mean,25.005667077049885
+Tot Fwd Pkts,StandardDeviation,1587.701955456185
+TotLen Bwd Pkts,Min,0.0
+TotLen Bwd Pkts,Max,156360426.0
+TotLen Bwd Pkts,Mean,4758.612257393135
+TotLen Bwd Pkts,StandardDeviation,244123.9713113216
+TotLen Fwd Pkts,Min,0.0
+TotLen Fwd Pkts,Max,144391846.0
+TotLen Fwd Pkts,Mean,1024.6935889660406
+TotLen Fwd Pkts,StandardDeviation,66714.74660016045
+URG Flag Cnt,Min,0.0
+URG Flag Cnt,Max,1.0
+URG Flag Cnt,Mean,0.04290534994127629
+URG Flag Cnt,StandardDeviation,0.20264372896216876
+ALL,NumberOfRows,12986236
