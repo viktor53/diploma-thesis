@@ -1,5 +1,5 @@
 import numpy as np
-from constants import PATH_TO_PRPD_DATA, NORMALIZED_DATA_DIR
+from constants import PATH_TO_PRPD_DATA, PATH_TO_NORM_DATA
 from os import sep
 import logging
 import matplotlib.pyplot as plt
