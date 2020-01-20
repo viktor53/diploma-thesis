@@ -19,14 +19,6 @@ Active Std,Min,0.0
 Active Std,Max,75232413.85230836
 Active Std,Mean,101371.94767026561
 Active Std,StandardDeviation,1680436.04801312
-Bwd Blk Rate Avg,Min,0.0
-Bwd Blk Rate Avg,Max,0.0
-Bwd Blk Rate Avg,Mean,0.0
-Bwd Blk Rate Avg,StandardDeviation,0.0
-Bwd Byts/b Avg,Min,0.0
-Bwd Byts/b Avg,Max,0.0
-Bwd Byts/b Avg,Mean,0.0
-Bwd Byts/b Avg,StandardDeviation,0.0
 Bwd Header Len,Min,0.0
 Bwd Header Len,Max,2462372.0
 Bwd Header Len,Mean,134.82084077326178

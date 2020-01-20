@@ -433,11 +433,17 @@ class AnalysisRunner:
 
     def _load_analyzers(self):
         result = []
-
+        header = self._dataset.get_header()
         for column, analyzers in self._conf.items():
-            for analyzer in analyzers:
-                if analyzer in self._analyzers_mapping.keys():
-                    result.append(self._analyzers_mapping[analyzer](column))
+            if column in header:
+                for analyzer in analyzers:
+                    if analyzer in self._analyzers_mapping.keys():
+                        result.append(self._analyzers_mapping[analyzer](column))
+                    else:
+                        self._logger.warning("Unknown analyzer {}.".format(analyzer))
+            else:
+                self._logger.warning("Column {} is not contained in dataset.".format(column))
+
         result.append(NumberOfRows())
 
         return result

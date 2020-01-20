@@ -31,10 +31,6 @@ Fwd Pkt Len Std,Min,0.0
 Fwd Pkt Len Std,Max,18401.5827717299
 Fwd Pkt Len Std,Mean,70.44592808466125
 Fwd Pkt Len Std,StandardDeviation,116.54655266066513
-Fwd Pkts/b Avg,Min,0.0
-Fwd Pkts/b Avg,Max,0.0
-Fwd Pkts/b Avg,Mean,0.0
-Fwd Pkts/b Avg,StandardDeviation,0.0
 Fwd Pkts/s,Min,0.0
 Fwd Pkts/s,Max,4000000.0
 Fwd Pkts/s,Mean,38192.409631962284

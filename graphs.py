@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import math
 from typing import List
 from os import sep
-from constants import PATH_TO_DATA, SPLIT_FILES, CLASSES
+from constants import PATH_TO_DATA, SPLIT_FILES, CLASSES, CLASSES_MAPPING
 import logging
 from timeit import default_timer as timer
 
@@ -115,7 +115,10 @@ def plot_comparison(data: str):
 
 
 def get_number_of_class(cls: str) -> int:
-    return CLASSES.index(cls)
+    if cls in CLASSES_MAPPING.keys():
+        return CLASSES_MAPPING[cls]
+    else:
+        return -1
 
 
 def plot_boxplot(path_to_data: str, files: List[str], column: int):

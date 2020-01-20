@@ -2,6 +2,7 @@ from typing import List, Iterable, Dict, Set, Callable
 from os import sep
 from functools import partial
 import logging
+import csv
 
 
 class Row:
@@ -54,12 +55,13 @@ class Dataset:
 
     _logger = logging.getLogger("Dataset")
 
-    def __init__(self, path_to_data: str, files_names: List[str]):
+    def __init__(self, path_to_data: str, files_names: List[str], delimiter=","):
         self._path_to_data = path_to_data
         self._files_names = files_names
-        self._header = self._get_header()
+        self._delimiter = delimiter
+        self._header = self._get_header(delimiter)
 
-    def _get_header(self) -> Dict[str, int]:
+    def _get_header(self, delimiter) -> Dict[str, int]:
         header = None
         multiple_headers = False
 
@@ -67,11 +69,11 @@ class Dataset:
             self._logger.info("Checking header of file: " + file_name)
             with open(self._path_to_data + sep + file_name) as file:
                 if header is None:
-                    header = file.readline()[:-1].split(",")
+                    header = file.readline()[:-1].split(delimiter)
                 else:
-                    current_header = file.readline()[:-1].split(",")
+                    current_header = file.readline()[:-1].split(delimiter)
                     if header != current_header:
-                        self._logger.error("Different header for one dataset! Header: " + ",".join(current_header))
+                        self._logger.error("Different header for one dataset! Header: " + delimiter.join(current_header))
                         multiple_headers = True
 
         if multiple_headers:
@@ -90,11 +92,11 @@ class Dataset:
             self._logger.info("Reading file: " + file_name)
             with open(self._path_to_data + sep + file_name) as file:
                 skip = True
-                for line in file:
+                for row in csv.reader(file, delimiter=self._delimiter):
                     if skip:
                         skip = False
                     else:
-                        yield Row(self._header, line[:-1].split(","))
+                        yield Row(self._header, row)
 
     def get_header(self) -> Set[str]:
         return set(self._header.keys())

@@ -12,21 +12,13 @@ Flow IAT Std,Max,474354474600.909
 Flow IAT Std,Mean,1411475.9715132243
 Flow IAT Std,StandardDeviation,378020379.102394
 Flow Pkts/s,Min,-0.0088953248
-Flow Pkts/s,Max,4000000.0
-Flow Pkts/s,Mean,53915.16437421963
-Flow Pkts/s,StandardDeviation,270981.1355609553
+Flow Pkts/s,Max,6000000.0
+Flow Pkts/s,Mean,92092.40122006105
+Flow Pkts/s,StandardDeviation,546357.8463459271
 Fwd Act Data Pkts,Min,0.0
 Fwd Act Data Pkts,Max,309628.0
 Fwd Act Data Pkts,Mean,21.347960486780003
 Fwd Act Data Pkts,StandardDeviation,1586.4350014264023
-Fwd Blk Rate Avg,Min,0.0
-Fwd Blk Rate Avg,Max,0.0
-Fwd Blk Rate Avg,Mean,0.0
-Fwd Blk Rate Avg,StandardDeviation,0.0
-Fwd Byts/b Avg,Min,0.0
-Fwd Byts/b Avg,Max,0.0
-Fwd Byts/b Avg,Mean,0.0
-Fwd Byts/b Avg,StandardDeviation,0.0
 Fwd Header Len,Min,0.0
 Fwd Header Len,Max,2477032.0
 Fwd Header Len,Mean,269.04663491407365

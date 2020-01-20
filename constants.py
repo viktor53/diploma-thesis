@@ -2,9 +2,25 @@ from os import sep
 
 DATA_DIR = "data_csv"
 
+CLEAN_DATA_DIR = "clean_data"
+
+PREPARED_DATA_DIR = "prepared_data"
+
+NORMALIZED_DATA_DIR = "normalized_data"
+
 CONF_DIR = "conf"
 
 PATH_TO_DATA = ".." + sep + DATA_DIR
+
+PATH_TO_CLN_DATA = ".." + sep + CLEAN_DATA_DIR
+
+PATH_TO_PRPD_DATA = ".." + sep + PREPARED_DATA_DIR
+
+PATH_TO_NORM_DATA = ".." + sep + NORMALIZED_DATA_DIR
+
+TRAIN = "train.csv"
+
+TEST = "test.csv"
 
 ALL_ORIGINAL_FILES = [
      "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
@@ -140,6 +156,25 @@ CLASSES = [
     "SQL Injection",
     "SSH-Bruteforce",
 ]
+
+CLASSES_MAPPING = {
+    "Benign": 0,
+    "Bot": 1,
+    "Brute Force -XSS": 2,
+    "Brute Force -Web": 3,
+    "DDOS attack-HOIC": 4,
+    "DDOS attack-LOIC-UDP": 5,
+    "DDoS attacks-LOIC-HTTP": 6,
+    "DoS attacks-GoldenEye": 7,
+    "DoS attacks-Hulk": 8,
+    "DoS attacks-SlowHTTPTest": 9,
+    "DoS attacks-Slowloris": 10,
+    "FTP-BruteForce": 11,
+    "Infilteration": 12,
+    "SQL Injection": 13,
+    "SSH-Bruteforce": 14
+}
+
 
 FILES_WITH_RESULTS = [
     "Benign/Benign_results.csv",

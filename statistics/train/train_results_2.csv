@@ -11,10 +11,6 @@ Bwd IAT Tot,Min,0.0
 Bwd IAT Tot,Max,120000000.0
 Bwd IAT Tot,Mean,8139569.611575902
 Bwd IAT Tot,StandardDeviation,26881081.939909644
-Bwd PSH Flags,Min,0.0
-Bwd PSH Flags,Max,0.0
-Bwd PSH Flags,Mean,0.0
-Bwd PSH Flags,StandardDeviation,0.0
 Bwd Pkt Len Max,Min,0.0
 Bwd Pkt Len Max,Max,65160.0
 Bwd Pkt Len Max,Mean,355.5838401519886
@@ -31,10 +27,6 @@ Bwd Pkt Len Std,Min,0.0
 Bwd Pkt Len Std,Max,21326.2385
 Bwd Pkt Len Std,Mean,134.24852854836158
 Bwd Pkt Len Std,StandardDeviation,207.76602601369643
-Bwd Pkts/b Avg,Min,0.0
-Bwd Pkts/b Avg,Max,0.0
-Bwd Pkts/b Avg,Mean,0.0
-Bwd Pkts/b Avg,StandardDeviation,0.0
 Bwd Pkts/s,Min,0.0
 Bwd Pkts/s,Max,2000000.0
 Bwd Pkts/s,Mean,15376.588809985278

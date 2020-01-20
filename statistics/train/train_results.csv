@@ -19,14 +19,6 @@ Active Std,Min,0.0
 Active Std,Max,75232413.85230836
 Active Std,Mean,101371.94767026561
 Active Std,StandardDeviation,1680436.04801312
-Bwd Blk Rate Avg,Min,0.0
-Bwd Blk Rate Avg,Max,0.0
-Bwd Blk Rate Avg,Mean,0.0
-Bwd Blk Rate Avg,StandardDeviation,0.0
-Bwd Byts/b Avg,Min,0.0
-Bwd Byts/b Avg,Max,0.0
-Bwd Byts/b Avg,Mean,0.0
-Bwd Byts/b Avg,StandardDeviation,0.0
 Bwd Header Len,Min,0.0
 Bwd Header Len,Max,2462372.0
 Bwd Header Len,Mean,134.82084077326178
@@ -51,10 +43,6 @@ Bwd IAT Tot,Min,0.0
 Bwd IAT Tot,Max,120000000.0
 Bwd IAT Tot,Mean,8139569.611575902
 Bwd IAT Tot,StandardDeviation,26881081.939909644
-Bwd PSH Flags,Min,0.0
-Bwd PSH Flags,Max,0.0
-Bwd PSH Flags,Mean,0.0
-Bwd PSH Flags,StandardDeviation,0.0
 Bwd Pkt Len Max,Min,0.0
 Bwd Pkt Len Max,Max,65160.0
 Bwd Pkt Len Max,Mean,355.5838401519886
@@ -71,10 +59,6 @@ Bwd Pkt Len Std,Min,0.0
 Bwd Pkt Len Std,Max,21326.2385
 Bwd Pkt Len Std,Mean,134.24852854836158
 Bwd Pkt Len Std,StandardDeviation,207.76602601369643
-Bwd Pkts/b Avg,Min,0.0
-Bwd Pkts/b Avg,Max,0.0
-Bwd Pkts/b Avg,Mean,0.0
-Bwd Pkts/b Avg,StandardDeviation,0.0
 Bwd Pkts/s,Min,0.0
 Bwd Pkts/s,Max,2000000.0
 Bwd Pkts/s,Mean,15376.588809985278
@@ -83,10 +67,6 @@ Bwd Seg Size Avg,Min,0.0
 Bwd Seg Size Avg,Max,33879.28358
 Bwd Seg Size Avg,Mean,116.79423726493341
 Bwd Seg Size Avg,StandardDeviation,166.84885976241833
-Bwd URG Flags,Min,0.0
-Bwd URG Flags,Max,0.0
-Bwd URG Flags,Mean,0.0
-Bwd URG Flags,StandardDeviation,0.0
 CWE Flag Count,Min,0.0
 CWE Flag Count,Max,1.0
 CWE Flag Count,Mean,0.00018712119508685964
@@ -109,8 +89,8 @@ FIN Flag Cnt,Mean,0.005093161713679006
 FIN Flag Cnt,StandardDeviation,0.07118441836130517
 Flow Byts/s,Min,0.0
 Flow Byts/s,Max,1806642857.14286
-Flow Byts/s,Mean,270889.9226701504
-Flow Byts/s,StandardDeviation,3643568.110623421
+Flow Byts/s,Mean,4625270.561677344
+Flow Byts/s,StandardDeviation,88666921.94379869
 Flow Duration,Min,-919011000000.0
 Flow Duration,Max,120000000.0
 Flow Duration,Mean,11706466.5668132
@@ -132,21 +112,13 @@ Flow IAT Std,Max,474354474600.909
 Flow IAT Std,Mean,1411475.9715132243
 Flow IAT Std,StandardDeviation,378020379.102394
 Flow Pkts/s,Min,-0.0088953248
-Flow Pkts/s,Max,4000000.0
-Flow Pkts/s,Mean,53915.16437421963
-Flow Pkts/s,StandardDeviation,270981.1355609553
+Flow Pkts/s,Max,6000000.0
+Flow Pkts/s,Mean,92092.40122006105
+Flow Pkts/s,StandardDeviation,546357.8463459271
 Fwd Act Data Pkts,Min,0.0
 Fwd Act Data Pkts,Max,309628.0
 Fwd Act Data Pkts,Mean,21.347960486780003
 Fwd Act Data Pkts,StandardDeviation,1586.4350014264023
-Fwd Blk Rate Avg,Min,0.0
-Fwd Blk Rate Avg,Max,0.0
-Fwd Blk Rate Avg,Mean,0.0
-Fwd Blk Rate Avg,StandardDeviation,0.0
-Fwd Byts/b Avg,Min,0.0
-Fwd Byts/b Avg,Max,0.0
-Fwd Byts/b Avg,Mean,0.0
-Fwd Byts/b Avg,StandardDeviation,0.0
 Fwd Header Len,Min,0.0
 Fwd Header Len,Max,2477032.0
 Fwd Header Len,Mean,269.04663491407365
@@ -191,10 +163,6 @@ Fwd Pkt Len Std,Min,0.0
 Fwd Pkt Len Std,Max,18401.5827717299
 Fwd Pkt Len Std,Mean,70.44592808466125
 Fwd Pkt Len Std,StandardDeviation,116.54655266066513
-Fwd Pkts/b Avg,Min,0.0
-Fwd Pkts/b Avg,Max,0.0
-Fwd Pkts/b Avg,Mean,0.0
-Fwd Pkts/b Avg,StandardDeviation,0.0
 Fwd Pkts/s,Min,0.0
 Fwd Pkts/s,Max,4000000.0
 Fwd Pkts/s,Mean,38192.409631962284
