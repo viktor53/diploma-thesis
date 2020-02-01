@@ -18,7 +18,7 @@
 * DoS attacks-Slowloris
 * DoS attacks-GoldenEye
 
-**files**:
+**files:**
 
 * Friday-02-03-2018_TrafficForML_CICFlowMeter.csv (Benign, Bot)
 * Friday-16-02-2018_TrafficForML_CICFlowMeter.csv (Benign, DoS attacks-SlowHTTPTest, DoS attacks-Hulk)
@@ -30,7 +30,7 @@
 * Wednesday-14-02-2018_TrafficForML_CICFlowMeter.csv (Benign, FTP-BruteForce, SSH-Bruteforce)
 * Wednesday-21-02-2018_TrafficForML_CICFlowMeter.csv (Benign, DDOS attack-HOIC, DDOS attack-LOIC-UDP)
 
-**headers**:
+**features:**
 
 * all except thuesday file:
   * Dst Port
@@ -119,6 +119,18 @@
   * Src Port
   * Dst IP
   
+**features transformation:**
+
+* features that have only one value were removed:
+    * Bwd Blk Rate Avg, Bwd Byts/b Avg, Bwd PSH Flags, Bwd Pkts/b Avg, Bwd URG Flags, Fwd Blk Rate Avg, Fwd Byts/b Avg, Fwd Pkts/b Avg
+* also Timestamp was removed
+* some features contain "inf" and "nan" value:
+    * "nan" was replaced by value that has the biggest occurrence
+    * "inf" was replaced by the biggest value
+    * Flow Byts/s - "nan" was replaced by 0 and "inf" by 1806642857.14286
+    * Flow Pkts/s - "nan" was replaced by 1000000 and "inf" by 6000000.0
+* all features were normalized by mean and standard deviation   
+  
 **classes ratio:**
 
 * Number of samples: 16 232 943
@@ -139,3 +151,34 @@
 * DoS attacks-GoldenEye: 41 508 (0.2557022%)
 
 ![pie chart](graphs/classes_ratio.png)
+
+**Train/test split:**
+
+* train dataset contains 80% of data
+* test dataset contains 20% of data
+* train classes ratio is same as for whole dataset:
+![pie chart](graphs/train_classes_ratio.png)
+* test classes ratio is same as for whole dataset:
+![pie chart](graphs/test_classes_ratio.png)
+
+
+**Explained variance:**
+
+* for x < 19 components - not very high 
+* 19 components - 0.886
+* 21 components - 0.910
+* 27 components - 0.960
+* 29 components - 0.972
+* 31 components - 0.983
+* 33 components - 0.992
+* 35 components - 0.995
+* for x > 35 components - almost 1.0
+
+![pie chart](graphs/exp_var_rat.png)
+
+**data visualization:**
+
+![pie chart](graphs/PCA.png)
+
+![pie chart](graphs/PCA_zoom.png)
+

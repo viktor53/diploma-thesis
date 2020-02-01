@@ -215,14 +215,24 @@ def check_time(path_to_data: str, files: List[str]):
                 line_number += 1
 
 
-def load_dataset_as_array(dataset: str) -> Tuple[np.ndarray, np.ndarray]:
+def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray]:
+    all_negatives = 10787690
+    to_be_skipped = 0
+
+    if number_of_negatives is not None:
+        to_be_skipped = all_negatives - number_of_negatives
+    else:
+        number_of_negatives = all_negatives
+
     logging.info("Initializing numpy arrays.")
 
-    data = np.zeros((12986236, 78), dtype=np.float)
-    labels = np.zeros(12986236, dtype=np.int)
+    data = np.zeros((12986236 - to_be_skipped, 70), dtype=np.float)
+    labels = np.zeros(12986236 - to_be_skipped, dtype=np.int)
 
     logging.info("Starting to read the dataset.")
 
+    step = int(all_negatives / number_of_negatives)
+    negatives = 0
     with open(dataset, "r") as in_data:
         first_line = True
         i = 0
@@ -230,7 +240,15 @@ def load_dataset_as_array(dataset: str) -> Tuple[np.ndarray, np.ndarray]:
             if first_line:
                 first_line = False
             else:
+                if CLASSES_MAPPING[row[-1]] == 0 and (negatives % step > 0 or negatives / step >= number_of_negatives):
+                    negatives += 1
+                    continue
+
                 labels[i] = CLASSES_MAPPING[row[-1]]
+
+                if CLASSES_MAPPING[row[-1]] == 0:
+                    negatives += 1
+
                 for j in range(70):
                     value = np.float(row[j])
 
@@ -249,14 +267,20 @@ def load_dataset_as_array(dataset: str) -> Tuple[np.ndarray, np.ndarray]:
     return data, labels
 
 
-def convert_to_npy(dataset: str, path_to_result: str):
+def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int = None):
+    all_negatives = 10787690
+    to_be_skipped = 0
+
+    if number_of_negatives is not None:
+        to_be_skipped = all_negatives - number_of_negatives
+
     logging.info("Converting dataset into numpy array.")
 
-    X, Y = load_dataset_as_array(dataset)
+    X, Y = load_dataset_as_array(dataset, number_of_negatives)
 
     logging.info("Storing X into memmap X.npy.")
 
-    X_memmap = np.memmap(path_to_result + sep + "X.npy", dtype=np.float32, mode="write", shape=(12986236, 78))
+    X_memmap = np.memmap(path_to_result + sep + "X.npy", dtype=np.float32, mode="write", shape=(12986236 - to_be_skipped, 70))
     X_memmap[:] = X[:]
     del X_memmap
 
@@ -265,7 +289,7 @@ def convert_to_npy(dataset: str, path_to_result: str):
     logging.info("Storing X is completed.")
     logging.info("Storing Y into memmap Y.npy.")
 
-    Y_memmap = np.memmap(path_to_result + sep + "Y.npy", dtype=np.int, mode="write", shape=12986236)
+    Y_memmap = np.memmap(path_to_result + sep + "Y.npy", dtype=np.int, mode="write", shape=12986236 - to_be_skipped)
     Y_memmap[:] = Y[:]
     del Y_memmap
 
@@ -331,5 +355,7 @@ if __name__ == "__main__":
     # normalizer = load_normalizer()
     # normalizer.run(PATH_TO_PRPD_DATA, [TRAIN, TEST], PATH_TO_NORM_DATA)
 
-    convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA)
+    # convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA)
+
+    # convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA, 600000)
 
