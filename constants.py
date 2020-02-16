@@ -192,3 +192,8 @@ FILES_WITH_RESULTS = [
     "SQL_Injection/SQL_Injection_results.csv",
     "SSH-Bruteforce/SSH-Bruteforce_results.csv"
 ]
+
+FULL_TRAIN_SIZE = 12986236
+TRAIN_SIZE = 10388967
+VALIDATION_SIZE = 2597269
+TEST_SIZE = 3246707

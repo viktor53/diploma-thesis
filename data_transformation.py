@@ -5,7 +5,8 @@ import csv
 from os import linesep, sep
 from collections import Counter
 from datetime import datetime
-from constants import PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA, PATH_TO_PRPD_DATA, TRAIN, TEST, CLASSES_MAPPING, PATH_TO_NORM_DATA
+from constants import PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA, PATH_TO_PRPD_DATA, TRAIN, TEST, CLASSES_MAPPING, \
+    PATH_TO_NORM_DATA, TRAIN_SIZE, FULL_TRAIN_SIZE, VALIDATION_SIZE, TEST_SIZE
 from math import isinf, isnan
 from functools import partial
 
@@ -226,8 +227,8 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
 
     logging.info("Initializing numpy arrays.")
 
-    data = np.zeros((12986236 - to_be_skipped, 70), dtype=np.float)
-    labels = np.zeros(12986236 - to_be_skipped, dtype=np.int)
+    data = np.zeros((10388967 - to_be_skipped, 70), dtype=np.float)
+    labels = np.zeros(10388967 - to_be_skipped, dtype=np.int)
 
     logging.info("Starting to read the dataset.")
 
@@ -280,7 +281,7 @@ def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int =
 
     logging.info("Storing X into memmap X.npy.")
 
-    X_memmap = np.memmap(path_to_result + sep + "X.npy", dtype=np.float32, mode="write", shape=(12986236 - to_be_skipped, 70))
+    X_memmap = np.memmap(path_to_result + sep + "X.npy", dtype=np.float32, mode="write", shape=(10388967 - to_be_skipped, 70))
     X_memmap[:] = X[:]
     del X_memmap
 
@@ -289,13 +290,30 @@ def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int =
     logging.info("Storing X is completed.")
     logging.info("Storing Y into memmap Y.npy.")
 
-    Y_memmap = np.memmap(path_to_result + sep + "Y.npy", dtype=np.int, mode="write", shape=12986236 - to_be_skipped)
+    Y_memmap = np.memmap(path_to_result + sep + "Y.npy", dtype=np.int, mode="write", shape=10388967 - to_be_skipped)
     Y_memmap[:] = Y[:]
     del Y_memmap
 
     del Y
 
     logging.info("Storing Y is completed.")
+
+
+def create_labels_for_each_class_separately(path_to_data: str, type: str, size: int):
+    for cls in range(0, 15):
+        logging.info("Processing class: {}".format(cls))
+        y_old = np.memmap(path_to_data + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
+        y_new = np.memmap(path_to_data + sep + type + sep + "Y_{}_cls_{}.npy".format(type, cls), dtype=np.int, mode="write", shape=size)
+
+        for i in range(size):
+            if y_old[i] == cls:
+                y_new[i] = 1
+            else:
+                y_new[i] = 0
+
+        del y_new
+
+        logging.info("Processing is completed.")
 
 
 def normalize(value: float, mean: float, std: float, digit=4) -> float:
@@ -355,7 +373,11 @@ if __name__ == "__main__":
     # normalizer = load_normalizer()
     # normalizer.run(PATH_TO_PRPD_DATA, [TRAIN, TEST], PATH_TO_NORM_DATA)
 
-    # convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA)
+    # convert_to_npy(PATH_TO_NORM_DATA + sep + "train.csv", PATH_TO_NORM_DATA)
 
     # convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA, 600000)
 
+    # split_train_test(PATH_TO_NORM_DATA, ["train_full.csv"], PATH_TO_NORM_DATA)
+
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "train", TRAIN_SIZE)
+    create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "validation", VALIDATION_SIZE)

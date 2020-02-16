@@ -152,10 +152,11 @@
 
 ![pie chart](graphs/classes_ratio.png)
 
-**Train/test split:**
+**Train/test/validation split:**
 
-* train dataset contains 80% of data
-* test dataset contains 20% of data
+* full train dataset contains 80% of data (12 986 236 rows)
+* test dataset contains 20% of data (3 246 707 rows)
+* full train was split on train (80%, 10 388 967) and validation (20%, 2 597 269 rows)
 * train classes ratio is same as for whole dataset:
 ![pie chart](graphs/train_classes_ratio.png)
 * test classes ratio is same as for whole dataset:
@@ -178,7 +179,46 @@
 
 **data visualization:**
 
-![pie chart](graphs/PCA.png)
+![pie chart](graphs/visualization/PCA.png)
 
-![pie chart](graphs/PCA_zoom.png)
+![pie chart](graphs/visualization/PCA_zoom.png)
+
+ANOVA (features), Cross Validace (porovnani modelu), Confusion Matrix
+
+**logistic regression for feature selection:**
+* for each one logistic regression was trained
+* because of unbalanced classes attack detection was not very good
+* that's why classes weights needs to be specified
+* classes and weights based on classes occurrences:
+    * Benign - (2.95339791, 0.60189949)
+    * Bot - (0.50897327, 28.36051463)
+    * Brute Force -Web - (5.00006882e-01, 3.63250594e+04)
+    * Brute Force -XSS - (5.00018626e-01, 1.34224380e+04)
+    * DDOS attack-HOIC - (0.52206274, 11.83132367)
+    * DDOS attack-LOIC-UDP - (5.00053187e-01, 4.70089005e+03)
+    * DDoS attacks-LOIC-HTTP - (0.51840077, 14.08639111)
+    * DoS attacks-GoldenEye - (0.5012817, 195.55334488)
+    * DoS attacks-Hulk - (0.51464435, 17.5714293)
+    * DoS attacks-SlowHTTPTest - (0.50434616, 58.02206622)
+    * DoS attacks-Slowloris - (5.00338617e-01, 7.38797255e+02)
+    * FTP-BruteForce - (0.50602754, 41.97630265)
+    * Infilteration - (0.50503736, 50.12915694)
+    * SQL Injection - (5.00002503e-01, 9.98939135e+04)
+    * SSH-Bruteforce - (0.50584556, 43.26753155)
+* the best found weights:
+    * Benign - (2.95339791, 0.60189949 * 3)
+    * Bot - (0.50897327 * 3.3113, 28.36051463)
+    * Brute Force -Web - (5.00006882e-01 * 3, 3.63250594e+04)
+    * Brute Force -XSS - (5.00018626e-01 * 1.5, 1.34224380e+04)
+    * DDOS attack-HOIC - (0.52206274 * 7., 11.83132367)
+    * DDOS attack-LOIC-UDP - (5.00053187e-01, 4.70089005e+03)
+    * DDoS attacks-LOIC-HTTP - (0.51840077 * 1.7625, 14.08639111)
+    * DoS attacks-GoldenEye - (0.5012817 * 2.6647, 195.55334488)
+    * DoS attacks-Hulk - (0.51464435 * 3.65, 17.5714293)
+    * DoS attacks-SlowHTTPTest - (0.50434616 * 6.5, 58.02206622)
+    * DoS attacks-Slowloris - (5.00338617e-01 * 1.65, 7.38797255e+02)
+    * FTP-BruteForce - (0.50602754 * 4.6, 41.97630265)
+    * Infilteration - (0.50503736 * 1.25, 50.12915694)
+    * SQL Injection - (5.00002503e-01 * 1.75, 9.98939135e+04)
+    * SSH-Bruteforce - (0.50584556 * 7.78, 43.26753155)
 
