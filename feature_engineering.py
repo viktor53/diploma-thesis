@@ -1,13 +1,16 @@
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.svm import SVC
 from sklearn.inspection import permutation_importance
-from sklearn.linear_model import LogisticRegression, SGDClassifier, LassoCV
+from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.metrics import confusion_matrix, hinge_loss, accuracy_score, recall_score, f1_score, precision_score
+from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score, precision_score
 from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.model_selection import cross_validate
+from scipy.stats import ttest_ind
 import matplotlib.pyplot as plt
 import seaborn as snb
 from collections import Counter
-from constants import PATH_TO_NORM_DATA, CLASSES, TRAIN_SIZE, VALIDATION_SIZE
+from constants import PATH_TO_NORM_DATA, CLASSES, FULL_TRAIN_SIZE, TRAIN_SIZE, VALIDATION_SIZE, SMALL_TRAIN_SIZE, SMALLEST_TRAIN_SIZE
 from os import sep
 import logging
 import numpy as np
@@ -43,11 +46,13 @@ def load_header() -> List[str]:
 def load_full_train_npy() -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading full train dataset.")
 
-    logging.info("Loading X with shape (12986236, 70).")
-    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "X_train_full.npy", dtype=np.float32, mode="c", shape=(12986236, 70))
+    logging.info("Loading X with shape ({}, 70).".format(FULL_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "X_train_full.npy", dtype=np.float32, mode="c",
+                         shape=(FULL_TRAIN_SIZE, 70))
 
-    logging.info("Loading Y with shape (12986236,).")
-    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "Y_train_full.npy", dtype=np.int, mode="c", shape=12986236)
+    logging.info("Loading Y with shape ({},).".format(FULL_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "Y_train_full.npy", dtype=np.int, mode="c",
+                         shape=FULL_TRAIN_SIZE)
 
     logging.info("Loading is completed.")
 
@@ -57,11 +62,13 @@ def load_full_train_npy() -> Tuple[np.memmap, np.memmap]:
 def load_train_npy() -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading train dataset.")
 
-    logging.info("Loading X with shape (10388967, 70).")
-    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "X_train.npy", dtype=np.float32, mode="c", shape=(10388967, 70))
+    logging.info("Loading X with shape ({}, 70).".format(TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "X_train.npy", dtype=np.float32, mode="c",
+                         shape=(TRAIN_SIZE, 70))
 
-    logging.info("Loading Y with shape (10388967,).")
-    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "Y_train.npy", dtype=np.int, mode="c", shape=10388967)
+    logging.info("Loading Y with shape ({},).".format(TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "Y_train.npy", dtype=np.int, mode="c",
+                         shape=TRAIN_SIZE)
 
     logging.info("Loading is completed.")
 
@@ -71,13 +78,77 @@ def load_train_npy() -> Tuple[np.memmap, np.memmap]:
 def load_train_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading train dataset.")
 
-    logging.info("Loading X with shape (10388967, 70).")
+    logging.info("Loading X with shape ({}, 70).".format(TRAIN_SIZE))
     X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "X_train.npy", dtype=np.float32,
-                         mode="c", shape=(10388967, 70))
+                         mode="c", shape=(TRAIN_SIZE, 70))
 
-    logging.info("Loading Y with shape (10388967,).")
+    logging.info("Loading Y with shape ({},).".format(TRAIN_SIZE))
     Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "train" + sep + "Y_train_cls_{}.npy".format(cls),
-                         dtype=np.int, mode="c", shape=10388967)
+                         dtype=np.int, mode="c", shape=TRAIN_SIZE)
+
+    logging.info("Loading is completed.")
+
+    return X_memmap, Y_memmap
+
+
+def load_small_train_npy() -> Tuple[np.memmap, np.memmap]:
+    logging.info("Loading small train dataset.")
+
+    logging.info("Loading X with shape ({}, 70).".format(SMALL_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "X_small_train.npy", dtype=np.float32, mode="c",
+                         shape=(SMALL_TRAIN_SIZE, 70))
+
+    logging.info("Loading Y with shape ({},).".format(SMALL_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "Y_small_train.npy", dtype=np.int, mode="c",
+                         shape=SMALL_TRAIN_SIZE)
+
+    logging.info("Loading is completed.")
+
+    return X_memmap, Y_memmap
+
+
+def load_small_train_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
+    logging.info("Loading small train dataset.")
+
+    logging.info("Loading X with shape ({}, 70).".format(SMALL_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "X_small_train.npy", dtype=np.float32,
+                         mode="c", shape=(SMALL_TRAIN_SIZE, 70))
+
+    logging.info("Loading Y with shape ({},).".format(SMALL_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "Y_small_train_cls_{}.npy".format(cls),
+                         dtype=np.int, mode="c", shape=SMALL_TRAIN_SIZE)
+
+    logging.info("Loading is completed.")
+
+    return X_memmap, Y_memmap
+
+
+def load_smallest_train_npy() -> Tuple[np.memmap, np.memmap]:
+    logging.info("Loading smallest train dataset.")
+
+    logging.info("Loading X with shape ({}, 70).".format(SMALLEST_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "X_smaller_small_train.npy", dtype=np.float32, mode="c",
+                         shape=(SMALLEST_TRAIN_SIZE, 70))
+
+    logging.info("Loading Y with shape ({},).".format(SMALLEST_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "Y_smaller_small_train.npy", dtype=np.int, mode="c",
+                         shape=SMALLEST_TRAIN_SIZE)
+
+    logging.info("Loading is completed.")
+
+    return X_memmap, Y_memmap
+
+
+def load_smallest_train_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
+    logging.info("Loading smallest train dataset.")
+
+    logging.info("Loading X with shape ({}, 70).".format(SMALLEST_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "X_smaller_small_train.npy", dtype=np.float32,
+                         mode="c", shape=(SMALLEST_TRAIN_SIZE, 70))
+
+    logging.info("Loading Y with shape ({},).".format(SMALLEST_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "small_train" + sep + "Y_smaller_small_train_cls_{}.npy".format(cls),
+                         dtype=np.int, mode="c", shape=SMALLEST_TRAIN_SIZE)
 
     logging.info("Loading is completed.")
 
@@ -87,11 +158,13 @@ def load_train_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
 def load_validation_npy() -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading validation dataset.")
 
-    logging.info("Loading X with shape (2597269, 70).")
-    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "X_validation.npy", dtype=np.float32, mode="c", shape=(2597269, 70))
+    logging.info("Loading X with shape ({}, 70).".format(VALIDATION_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "X_validation.npy", dtype=np.float32, mode="c",
+                         shape=(VALIDATION_SIZE, 70))
 
-    logging.info("Loading Y with shape (2597269,).")
-    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "Y_validation.npy", dtype=np.int, mode="c", shape=2597269)
+    logging.info("Loading Y with shape ({},).".format(VALIDATION_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "Y_validation.npy", dtype=np.int, mode="c",
+                         shape=VALIDATION_SIZE)
 
     logging.info("Loading is completed.")
 
@@ -101,13 +174,13 @@ def load_validation_npy() -> Tuple[np.memmap, np.memmap]:
 def load_validation_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading validation dataset.")
 
-    logging.info("Loading X with shape (2597269, 70).")
+    logging.info("Loading X with shape ({}, 70).".format(VALIDATION_SIZE))
     X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "X_validation.npy", dtype=np.float32,
-                         mode="c", shape=(2597269, 70))
+                         mode="c", shape=(VALIDATION_SIZE, 70))
 
-    logging.info("Loading Y with shape (2597269,).")
+    logging.info("Loading Y with shape ({},).".format(VALIDATION_SIZE))
     Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "validation" + sep + "Y_validation_cls_{}.npy".format(cls),
-                         dtype=np.int, mode="c", shape=2597269)
+                         dtype=np.int, mode="c", shape=VALIDATION_SIZE)
 
     logging.info("Loading is completed.")
 
@@ -157,6 +230,72 @@ def load_random_forest(path_to_stored_model: str) -> RandomForestClassifier:
     logging.info("Loading is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
 
     return rf
+
+
+def train_ada_boost(path_to_stored_model: str, load_train: Callable[[], Tuple[np.memmap, np.memmap]]) -> AdaBoostClassifier:
+    ab = AdaBoostClassifier(base_estimator=DecisionTreeClassifier(max_depth=2, random_state=42), n_estimators=400,
+                            random_state=42)
+
+    X_train, Y_train = load_train()
+
+    logging.info("Running training of Ada Boost with Decision Tree.")
+
+    start = timer()
+    ab.fit(X_train, Y_train)
+    end = timer()
+
+    logging.info("Training is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    logging.info("Storing Ada Boost with Decision Tree model.")
+
+    dump(ab, path_to_stored_model)
+
+    return ab
+
+
+def load_ada_boost(path_to_stored_model: str) -> AdaBoostClassifier:
+    logging.info("Loading Ada Boost with Decision Tree model.")
+
+    start = timer()
+    ab = load(path_to_stored_model)
+    end = timer()
+
+    logging.info("Loading is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    return ab
+
+
+def train_svc(path_to_stored_model: str, load_train: Callable[[], Tuple[np.memmap, np.memmap]],
+              class_weight=None) -> SVC:
+    svc = SVC(kernel='poly', cache_size=256, class_weight=class_weight, random_state=42, verbose=2)
+
+    X_train, Y_train = load_train()
+
+    logging.info("Running training of SVC.")
+
+    start = timer()
+    svc.fit(X_train, Y_train)
+    end = timer()
+
+    logging.info("Training is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    logging.info("Storing SVC model.")
+
+    dump(svc, path_to_stored_model)
+
+    return svc
+
+
+def load_svc(path_to_stored_model: str) -> SVC:
+    logging.info("Loading SVC model.")
+
+    start = timer()
+    svc = load(path_to_stored_model)
+    end = timer()
+
+    logging.info("Loading is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    return svc
 
 
 def train_logistic_regression(path_to_stored_model: str, load_train: Callable[[], Tuple[np.memmap, np.memmap]],
@@ -393,16 +532,11 @@ def plot_permutation_importance(model_with_feature_imp, iter: int = 0):
 
     sorted_idx = result.importances_mean.argsort()
 
-    print(result.importances)
-    print(sorted_idx)
-
     if iter > 0:
         prev = load_array("perm_imp_data_{}.npy".format(iter - 1), shape=(70, 3 * iter))
         next = np.concatenate((prev, result.importances), axis=1)
     else:
         next = result
-
-    print(next)
 
     sorted_idx = np.argsort(np.mean(next, 1))
 
@@ -547,6 +681,73 @@ def plot_anova_feature_importance():
         logging.info("ANOVA is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
 
 
+def run_cross_validation_random_forest(data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cv: int = 5):
+    rf = RandomForestClassifier(class_weight='balanced_subsample', random_state=42, n_jobs=4, verbose=2)
+
+    X, Y = data_loader()
+
+    logging.info("Running cross validation.")
+
+    start = timer()
+    score = cross_validate(rf, X, Y, cv=cv, scoring=['accuracy', 'f1_micro', 'recall_micro'], verbose=2)
+    end = timer()
+
+    logging.info("Cross validation is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    print(score)
+
+    return score
+
+
+def provide_only_best_features(data_loader: Callable[[], Tuple[np.memmap, np.memmap]], number_of_features: int = 10) -> Tuple[np.memmap, np.memmap]:
+    indxs, col_names = get_best_features_log_reg("../best_logistic_regression", number_of_features)
+
+    logging.info("Best features: {}".format(col_names))
+
+    X, Y = data_loader()
+
+    return X[:, indxs], Y
+
+
+def compute_ttest():
+    prev_score_full_features = {
+        'fit_time': np.array([2943.32272077, 2810.41258812, 2756.50586271, 2943.43099523, 2986.7491703]),
+        'score_time': np.array([45.48412991, 53.3169651, 62.14314795, 48.37751126, 48.52916169]),
+        'test_accuracy': np.array([0.94527592, 0.91195485, 0.87010631, 0.93758853, 0.85414441]),
+        'test_f1_micro': np.array([0.94527592, 0.91195485, 0.87010631, 0.93758853, 0.85414441]),
+        'test_recall_micro': np.array([0.94527592, 0.91195485, 0.87010631, 0.93758853, 0.85414441])
+    }
+
+    prev_score_best_features = {
+        'fit_time': np.array([2170.23942494, 2085.08946919, 2021.787848, 2165.93908286, 2131.36453199]),
+        'score_time': np.array([43.75764894, 52.87347794, 56.65368104, 46.0118103, 49.28575397]),
+        'test_accuracy': np.array([0.92114269, 0.84999809, 0.78092804, 0.90400913, 0.80553679]),
+        'test_f1_micro': np.array([0.92114269, 0.84999809, 0.78092804, 0.90400913, 0.80553679]),
+        'test_recall_micro': np.array([0.92114269, 0.84999809, 0.78092804, 0.90400913, 0.80553679])
+    }
+
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(np.var(prev_score_full_features['test_accuracy']),
+                                                                 np.var(prev_score_best_features['test_accuracy'])))
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(np.var(prev_score_full_features['test_f1_micro']),
+                                                                 np.var(prev_score_best_features['test_f1_micro'])))
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(np.var(prev_score_full_features['test_recall_micro']),
+                                                                 np.var(prev_score_best_features['test_recall_micro'])))
+
+    t, prob1 = ttest_ind(prev_score_full_features['test_accuracy'], prev_score_best_features['test_accuracy'], equal_var=False)
+
+    logging.info("ttest p-value for accuracy: {:.4f}".format(prob1))
+
+    t, prob2 = ttest_ind(prev_score_full_features['test_f1_micro'], prev_score_best_features['test_f1_micro'], equal_var=False)
+
+    logging.info("ttest p-value for f1: {:.4f}".format(prob2))
+
+    t, prob3 = ttest_ind(prev_score_full_features['test_recall_micro'], prev_score_best_features['test_recall_micro'], equal_var=False)
+
+    logging.info("ttest p-value for recall: {:.4f}".format(prob3))
+
+    return prob1, prob2, prob3
+
+
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
@@ -574,3 +775,26 @@ if __name__ == "__main__":
     # plot_feature_importance_from_coef(run_anova(load_train_npy), 0)
     # plot_anova_feature_importance()
 
+    # run_cross_validation_random_forest(load_full_train_npy)
+    # run_cross_validation_random_forest(lambda: provide_only_best_features(load_full_train_npy))
+    # compute_ttest()
+
+    # ab = train_ada_boost("../ada_boost_2.joblib", load_small_train_npy)
+    # plot_confusion_matrix(ab, load_validation_npy)
+    # plot_random_forest_feature_imp(ab)
+
+    # svc = train_svc("../svc.joblib", load_smallest_train_npy)
+    # plot_confusion_matrix(svc, load_validation_npy)
+
+    # for cls in [3, 9, 12, 13]:
+    #     svc = train_svc("../svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), 'balanced')
+    #     acc, f1, rec = compute_accuracy(svc, lambda: load_validation_npy_cls(cls))
+    #     plot_binary_confusion_matrix(svc, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
+
+    # cls = 3
+    # weights = get_class_weights(lambda: load_smallest_train_npy_cls(cls), n_classes=2)
+    # weights = [5.00009062e-01, 2.75893000e+04]
+    # class_weights = dict(zip(list(range(0, 2)), weights))
+    # svc = train_svc("../svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), class_weight=class_weights)
+    # acc, f1, rec = compute_accuracy(svc, lambda: load_validation_npy_cls(cls))
+    # plot_binary_confusion_matrix(svc, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)

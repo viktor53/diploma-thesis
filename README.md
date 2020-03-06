@@ -183,8 +183,6 @@
 
 ![pie chart](graphs/visualization/PCA_zoom.png)
 
-ANOVA (features), Cross Validace (porovnani modelu), Confusion Matrix
-
 **logistic regression for feature selection:**
 * for each one logistic regression was trained
 * because of unbalanced classes attack detection was not very good
@@ -221,4 +219,6 @@ ANOVA (features), Cross Validace (porovnani modelu), Confusion Matrix
     * Infilteration - (0.50503736 * 1.25, 50.12915694)
     * SQL Injection - (5.00002503e-01 * 1.75, 9.98939135e+04)
     * SSH-Bruteforce - (0.50584556 * 7.78, 43.26753155)
+   
+
 

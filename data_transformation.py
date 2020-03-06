@@ -6,8 +6,8 @@ from os import linesep, sep
 from collections import Counter
 from datetime import datetime
 from constants import PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA, PATH_TO_PRPD_DATA, TRAIN, TEST, CLASSES_MAPPING, \
-    PATH_TO_NORM_DATA, TRAIN_SIZE, FULL_TRAIN_SIZE, VALIDATION_SIZE, TEST_SIZE
-from math import isinf, isnan
+    PATH_TO_NORM_DATA, TRAIN_SIZE, FULL_TRAIN_SIZE, VALIDATION_SIZE, TEST_SIZE, SMALL_TRAIN_SIZE
+from math import isinf, isnan, floor, ceil
 from functools import partial
 
 
@@ -217,7 +217,7 @@ def check_time(path_to_data: str, files: List[str]):
 
 
 def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray]:
-    all_negatives = 10787690
+    all_negatives = 8630151
     to_be_skipped = 0
 
     if number_of_negatives is not None:
@@ -269,7 +269,7 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
 
 
 def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int = None):
-    all_negatives = 10787690
+    all_negatives = 8630151
     to_be_skipped = 0
 
     if number_of_negatives is not None:
@@ -345,6 +345,55 @@ def load_normalizer() -> Transformer:
     return normalizer
 
 
+def select_samples(path_to_data: str, type: str, ratio: float, size: int, number_of_negatives: int = 1000000) -> int:
+    y_old = np.memmap(path_to_data + sep + type + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
+
+    logging.info("Counting classes.")
+
+    cls_counts = Counter()
+    for cls in y_old:
+        cls_counts.update([cls])
+
+    cls_steps = dict()
+    cntr_steps = dict()
+    for cls in range(15):
+        if cls == 0 and cls_counts[0] >= number_of_negatives:
+            final_counts = ceil(number_of_negatives * ratio)
+        else:
+            final_counts = ceil(cls_counts[cls] * ratio)
+
+        final_counts = 10 if final_counts < 10 else final_counts
+        cls_steps[cls] = floor(cls_counts[cls] / final_counts)
+        cls_counts[cls] = int(final_counts)
+        cntr_steps[cls] = 0
+
+    x_old = np.memmap(path_to_data + sep + type + sep + "X_{}.npy".format(type), dtype=np.float32, mode="r", shape=(size, 70))
+
+    new_size = sum(cls_counts.values())
+
+    logging.info("New size of dataset is: {}".format(new_size))
+    logging.info("Ratio classes is (in order 0,1,2...): {}".format(",".join([str(x) for _, x in cls_counts.items()])))
+
+    y_new = np.memmap(path_to_data + sep + type + sep + "Y_smaller_{}.npy".format(type), dtype=np.int, mode="write", shape=new_size)
+    x_new = np.memmap(path_to_data + sep + type + sep + "X_smaller_{}.npy".format(type), dtype=np.float32, mode="write", shape=(new_size, 70))
+
+    logging.info("Creating dataset.")
+
+    i_new = 0
+    for i in range(size):
+        if cntr_steps[y_old[i]] % cls_steps[y_old[i]] == 0 and cntr_steps[y_old[i]] < cls_counts[y_old[i]]:
+            y_new[i_new] = y_old[i]
+            x_new[i_new] = x_old[i]
+
+            i_new += 1
+
+        cntr_steps[y_old[i]] += 1
+
+    logging.info("Dataset is completed.")
+
+    return new_size
+
+
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
@@ -380,4 +429,10 @@ if __name__ == "__main__":
     # split_train_test(PATH_TO_NORM_DATA, ["train_full.csv"], PATH_TO_NORM_DATA)
 
     # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "train", TRAIN_SIZE)
-    create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "validation", VALIDATION_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "validation", VALIDATION_SIZE)
+
+    # convert_to_npy(PATH_TO_NORM_DATA + sep + "train.csv", PATH_TO_NORM_DATA, 1000000)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", SMALL_TRAIN_SIZE)
+
+    size = select_samples(PATH_TO_NORM_DATA, "small_train", 0.3, SMALL_TRAIN_SIZE, number_of_negatives=1000000)
+    create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", size)
