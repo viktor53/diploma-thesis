@@ -302,7 +302,7 @@ def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int =
 def create_labels_for_each_class_separately(path_to_data: str, type: str, size: int):
     for cls in range(0, 15):
         logging.info("Processing class: {}".format(cls))
-        y_old = np.memmap(path_to_data + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
+        y_old = np.memmap(path_to_data + sep + type + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
         y_new = np.memmap(path_to_data + sep + type + sep + "Y_{}_cls_{}.npy".format(type, cls), dtype=np.int, mode="write", shape=size)
 
         for i in range(size):
@@ -434,5 +434,6 @@ if __name__ == "__main__":
     # convert_to_npy(PATH_TO_NORM_DATA + sep + "train.csv", PATH_TO_NORM_DATA, 1000000)
     # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", SMALL_TRAIN_SIZE)
 
-    size = select_samples(PATH_TO_NORM_DATA, "small_train", 0.3, SMALL_TRAIN_SIZE, number_of_negatives=1000000)
-    create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", size)
+    # size = select_samples(PATH_TO_NORM_DATA, "small_train", 0.3, SMALL_TRAIN_SIZE, number_of_negatives=1000000)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", size)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "full_train", FULL_TRAIN_SIZE)

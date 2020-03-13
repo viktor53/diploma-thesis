@@ -14,7 +14,7 @@ from constants import PATH_TO_NORM_DATA, CLASSES, FULL_TRAIN_SIZE, TRAIN_SIZE, V
 from os import sep
 import logging
 import numpy as np
-from typing import List, Tuple, Callable
+from typing import List, Tuple, Callable, Dict
 from timeit import default_timer as timer
 from joblib import dump, load
 
@@ -47,11 +47,27 @@ def load_full_train_npy() -> Tuple[np.memmap, np.memmap]:
     logging.info("Loading full train dataset.")
 
     logging.info("Loading X with shape ({}, 70).".format(FULL_TRAIN_SIZE))
-    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "X_train_full.npy", dtype=np.float32, mode="c",
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "full_train" + sep + "X_full_train.npy", dtype=np.float32, mode="c",
                          shape=(FULL_TRAIN_SIZE, 70))
 
     logging.info("Loading Y with shape ({},).".format(FULL_TRAIN_SIZE))
-    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "Y_train_full.npy", dtype=np.int, mode="c",
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "full_train" + sep + "Y_full_train.npy", dtype=np.int, mode="c",
+                         shape=FULL_TRAIN_SIZE)
+
+    logging.info("Loading is completed.")
+
+    return X_memmap, Y_memmap
+
+
+def load_full_train_npy_cls(cls: int) -> Tuple[np.memmap, np.memmap]:
+    logging.info("Loading full train dataset.")
+
+    logging.info("Loading X with shape ({}, 70).".format(FULL_TRAIN_SIZE))
+    X_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "full_train" + sep + "X_full_train.npy", dtype=np.float32, mode="c",
+                         shape=(FULL_TRAIN_SIZE, 70))
+
+    logging.info("Loading Y with shape ({},).".format(FULL_TRAIN_SIZE))
+    Y_memmap = np.memmap(PATH_TO_NORM_DATA + sep + "full_train" + sep + "Y_full_train_cls_{}.npy".format(cls), dtype=np.int, mode="c",
                          shape=FULL_TRAIN_SIZE)
 
     logging.info("Loading is completed.")
@@ -201,7 +217,7 @@ def load_array(name: str, shape: Tuple[int, int]) -> np.ndarray:
 
 def train_random_forest(path_to_stored_model: str, load_train: Callable[[], Tuple[np.memmap, np.memmap]],
                         class_weight=None) -> RandomForestClassifier:
-    rf = RandomForestClassifier(class_weight=class_weight, random_state=42, n_jobs=4, verbose=1)
+    rf = RandomForestClassifier(class_weight=class_weight, n_estimators=200, random_state=42, n_jobs=3, verbose=1)
 
     X_train, Y_train = load_train()
 
@@ -336,7 +352,7 @@ def load_logistic_regression(path_to_stored_model: str) -> LogisticRegression:
 
 def train_decision_tree(path_to_stored_model: str, load_train: Callable[[], Tuple[np.memmap, np.memmap]],
                         class_weight=None) -> DecisionTreeClassifier:
-    dt = DecisionTreeClassifier(class_weight=class_weight, random_state=42)
+    dt = DecisionTreeClassifier(criterion="gini", class_weight=class_weight, random_state=42)
 
     X_train, Y_train = load_train()
 
@@ -369,7 +385,7 @@ def load_decision_tree(path_to_stored_model: str) -> DecisionTreeClassifier:
     return dt
 
 
-def compute_accuracy(model, load_data: Callable[[], Tuple[np.memmap, np.memmap]], number_of_classes: int = 1) -> Tuple[float, float, float]:
+def compute_accuracy(model, load_data: Callable[[], Tuple[np.memmap, np.memmap]], number_of_classes: int = 1) -> Tuple[float, float, float, np.ndarray]:
     X_data, Y_true = load_data()
 
     logging.info("Computing accuracy.")
@@ -392,21 +408,13 @@ def compute_accuracy(model, load_data: Callable[[], Tuple[np.memmap, np.memmap]]
 
     logging.info("Accuracy: {:.2f}%, F1 Score: {:.2f}, Recall: {:.2f} Precision: {:.2f} (Took {:.2f} minutes)".format(acc * 100, f1, rec, prec, (end - start) / 60.))
 
-    return acc, f1, rec
+    return acc, f1, rec, Y_predict
 
 
 def plot_confusion_matrix(model, data_loader: Callable[[], Tuple[np.memmap, np.memmap]]):
     x, y = data_loader()
 
-    acc, f1, rec = compute_accuracy(model, data_loader, 14)
-
-    logging.info("Predicting.")
-
-    start = timer()
-    y_pred = model.predict(x)
-    end = timer()
-
-    logging.info("Predicting is completed. (Took {:.2f} minutes)".format((end - start) / 60))
+    acc, f1, rec, y_pred = compute_accuracy(model, data_loader, 14)
 
     matrix = confusion_matrix(y, y_pred, normalize='true')
 
@@ -428,17 +436,9 @@ def plot_confusion_matrix(model, data_loader: Callable[[], Tuple[np.memmap, np.m
     logging.info("Plotting is completed.")
 
 
-def plot_binary_confusion_matrix(model, data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cls: int,
+def plot_binary_confusion_matrix(y_pred: np.ndarray, data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cls: int,
                                  acc: float, f1: float, recall: float):
-    x, y = data_loader()
-
-    logging.info("Predicting.")
-
-    start = timer()
-    y_pred = model.predict(x)
-    end = timer()
-
-    logging.info("Predicting is completed. (Took {:.2f} minutes)".format((end - start) / 60))
+    _, y = data_loader()
 
     matrix = confusion_matrix(y, y_pred, normalize='true')
 
@@ -582,8 +582,8 @@ def train_logistic_regression_for_each_class():
         class_weights = get_class_weights(lambda: load_train_npy_cls(cls), n_classes=2)
         class_weights_dict = dict(zip(list(range(0, 2)), class_weights))
         lr = train_logistic_regression(path_to_model.format(cls), lambda: load_train_npy_cls(cls), class_weights_dict)
-        acc, f1, rec = compute_accuracy(lr, lambda: load_validation_npy_cls(cls))
-        plot_binary_confusion_matrix(lr, lambda: load_train_npy_cls(cls), cls, acc, f1, rec)
+        acc, f1, rec, y_pred = compute_accuracy(lr, lambda: load_validation_npy_cls(cls))
+        plot_binary_confusion_matrix(y_pred, lambda: load_train_npy_cls(cls), cls, acc, f1, rec)
 
 
 def log_reg_feature_importance(path_to_model: str):
@@ -606,7 +606,7 @@ def get_best_features_log_reg(path_to_model: str, number_of_features: int) -> Tu
         imps = np.abs(lr.coef_[0])
         sorted_idx = np.argsort(imps)
 
-        result = result.union(sorted_idx[:number_of_features])
+        result = result.union(sorted_idx[-number_of_features:])
 
     header = np.array(load_header())
 
@@ -616,6 +616,18 @@ def get_best_features_log_reg(path_to_model: str, number_of_features: int) -> Tu
     columns_names = header[indexes]
 
     return indexes, columns_names
+
+
+def get_best_features_decision_tree(path_to_model: str, number_of_features: int) -> Tuple[np.ndarray, np.ndarray]:
+    logging.info("Extracting most important features from decision tree.")
+
+    dt = load_decision_tree(path_to_model)
+
+    features = dt.feature_importances_.argsort()
+    header = np.array(load_header())
+    header = header[features]
+
+    return features[-number_of_features:], header[-number_of_features:]
 
 
 def logistic_regression_predict(path_to_model: str, x: np.ndarray) -> np.ndarray:
@@ -681,32 +693,43 @@ def plot_anova_feature_importance():
         logging.info("ANOVA is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
 
 
-def run_cross_validation_random_forest(data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cv: int = 5):
-    rf = RandomForestClassifier(class_weight='balanced_subsample', random_state=42, n_jobs=4, verbose=2)
-
+def run_cross_validation(model, data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cv: int = 5) -> Dict:
     X, Y = data_loader()
 
     logging.info("Running cross validation.")
 
     start = timer()
-    score = cross_validate(rf, X, Y, cv=cv, scoring=['accuracy', 'f1_micro', 'recall_micro'], verbose=2)
+    score = cross_validate(model, X, Y, cv=cv, scoring=['accuracy', 'f1_micro', 'recall_micro'], verbose=2)
     end = timer()
 
     logging.info("Cross validation is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
 
-    print(score)
+    logging.info("Accuracy: {}".format(score['test_accuracy']))
+    logging.info("F1 Score: {}".format(score['test_f1_micro']))
+    logging.info("Recall: {}".format(score['test_recall_micro']))
 
     return score
 
 
-def provide_only_best_features(data_loader: Callable[[], Tuple[np.memmap, np.memmap]], number_of_features: int = 10) -> Tuple[np.memmap, np.memmap]:
-    indxs, col_names = get_best_features_log_reg("../best_logistic_regression", number_of_features)
+def provide_only_best_features(data_loader: Callable[[], Tuple[np.memmap, np.memmap]],
+                               feature_loader: Callable[[int], Tuple[np.ndarray, np.ndarray]],
+                               number_of_features: int = 10) -> Tuple[np.memmap, np.memmap]:
+    indxs, col_names = feature_loader(number_of_features)
 
-    logging.info("Best features: {}".format(col_names))
+    logging.info("Best features names: {}".format(col_names))
+    logging.info("Best features indexes: {}".format(indxs))
 
     X, Y = data_loader()
 
     return X[:, indxs], Y
+
+
+def provide_only_best_features_tree(data_loader: Callable[[], Tuple[np.memmap, np.memmap]], cls: int,
+                                    number_of_features: int) -> Tuple[np.memmap, np.memmap]:
+    path_to_model = "../decision_tree_cls_{}.joblib".format(cls)
+
+    return provide_only_best_features(data_loader, lambda n: get_best_features_decision_tree(path_to_model, n),
+                                      number_of_features)
 
 
 def compute_ttest():
@@ -742,6 +765,43 @@ def compute_ttest():
     logging.info("ttest p-value for f1: {:.4f}".format(prob2))
 
     t, prob3 = ttest_ind(prev_score_full_features['test_recall_micro'], prev_score_best_features['test_recall_micro'], equal_var=False)
+
+    logging.info("ttest p-value for recall: {:.4f}".format(prob3))
+
+    return prob1, prob2, prob3
+
+
+def compute_ttest_for_models(result_1: Dict, result_2: Dict):
+    var_1 = np.var(result_1['test_accuracy'])
+    var_2 = np.var(result_2['test_accuracy'])
+    var1_equal = var_1 == var_2
+
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(var_1, var_2))
+
+    var_1 = np.var(result_1['test_f1_micro'])
+    var_2 = np.var(result_2['test_f1_micro'])
+    var2_equal = var_1 == var_2
+
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(var_1, var_2))
+
+    var_1 = np.var(result_1['test_recall_micro'])
+    var_2 = np.var(result_2['test_recall_micro'])
+    var3_equal = var_1 == var_2
+
+    logging.info("Variance_1: {:.4f}, Variance_2: {:.4f}".format(var_1, var_2))
+
+    t, prob1 = ttest_ind(result_1['test_accuracy'], result_2['test_accuracy'],
+                         equal_var=var1_equal)
+
+    logging.info("ttest p-value for accuracy: {:.4f}".format(prob1))
+
+    t, prob2 = ttest_ind(result_1['test_f1_micro'], result_2['test_f1_micro'],
+                         equal_var=var2_equal)
+
+    logging.info("ttest p-value for f1: {:.4f}".format(prob2))
+
+    t, prob3 = ttest_ind(result_1['test_recall_micro'], result_2['test_recall_micro'],
+                         equal_var=var3_equal)
 
     logging.info("ttest p-value for recall: {:.4f}".format(prob3))
 
@@ -798,3 +858,23 @@ if __name__ == "__main__":
     # svc = train_svc("../svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), class_weight=class_weights)
     # acc, f1, rec = compute_accuracy(svc, lambda: load_validation_npy_cls(cls))
     # plot_binary_confusion_matrix(svc, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
+
+    cls = 0
+    # weights = get_class_weights(lambda: load_train_npy_cls(cls), n_classes=2)
+    # weights = [5.00002503e-01, 9.98939135e+04 * 0.5]
+    # class_weights = dict(zip(list(range(0, 2)), weights))
+    class_weights = None
+    is_cross_val = True
+    if not is_cross_val:
+        # model = train_random_forest("../random_forest_cls_{}.joblib".format(cls), lambda: load_train_npy_cls(cls), class_weights)
+        model = train_decision_tree("../decision_tree_cls_{}.joblib".format(cls), lambda: load_train_npy_cls(cls), class_weights)
+        # model = load_decision_tree("../decision_tree_cls_{}.joblib".format(cls))
+        acc, f1, rec, y_pred = compute_accuracy(model, lambda: load_validation_npy_cls(cls))
+        plot_binary_confusion_matrix(y_pred, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
+        plot_feature_importance_from_coef(model.feature_importances_, cls)
+    else:
+        result_1 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weights), lambda: load_full_train_npy_cls(cls), cv=5)
+        result_2 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weights),
+                                        lambda: provide_only_best_features_tree(lambda: load_full_train_npy_cls(cls), cls, 25), cv=5)
+        compute_ttest_for_models(result_1, result_2)
+
