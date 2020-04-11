@@ -121,7 +121,7 @@ def get_number_of_class(cls: str) -> int:
         return -1
 
 
-def plot_boxplot(path_to_data: str, files: List[str], column: int):
+def plot_boxplot(path_to_data: str, files: List[str], column: int, take_log: bool = False):
     plt.style.use('seaborn-whitegrid')
     data = []
     header = []
@@ -143,6 +143,10 @@ def plot_boxplot(path_to_data: str, files: List[str], column: int):
                     split_line = line[:-1].split(",")
 
                     value = float(split_line[column])
+
+                    if take_log:
+                        value = math.log(value + 1)
+
                     if value is not None and not math.isnan(value) and not math.isinf(value):
                         data[get_number_of_class(split_line[-1])].append(value)
 
@@ -155,11 +159,19 @@ def plot_boxplot(path_to_data: str, files: List[str], column: int):
     ax.boxplot(data)
     plt.title(header[column])
     plt.xlabel("classes")
-    plt.ylabel("value")
+
+    if take_log:
+        plt.ylabel("log value")
+    else:
+        plt.ylabel("value")
+
     plt.gca().set_position((.1, .3, .6, .6))
     plt.figtext(.75, .4, "\n".join(["{} - {}".format(i + 1, cls) for i, cls in enumerate(CLASSES)]))
 
-    plt.savefig("box_plots/" + header[column].replace(" ", "_").replace("/", "_over_") + ".png", dpi=300)
+    if take_log:
+        plt.savefig("box_plots_log/" + header[column].replace(" ", "_").replace("/", "_over_") + ".png", dpi=300)
+    else:
+        plt.savefig("box_plots/" + header[column].replace(" ", "_").replace("/", "_over_") + ".png", dpi=300)
 
     plt.close('all')
 
@@ -175,9 +187,17 @@ def plot_boxplot_for_all():
             plot_boxplot(PATH_TO_DATA, SPLIT_FILES, i)
 
 
+def plot_boxplot_log():
+    skip = [1, 2, 3, 18, 20, 21, 22, 23, 25, 26, 32, 33, 34, 35, 45, 46, 47, 48, 49, 50, 51, 52, 57, 58, 59, 60, 61, 62, 67, 68, 79]
+    for i in range(80):
+        if i not in skip:
+            plot_boxplot(PATH_TO_DATA, SPLIT_FILES, i, take_log=True)
+
+
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
     # plot_classes_ratio("statistics/classes_results.csv")
     # plot_comparison("statistics/comparison_results.csv")
-    plot_boxplot_for_all()
+    #plot_boxplot_for_all()
+    plot_boxplot_log()

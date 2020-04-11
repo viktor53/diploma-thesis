@@ -638,4 +638,4 @@ if __name__ == "__main__":
 
     # run_analysis_for_all_classes()
 
-    join_analysis_results(FILES_WITH_RESULTS, "results.csv")
+    # join_analysis_results(FILES_WITH_RESULTS, "results.csv")

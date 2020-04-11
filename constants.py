@@ -8,6 +8,8 @@ PREPARED_DATA_DIR = "prepared_data"
 
 NORMALIZED_DATA_DIR = "normalized_data"
 
+LOG_NORMALIZED_DATA_DIR = "log_normalized_data"
+
 CONF_DIR = "conf"
 
 PATH_TO_DATA = ".." + sep + DATA_DIR
@@ -18,9 +20,15 @@ PATH_TO_PRPD_DATA = ".." + sep + PREPARED_DATA_DIR
 
 PATH_TO_NORM_DATA = ".." + sep + NORMALIZED_DATA_DIR
 
+PATH_TO_LOG_NORM_DATA = ".." + sep + LOG_NORMALIZED_DATA_DIR
+
 TRAIN = "train.csv"
 
 TEST = "test.csv"
+
+VALIDATION = "validation.csv"
+
+FULL_TRAIN = "full_train.csv"
 
 ALL_ORIGINAL_FILES = [
      "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",

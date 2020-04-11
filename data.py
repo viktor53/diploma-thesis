@@ -1,5 +1,5 @@
 from typing import List, Iterable, Dict, Set, Callable
-from os import sep
+from os import sep, system
 from functools import partial
 import logging
 import csv
@@ -113,3 +113,12 @@ class Dataset:
         iterators.append(partial(self._raw_data_without_header, self._files_names[(workers - 1) * partition_size:]))
 
         return iterators
+
+
+if __name__ == "__main__":
+    # list aws
+    # system("aws s3 ls --no-sign-request --region eu-central-1 \"s3://cse-cic-ids2018/\" --recursive --human-readable --summarize")
+
+    # download dataset
+    # system("aws s3 cp --no-sign-request --region eu-central-1 \"s3://cse-cic-ids2018/Processed Traffic Data for ML Algorithms\" ../data_csv/ --recursive")
+    pass

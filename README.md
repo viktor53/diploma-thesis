@@ -229,19 +229,19 @@
       'URG Flag Cnt', 'Bwd IAT Max', 'Bwd IAT Min', 'Fwd IAT Mean', 'Init Bwd Win Byts',
       'Fwd Pkts/s', 'Fwd Header Len', 'Flow Duration', 'Bwd Seg Size Avg', 'Fwd IAT Std',
       'Bwd Pkt Len Mean', 'Fwd Seg Size Min', 'Init Fwd Win Byts', 'Dst Port', 'Subflow Fwd Byts'
-    * features indexes - 69, 21, 28, 27, 45, 63, 16, 7, 36, 26, 47, 29, 30, 22,
+    * 25 features indexes - 69, 21, 28, 27, 45, 63, 16, 7, 36, 26, 47, 29, 30, 22,
       59, 35, 33, 2, 53, 23, 13, 61, 58, 0, 55
     * t-test p-value - 0.5310
 * class Bot
     * weights - (1., 1.)
     * best features and only features - 'Bwd Pkt Len Mean', 'Dst Port'
-    * features indexes - 13, 0
+    * 2 features indexes - 13, 0
     * t-test p-value - 0.3764
 * class Brute Force -Web
     * weights - (5.00006882e-01, 3.63250594e+04 * 3.)
     * best features and only features - 'Fwd IAT Min', 'Flow Pkts/s', 'Down/Up Ratio',
      'Fwd Pkts/s', 'Bwd IAT Mean', 'Bwd Pkts/s', 'Flow IAT Max', 'Dst Port', 'Init Fwd Win Byts',
-    * features indexes - 25, 16, 50, 35, 27, 36, 19, 0, 58
+    * 9 features indexes - 25, 16, 50, 35, 27, 36, 19, 0, 58
     * t-test p-value - 0.4482
 * class Brute Force -XSS
     * weights - (5.00018626e-01, 1.34224380e+04 * 2.)
@@ -250,43 +250,43 @@
       'Fwd Header Len', 'Fwd IAT Std', 'Bwd Pkt Len Std', 'Bwd IAT Min',
       'Fwd Seg Size Avg', 'Flow IAT Max', 'Flow Byts/s', 'Bwd IAT Tot',
       'Fwd Seg Size Min', 'Init Fwd Win Byts', 'Bwd IAT Max', 'Dst Port', 'Bwd Pkts/s'
-    * features indexes - 24, 20, 11, 69, 59, 25, 60, 33, 23, 14, 30, 52, 19, 15, 26, 61, 58, 29, 0, 36
+    * 20 features indexes - 24, 20, 11, 69, 59, 25, 60, 33, 23, 14, 30, 52, 19, 15, 26, 61, 58, 29, 0, 36
     * t-test p-value - 0.3571
 * class DDOS attack-HOIC
     * weights - (1., 1.)
     * best features and only features - 'ACK Flag Cnt', 'Flow IAT Max', 'Fwd Pkts/s',
      'Init Fwd Win Byts', 'Dst Port'
-    * features indexes - 46, 19, 35, 58, 0
+    * 5 features indexes - 46, 19, 35, 58, 0
     * t-test p-value - 0.5799
 * class DDOS attack-LOIC-UDP
     * weights - (1., 1.)
     * best features and only features - 'Fwd Act Data Pkts'
-    * features indexes - 60
+    * 1 feature indexe - 60
     * t-test p-value - 0.9521
 * class DDoS attacks-LOIC-HTTP
     * weights - (1., 1.)
     * best features and only features - 'Init Fwd Win Byts', 'Dst Port', 'Flow IAT Min',
       'Flow Duration', 'Bwd Pkt Len Std'
-    * features indexes - 58, 0, 20, 2, 14
+    * 5 features indexes - 58, 0, 20, 2, 14
     * t-test p-value - 0.3553
 * class DoS attacks-GoldenEye
     * weights - (1., 1.)
     * best features and only features - 'Pkt Len Var', 'TotLen Fwd Pkts', 'Pkt Len Max',
       'Subflow Bwd Byts', 'Fwd Seg Size Min', 'Bwd IAT Std', 'Init Fwd Win Byts',
       'Flow IAT Mean', 'Flow IAT Min', 'Bwd Pkt Len Std'
-    * features indexes - 41, 5, 38, 57, 61, 28, 58, 17, 20, 14
+    * 10 features indexes - 41, 5, 38, 57, 61, 28, 58, 17, 20, 14
     * t-test p-value - 0.4692
 * class DoS attacks-Hulk
     * weights - (1., 1.)
     * best features and only features - 'Fwd Pkt Len Max', 'Dst Port', 'Bwd Pkt Len Std',
       'Subflow Bwd Byts', 'Flow Byts/s', 'Fwd IAT Min', 'Fwd Seg Size Min', 'Tot Bwd Pkts'
-    * features indexes - 7, 0, 14, 57, 15, 25, 61, 4
+    * 8 features indexes - 7, 0, 14, 57, 15, 25, 61, 4
     * t-test p-value - 0.4069
 * class DoS attacks-SlowHTTPTest
     * weights - (0.50434616 * 1.85, 58.02206622)
     * best features and only features - 'Bwd IAT Std', 'Bwd IAT Max', 'Init Fwd Win Byts',
       'Dst Port', 'Bwd Pkts/s', 'Flow Pkts/s', 'Fwd Pkts/s', 'Fwd Seg Size Min'
-    * features indexes - 28, 29, 58, 0, 36, 16, 35, 61
+    * 8 features indexes - 28, 29, 58, 0, 36, 16, 35, 61
     * t-test p-value - 0.9995
 * class DoS attacks-Slowloris
     * weights - (1., 1.)
@@ -296,13 +296,13 @@
       'Bwd Pkt Len Max', 'Pkt Size Avg', 'Init Fwd Win Byts', 'Fwd PSH Flags',
       'Idle Min', 'Fwd IAT Mean', 'Fwd IAT Min', 'Dst Port', 'Pkt Len Mean',
       'Fwd Seg Size Min', 'Bwd IAT Max'
-    * features indexes - 9, 15, 65, 18, 41, 33, 60, 2, 40, 56, 35, 14, 11, 51, 58, 31, 69,
+    * 23 features indexes - 9, 15, 65, 18, 41, 33, 60, 2, 40, 56, 35, 14, 11, 51, 58, 31, 69,
       22, 25, 0, 39, 61, 29
     * t-test p-value - 0.7071
 * class FTP-BruteForce
     * weights - (0.50602754 * 15., 41.97630265)
     * best features and only features - 'Bwd Pkts/s', 'Flow Pkts/s', 'Fwd Seg Size Min'
-    * features indexes - 36, 16, 61
+    * 3 features indexes - 36, 16, 61
     * t-test p-value - 0.9997
 * class Infilteration
     * weights - (0.50503736, 50.12915694 * 4.)
@@ -321,7 +321,7 @@
       'RST Flag Cnt', 'ACK Flag Cnt', 'Bwd IAT Min', 'Flow Pkts/s', 'Fwd IAT Max',
       'Bwd Pkt Len Max', 'Bwd IAT Max', 'Fwd Pkts/s', 'Fwd Seg Size Min',
       'Fwd IAT Tot', 'Bwd Pkts/s', 'Init Fwd Win Byts', 'Dst Port'
-    * features indexes - 63, 3, 4, 68, 56, 66, 67, 57, 64, 50, 62, 47, 69, 34, 55, 65, 45,
+    * 63 features indexes - 63, 3, 4, 68, 56, 66, 67, 57, 64, 50, 62, 47, 69, 34, 55, 65, 45,
       37, 5, 8, 25, 18, 23, 60, 19, 52, 12, 13, 38, 7, 9, 2, 20, 41, 10, 53, 40, 54, 22, 6,
       59, 39, 15, 14, 51, 26, 28, 27, 33, 17, 44, 46, 30, 16, 24, 11, 29, 35, 61, 21, 36,
       58, 0
@@ -331,11 +331,11 @@
     * best features and only features - 'Pkt Size Avg', 'Fwd IAT Tot', 'ECE Flag Cnt',
       'Init Fwd Win Byts', 'Fwd Seg Size Min', 'Dst Port', 'Flow IAT Std', 'Flow Duration',
       'Fwd Pkts/s', 'Bwd Pkt Len Std'
-    * features indexes - 51, 21, 49, 58, 61, 0, 18, 2, 35, 14
+    * 10 features indexes - 51, 21, 49, 58, 61, 0, 18, 2, 35, 14
     * t-test p-value - 0.3148
 * class SSH-Bruteforce
     * weights - (1., 1.)
     * best features and only features - 'URG Flag Cnt', 'Fwd Pkt Len Min', 'Bwd Pkts/s',
       'Fwd Header Len', 'Dst Port', 'Bwd Header Len'
-    * features indexes - 47, 8, 36, 33, 0, 34
+    * 6 features indexes - 47, 8, 36, 33, 0, 34
     * t-test p-value - 0.3147

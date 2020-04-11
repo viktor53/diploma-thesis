@@ -2,12 +2,13 @@ from typing import List, Callable, Dict, Iterable, Tuple
 import logging
 import numpy as np
 import csv
-from os import linesep, sep
+from os import linesep, sep, system
 from collections import Counter
 from datetime import datetime
-from constants import PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA, PATH_TO_PRPD_DATA, TRAIN, TEST, CLASSES_MAPPING, \
-    PATH_TO_NORM_DATA, TRAIN_SIZE, FULL_TRAIN_SIZE, VALIDATION_SIZE, TEST_SIZE, SMALL_TRAIN_SIZE
-from math import isinf, isnan, floor, ceil
+from constants import PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA, PATH_TO_PRPD_DATA, PATH_TO_LOG_NORM_DATA, TRAIN, TEST,\
+                      VALIDATION, FULL_TRAIN, CLASSES_MAPPING, PATH_TO_NORM_DATA, TRAIN_SIZE, FULL_TRAIN_SIZE,\
+                      VALIDATION_SIZE, TEST_SIZE, SMALL_TRAIN_SIZE, ORIGINAL_FILES_WITH_SAME_HEADER
+from math import isinf, isnan, floor, ceil, log
 from functools import partial
 
 
@@ -93,6 +94,11 @@ class Transformer:
                             first_line = False
 
 
+def load_header() -> List[str]:
+    with open(PATH_TO_DATA + sep + SPLIT_FILES[0], "r") as f:
+        return f.readline()[:-1].split(",")
+
+
 def split_files_with_more_headers(path_to_data: str, files: List[str]):
     for file in files:
         logging.info("Processing file: {}".format(file))
@@ -136,9 +142,11 @@ def write_row(out_file, row_to_write: List[str], csv_sep: str = ","):
 
 
 def split_train_test(path_to_data: str, files: List[str], path_to_results: str, transformer: Transformer = None,
-                     train_ratio: float = 0.8):
-    with open(path_to_results + sep + TRAIN, "w") as train:
-        with open(path_to_results + sep + TEST, "w") as test:
+                     train_ratio: float = 0.8, val = False):
+    train = path_to_results + sep + FULL_TRAIN if not val else path_to_results + sep + TRAIN
+    test = path_to_results + sep + TEST if not val else path_to_results + sep + VALIDATION
+    with open(train, "w") as train:
+        with open(test, "w") as test:
             header_is_written = False
             for file in files:
                 logging.info("Processing file: {}".format(file))
@@ -216,9 +224,41 @@ def check_time(path_to_data: str, files: List[str]):
                 line_number += 1
 
 
-def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray]:
-    all_negatives = 8630151
-    to_be_skipped = 0
+def get_size(dataset: str) -> Tuple[int, int, int]:
+    negatives = 0
+    size = 0
+    features = 0
+    i = 0
+
+    logging.info("Getting shape of data.")
+
+    with open(dataset, "r") as in_data:
+        first_line = True
+        for row in csv.reader(in_data, delimiter=','):
+            if first_line:
+                features = len(row) - 1
+                first_line = False
+            else:
+                if CLASSES_MAPPING[row[-1]] == 0:
+                    negatives += 1
+
+                size += 1
+
+                if i % 100000 == 0:
+                    logging.info("Row {}".format(i))
+
+                i += 1
+
+    logging.info("X = ({}, {}), Y = {}, number of negative values = {}".format(size, features, size, negatives))
+
+    return size, features, negatives
+
+
+def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray, int, int]:
+    #all_negatives = 8630151
+    #to_be_skipped = 0
+
+    size, features, all_negatives = get_size(dataset)
 
     if number_of_negatives is not None:
         to_be_skipped = all_negatives - number_of_negatives
@@ -265,23 +305,17 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
 
     logging.info("Dataset is converted into numpy array.")
 
-    return data, labels
+    return data, labels, size - to_be_skipped, features
 
 
-def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int = None):
-    all_negatives = 8630151
-    to_be_skipped = 0
-
-    if number_of_negatives is not None:
-        to_be_skipped = all_negatives - number_of_negatives
-
+def convert_to_npy(path_to_data: str, type: str, path_to_result: str, number_of_negatives: int = None):
     logging.info("Converting dataset into numpy array.")
 
-    X, Y = load_dataset_as_array(dataset, number_of_negatives)
+    X, Y, size, features = load_dataset_as_array(path_to_data + sep + type + ".csv", number_of_negatives)
 
     logging.info("Storing X into memmap X.npy.")
 
-    X_memmap = np.memmap(path_to_result + sep + "X.npy", dtype=np.float32, mode="write", shape=(10388967 - to_be_skipped, 70))
+    X_memmap = np.memmap(path_to_result + sep + "X_{}.npy".format(type), dtype=np.float32, mode="write", shape=(size, features))
     X_memmap[:] = X[:]
     del X_memmap
 
@@ -290,7 +324,7 @@ def convert_to_npy(dataset: str, path_to_result: str, number_of_negatives: int =
     logging.info("Storing X is completed.")
     logging.info("Storing Y into memmap Y.npy.")
 
-    Y_memmap = np.memmap(path_to_result + sep + "Y.npy", dtype=np.int, mode="write", shape=10388967 - to_be_skipped)
+    Y_memmap = np.memmap(path_to_result + sep + "Y_{}.npy".format(type), dtype=np.int, mode="write", shape=size)
     Y_memmap[:] = Y[:]
     del Y_memmap
 
@@ -341,6 +375,22 @@ def load_normalizer() -> Transformer:
                 if len(column_stats) == 2:
                     normalizer.add_transformation(row[0], partial(normalize_str, mean=column_stats["Mean"], std=column_stats["StandardDeviation"]))
                     column_stats = dict()
+
+    return normalizer
+
+
+def load_log_normalizer() -> Transformer:
+    def normalize_str(value: str):
+        return str(log(float(value) + 1))
+
+    normalizer = Transformer()
+
+    skip = [1, 2, 3, 18, 20, 21, 22, 23, 25, 26, 32, 33, 34, 35, 45, 46, 47, 48, 49, 50, 51, 52, 57, 58, 59, 60, 61, 62,
+            67, 68, 79]
+
+    for index, column in enumerate(load_header()):
+        if index not in skip:
+            normalizer.add_transformation(column, normalize_str)
 
     return normalizer
 
@@ -397,6 +447,18 @@ def select_samples(path_to_data: str, type: str, ratio: float, size: int, number
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
+    # removing headers in middle of file (preparation for data analysis)
+    # split_files_with_more_headers(PATH_TO_DATA, ORIGINAL_FILES_WITH_SAME_HEADER[0])
+    # transformer = Transformer()\
+    #         .add_drop("Flow ID")\
+    #         .add_drop("Src IP")\
+    #         .add_drop("Src Port")\
+    #         .add_drop("Dst IP")
+    # transformer.run(PATH_TO_DATA, ORIGINAL_FILES_WITH_SAME_HEADER[1], "../")
+    # system("mv ../" + ORIGINAL_FILES_WITH_SAME_HEADER[1][0] + " " + PATH_TO_DATA + sep + ORIGINAL_FILES_WITH_SAME_HEADER[1][0].replace(".csv", "_dropped.csv"))
+    # split_files_with_more_headers(PATH_TO_DATA, [ORIGINAL_FILES_WITH_SAME_HEADER[1][0].replace(".csv", "_dropped.csv")])
+
+
     # datetime is converted to timestamp
     # NaN value is replaced by most common value in a column
     # Infinity value is replaced by maximum value in a column
@@ -410,30 +472,47 @@ if __name__ == "__main__":
     #     .set_drop(["Bwd Blk Rate Avg", "Bwd Byts/b Avg", "Bwd PSH Flags", "Bwd Pkts/b Avg", "Bwd URG Flags",
     #                "Fwd Blk Rate Avg", "Fwd Byts/b Avg", "Fwd Pkts/b Avg"])
     #
-    # transformer.run(PATH_TO_DATA, SPLIT_FILES, "../clean_data")
+    # transformer.run(PATH_TO_DATA, SPLIT_FILES, PATH_TO_CLN_DATA)
 
     # check_time(PATH_TO_CLN_DATA, SPLIT_FILES)
 
-    # droping Timestamp
+    # dropping Timestamp and spit to full train and test
     # transformer = Transformer().set_drop(["Timestamp"])
     # split_train_test(PATH_TO_CLN_DATA, SPLIT_FILES, PATH_TO_PRPD_DATA, transformer)
 
     # normalizing data by subtracting mean and dividing by std
     # normalizer = load_normalizer()
-    # normalizer.run(PATH_TO_PRPD_DATA, [TRAIN, TEST], PATH_TO_NORM_DATA)
+    # normalizer.run(PATH_TO_PRPD_DATA, [FULL_TRAIN, TEST], PATH_TO_NORM_DATA)
 
-    # convert_to_npy(PATH_TO_NORM_DATA + sep + "train.csv", PATH_TO_NORM_DATA)
+    # normalizing data by log
+    # normalizer = load_log_normalizer()
+    # normalizer.run(PATH_TO_PRPD_DATA, [FULL_TRAIN, TEST], PATH_TO_LOG_NORM_DATA)
 
-    # convert_to_npy(PATH_TO_NORM_DATA + sep + TRAIN, PATH_TO_NORM_DATA, 600000)
+    # split to train and validation
+    # split_train_test(PATH_TO_NORM_DATA, [FULL_TRAIN], PATH_TO_NORM_DATA, val=True)
+    # split_train_test(PATH_TO_LOG_NORM_DATA, [FULL_TRAIN], PATH_TO_LOG_NORM_DATA, val=True)
 
-    # split_train_test(PATH_TO_NORM_DATA, ["train_full.csv"], PATH_TO_NORM_DATA)
-
+    # converting normalized data to numpy array (memmap)
+    # convert_to_npy(PATH_TO_NORM_DATA, "train", PATH_TO_NORM_DATA + sep + "train")
+    # convert_to_npy(PATH_TO_NORM_DATA, "full_train", PATH_TO_NORM_DATA + sep + "full_train")
+    # convert_to_npy(PATH_TO_NORM_DATA, "test", PATH_TO_NORM_DATA + sep + "test")
+    # convert_to_npy(PATH_TO_NORM_DATA, "validation", PATH_TO_NORM_DATA + sep + "validation")
+    # convert_to_npy(PATH_TO_NORM_DATA, "train", PATH_TO_NORM_DATA, 600000) # for visualization -> size 2798546
     # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "train", TRAIN_SIZE)
-    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "validation", VALIDATION_SIZE)
-
-    # convert_to_npy(PATH_TO_NORM_DATA + sep + "train.csv", PATH_TO_NORM_DATA, 1000000)
-    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", SMALL_TRAIN_SIZE)
-
-    # size = select_samples(PATH_TO_NORM_DATA, "small_train", 0.3, SMALL_TRAIN_SIZE, number_of_negatives=1000000)
-    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", size)
     # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "full_train", FULL_TRAIN_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "validation", VALIDATION_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "test", TEST_SIZE)
+    # convert_to_npy(PATH_TO_NORM_DATA, "train", PATH_TO_NORM_DATA + sep + "small_train", 1000000) # for training SVM
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", SMALL_TRAIN_SIZE) # for training SVM
+    # size = select_samples(PATH_TO_NORM_DATA, "small_train", 0.3, SMALL_TRAIN_SIZE, number_of_negatives=1000000) # for training SVM
+    # create_labels_for_each_class_separately(PATH_TO_NORM_DATA, "small_train", size) # for training SVM
+
+    # converting log normalized data to numpy array (memmap)
+    # convert_to_npy(PATH_TO_LOG_NORM_DATA, "train", PATH_TO_LOG_NORM_DATA + sep + "train")
+    # convert_to_npy(PATH_TO_LOG_NORM_DATA, "full_train", PATH_TO_LOG_NORM_DATA + sep + "full_train")
+    # convert_to_npy(PATH_TO_LOG_NORM_DATA, "test", PATH_TO_LOG_NORM_DATA + sep + "test")
+    # convert_to_npy(PATH_TO_LOG_NORM_DATA, "validation", PATH_TO_LOG_NORM_DATA + sep + "validation")
+    # create_labels_for_each_class_separately(PATH_TO_LOG_NORM_DATA, "train", TRAIN_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_LOG_NORM_DATA, "full_train", FULL_TRAIN_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_LOG_NORM_DATA, "validation", VALIDATION_SIZE)
+    # create_labels_for_each_class_separately(PATH_TO_LOG_NORM_DATA, "test", TEST_SIZE)
