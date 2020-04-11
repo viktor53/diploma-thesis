@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.inspection import permutation_importance
 from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix, accuracy_score, recall_score, f1_score, precision_score
 from sklearn.feature_selection import SelectKBest, f_classif
 from sklearn.model_selection import cross_validate
@@ -10,7 +10,8 @@ from scipy.stats import ttest_ind
 import matplotlib.pyplot as plt
 import seaborn as snb
 from collections import Counter
-from constants import PATH_TO_NORM_DATA, CLASSES, FULL_TRAIN_SIZE, TRAIN_SIZE, VALIDATION_SIZE, SMALL_TRAIN_SIZE, SMALLEST_TRAIN_SIZE, TEST_SIZE
+from constants import PATH_TO_NORM_DATA, CLASSES, FULL_TRAIN_SIZE, TRAIN_SIZE, VALIDATION_SIZE, SMALL_TRAIN_SIZE,\
+                      SMALLEST_TRAIN_SIZE, TEST_SIZE
 from os import sep
 import logging
 import numpy as np
@@ -35,6 +36,24 @@ BEST_WEIGHTS_FOR_LOG_REG = [
     [0.50503736 * 1.25, 50.12915694],
     [5.00002503e-01 * 1.75, 9.98939135e+04],
     [0.50584556 * 7.78, 43.26753155]
+]
+
+BEST_WEIGHTS_FOR_DEC_TREE = [
+    [1., 1.],
+    [1., 1.],
+    [5.00006882e-01, 3.63250594e+04 * 3.],
+    [5.00018626e-01, 1.34224380e+04 * 2.],
+    [1., 1.],
+    [1., 1.],
+    [1., 1.],
+    [1., 1.],
+    [1., 1.],
+    [0.50434616 * 1.85, 58.02206622],
+    [1., 1.],
+    [0.50602754 * 15., 41.97630265],
+    [0.50503736, 50.12915694 * 4.],
+    [5.00002503e-01, 9.98939135e+04 * 0.5],
+    [1., 1.]
 ]
 
 
@@ -653,6 +672,18 @@ def get_best_features_log_reg(path_to_model: str, number_of_features: int) -> Tu
     return indexes, columns_names
 
 
+def get_best_features_random_forest(number_of_features: int) -> Tuple[np.ndarray, np.ndarray]:
+    logging.info("Extracting most important features from random forest.")
+
+    rf = load_random_forest("../random_forest.joblib")
+
+    features = rf.feature_importances_.argsort()
+    header = np.array(load_header())
+    header = header[features]
+
+    return features[-number_of_features:], header[-number_of_features:]
+
+
 def get_best_features_decision_tree(path_to_model: str, number_of_features: int) -> Tuple[np.ndarray, np.ndarray]:
     logging.info("Extracting most important features from decision tree.")
 
@@ -807,121 +838,106 @@ def compute_ttest_for_models(result_1: Dict, result_2: Dict):
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
-    # train_random_forest("../random_forest.joblib", load_train_npy)
-    # rf = load_random_forest("../random_forest.joblib")
-    # plot_random_forest_feature_imp(rf)
-    # plot_permutation_importance(rf, 1)
-    # plot_confusion_matrix(rf, load_validation_npy)
-
-    # train_logistic_regression_for_each_class()
-    # logistic_regression_accuracy("../logistic_regression", load_validation_npy)
-
-    # cls = 0
-    # weights = [1., 1.]
-    # class_weights = dict(zip(list(range(0, 2)), weights))
-    # lr = train_logistic_regression("../best_logistic_regression/logistic_regression_cls_{}.joblib".format(cls),
-    #                                lambda: load_train_npy_cls(cls), class_weights)
+    # training log reg
     # for cls in range(15):
-    #     lr = load_logistic_regression("../log_reg/logistic_regression_cls_{}.joblib".format(cls))
-    #     acc, f1, rec, predicted = compute_accuracy(lr, lambda: load_test_npy_cls(cls))
-    #     plot_binary_confusion_matrix(predicted, lambda: load_test_npy_cls(cls), cls, acc, f1, rec)
+    #     class_weight = dict(zip(list(range(0, 2)), BEST_WEIGHTS_FOR_LOG_REG[cls]))
+    #     train_logistic_regression("../best_logistic_regression/logistic_regression_cls_{}.joblib".format(cls),
+    #                               lambda: load_train_npy_cls(cls), class_weight)
 
+    # plot feature importance
     # log_reg_feature_importance("../best_logistic_regression")
-    # get_best_features_log_reg("../best_logistic_regression", 15)
 
-    # plot_feature_importance_from_coef(run_anova(load_train_npy), 0)
+    # testing log reg
+    # for cls in range(15):
+    #     lr = load_logistic_regression("../best_logistic_regression/logistic_regression_cls_{}.joblib".format(cls))
+    #     acc, f1, rec, y_pred = compute_accuracy(lr, lambda: load_test_npy_cls(cls))
+    #     plot_binary_confusion_matrix(y_pred, lambda: load_test_npy_cls(cls), cls, acc, f1, rec)
+
+
+    # plot ANOVA feature importance
     # plot_anova_feature_importance()
+    # plot_feature_importance_from_coef(run_anova(load_train_npy), 0)
 
-    # run_cross_validation_random_forest(load_full_train_npy)
-    # run_cross_validation_random_forest(lambda: provide_only_best_features(load_full_train_npy))
-    # compute_ttest()
+    # training random forest
+    # train_random_forest("../random_forest.joblib", load_train_npy)
 
-    # ab = train_ada_boost("../ada_boost_2.joblib", load_small_train_npy)
-    # plot_confusion_matrix(ab, load_validation_npy)
+    # plot feature importance
+    # rf = load_random_forest("../random_forest/random_forest.joblib")
+    # plot_random_forest_feature_imp(rf)
+    # plot_permutation_importance(rf, 5)
+
+    # testing random forest
+    # rf = load_random_forest("../random_forest/random_forest.joblib")
+    # plot_confusion_matrix(rf, load_test_npy)
+
+    # random forest cross validation
+    # result_1 = run_cross_validation(RandomForestClassifier(class_weight="balanced", n_estimators=200, random_state=42, n_jobs=3, verbose=1),
+    #                               load_full_train_npy)
+    # result_2 = run_cross_validation(RandomForestClassifier(class_weight="balanced", n_estimators=200, random_state=42, n_jobs=3, verbose=1),
+    #                               lambda: provide_only_best_features(load_full_train_npy, get_best_features_random_forest,
+    #                                                                  20))
+    # compute_ttest_for_models(result_1, result_2)
+
+    # training AdaBoost
+    # train_ada_boost("../ada_boost/ada_boost.joblib", load_small_train_npy)
+
+    # plot feature importance
+    # ab = load_ada_boost("../ada_boost/ada_boost.joblib")
     # plot_random_forest_feature_imp(ab)
 
-    # svc = train_svc("../svc.joblib", load_smallest_train_npy)
-    # plot_confusion_matrix(svc, load_validation_npy)
+    # testing AdaBoost
+    # ab = load_ada_boost("../ada_boost/ada_boost.joblib")
+    # plot_confusion_matrix(ab, load_test_npy)
 
+    # training SVM
+    # train_svc("../svc/svc.joblib", load_smallest_train_npy)
     # for cls in [3, 9, 12, 13]:
-    #     svc = train_svc("../svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), 'balanced')
-    #     acc, f1, rec = compute_accuracy(svc, lambda: load_validation_npy_cls(cls))
-    #     plot_binary_confusion_matrix(svc, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
+    #     svc = train_svc("../svc/svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), 'balanced')
 
-    # cls = 3
-    # weights = get_class_weights(lambda: load_smallest_train_npy_cls(cls), n_classes=2)
-    # weights = [5.00009062e-01, 2.75893000e+04]
-    # class_weights = dict(zip(list(range(0, 2)), weights))
-    # svc = train_svc("../svc_cls_{}.joblib".format(cls), lambda: load_smallest_train_npy_cls(cls), class_weight=class_weights)
-    # acc, f1, rec = compute_accuracy(svc, lambda: load_validation_npy_cls(cls))
-    # plot_binary_confusion_matrix(svc, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
+    # testing SVM
+    # svc = load_svc("../svc/svc.joblib")
+    # plot_confusion_matrix(svc, load_test_npy)
+    # for cls in [3, 9, 12, 13]:
+    #     svc = load_svc("../svc/svc_cls_{}.joblib".format(cls))
+    #     acc, f1, rec = compute_accuracy(svc, lambda: load_test_npy_cls(cls))
+    #     plot_binary_confusion_matrix(svc, lambda: load_test_npy_cls(cls), cls, acc, f1, rec)
 
-    # cls = 5
-    # # weights = get_class_weights(lambda: load_train_npy_cls(cls), n_classes=2)
-    # # weights = [5.00002503e-01, 9.98939135e+04 * 0.5]
-    # # class_weights = dict(zip(list(range(0, 2)), weights))
-    # class_weights = None
-    # is_cross_val = False
-    # if not is_cross_val:
-    #     # model = train_random_forest("../random_forest_cls_{}.joblib".format(cls), lambda: load_train_npy_cls(cls), class_weights)
-    #     model = train_decision_tree("../decision_tree_cls_{}.joblib".format(cls), lambda: load_train_npy_cls(cls), class_weights)
-    #     # model = load_decision_tree("../decision_tree_cls_{}.joblib".format(cls))
-    #     acc, f1, rec, y_pred = compute_accuracy(model, lambda: load_validation_npy_cls(cls))
+    # training dec tree
+    # for cls in range(15):
+    #     class_weight = dict(zip(list(range(0, 2)), BEST_WEIGHTS_FOR_DEC_TREE[cls]))
+    #     train_decision_tree("../best_decision_tree/decision_tree_cls_{}.joblib".format(cls), lambda: load_train_npy_cls(cls), class_weight)
+
+    # plot feature importance
+    # for cls in range(15):
+    #     dt = load_decision_tree("../best_decision_tree/decision_tree_cls_{}.joblib".format(cls))
+    #     plot_feature_importance_from_coef(dt.feature_importances_, cls)
+
+    # testing dec tree
+    # for cls in range(15):
+    #     dt = load_decision_tree("../best_decision_tree/decision_tree_cls_{}.joblib".format(cls))
+    #     acc, f1, rec, y_pred = compute_accuracy(dt, lambda: load_validation_npy_cls(cls))
     #     plot_binary_confusion_matrix(y_pred, lambda: load_validation_npy_cls(cls), cls, acc, f1, rec)
-    #     plot_feature_importance_from_coef(model.feature_importances_, cls)
-    # else:
-    #     result_1 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weights), lambda: load_full_train_npy_cls(cls), cv=5)
-    #     result_2 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weights),
-    #                                     lambda: provide_only_best_features_tree(lambda: load_full_train_npy_cls(cls), cls, 25), cv=5)
+
+
+    # dec tree cross validation
+    # for cls, features in zip(list(range(15)), [23, 2, 9, 20, 5, 1, 5, 10, 8, 8, 23, 3, 63, 10, 6]):
+    #     class_weight = dict(zip(list(range(0, 2)), BEST_WEIGHTS_FOR_DEC_TREE[cls]))
+    #     result_1 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weight),
+    #                                     lambda: load_full_train_npy_cls(cls), cv=5)
+    #     result_2 = run_cross_validation(DecisionTreeClassifier(random_state=42, class_weight=class_weight),
+    #                                     lambda: provide_only_best_features_tree(lambda: load_full_train_npy_cls(cls), cls, features), cv=5)
     #     compute_ttest_for_models(result_1, result_2)
 
-    # cls = 0
-    # features = 4
-    # # class_weights = dict(zip(list(range(0, 2)), [5.00002503e-01, 9.98939135e+04 * 0.5]))
-    # class_weights = None
-    # tree = train_decision_tree("../final_decision_tree/decision_tree_cls_{}.joblib".format(cls),
-    #                            lambda: provide_only_best_features_tree(lambda: load_full_train_npy_cls(cls), cls, features),
-    #                            class_weights)
-    # acc, f1, rec, y_pred = compute_accuracy(tree, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features))
-    # plot_binary_confusion_matrix(y_pred, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features),
-    #                              cls, acc, f1, rec)
-
-    # cls = 13
-    # f_n = 12
-    # path_to_model_for_cls = "../best_logistic_regression" + sep + "logistic_regression_cls_{}.joblib"
-    # lr = load_logistic_regression(path_to_model_for_cls.format(cls))
-    # imps = np.abs(lr.coef_[0])
-    # sorted_idx = np.argsort(imps)
-    # imps = imps[sorted_idx]
-    # header = np.array(load_header())[sorted_idx]
-    # print(np.flip(imps[-f_n:]))
-    # print(", ".join(np.flip(header[-f_n:])))
-    # f, h = get_best_features_decision_tree("../decision_tree_cls_{}.joblib".format(cls), f_n)
-    # print(np.flip(f))
-    # print(", ".join(np.flip(h)))
-
-    # for cls in range(15):
-    #     imps = run_anova(lambda: load_train_npy_cls(cls))
-    #     header = np.array(load_header())
-    #
-    #     imps = np.abs(imps)
-    #     sorted_idx = np.argsort(imps)
-    #
-    #     header = header[sorted_idx]
-    #     imps = imps[sorted_idx]
-    #
-    #     print("**** class {} ****".format(cls))
-    #     print(np.flip(imps))
-    #     print(", ".join(np.flip(header)))
-    #     print("******************")
-
+    # final training dec tree
     # for cls, features in zip(list(range(15)), [23, 2, 9, 20, 5, 1, 5, 10, 8, 8, 23, 3, 63, 10, 6]):
-    #     lr = load_decision_tree("../final_decision_tree/decision_tree_cls_{}.joblib".format(cls))
-    #     acc, f1, rec, predicted = compute_accuracy(lr, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features))
-    #     plot_binary_confusion_matrix(predicted, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features),
-    #                                  cls, acc, f1, rec)
+    #     class_weight = dict(zip(list(range(0, 2)), BEST_WEIGHTS_FOR_DEC_TREE[cls]))
+    #     train_decision_tree("../final_decision_tree/decision_tree_cls_{}.joblib".format(cls),
+    #                         lambda: provide_only_best_features_tree(lambda: load_full_train_npy_cls(cls), cls, features),
+    #                         class_weight)
 
-    for cls in [3, 9, 12, 13]:
-        svc = load_svc("../svc_cls_{}.joblib".format(cls))
-        acc, f1, rec, predicted = compute_accuracy(svc, lambda: load_test_npy_cls(cls))
-        plot_binary_confusion_matrix(predicted, lambda: load_test_npy_cls(cls), cls, acc, f1, rec)
+    # final testing dec tree
+    # for cls, features in zip(list(range(15)), [23, 2, 9, 20, 5, 1, 5, 10, 8, 8, 23, 3, 63, 10, 6]):
+    #     dt = load_decision_tree("../final_decision_tree/decision_tree_cls_{}.joblib".format(cls))
+    #     acc, f1, rec, y_pred = compute_accuracy(dt, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features))
+    #     plot_binary_confusion_matrix(y_pred, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features),
+    #                                  cls, acc, f1, rec)

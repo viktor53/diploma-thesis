@@ -255,8 +255,7 @@ def get_size(dataset: str) -> Tuple[int, int, int]:
 
 
 def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray, int, int]:
-    #all_negatives = 8630151
-    #to_be_skipped = 0
+    to_be_skipped = 0
 
     size, features, all_negatives = get_size(dataset)
 
@@ -267,8 +266,8 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
 
     logging.info("Initializing numpy arrays.")
 
-    data = np.zeros((10388967 - to_be_skipped, 70), dtype=np.float)
-    labels = np.zeros(10388967 - to_be_skipped, dtype=np.int)
+    data = np.zeros((size - to_be_skipped, features), dtype=np.float)
+    labels = np.zeros(size - to_be_skipped, dtype=np.int)
 
     logging.info("Starting to read the dataset.")
 
@@ -290,7 +289,7 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
                 if CLASSES_MAPPING[row[-1]] == 0:
                     negatives += 1
 
-                for j in range(70):
+                for j in range(features):
                     value = np.float(row[j])
 
                     if not isinf(value) and not isnan(value):
