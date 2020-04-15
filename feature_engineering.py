@@ -57,8 +57,17 @@ BEST_WEIGHTS_FOR_DEC_TREE = [
 ]
 
 
+class OVA:
+
+    def __init__(self, predict_ova: Callable[[np.ndarray], np.ndarray]):
+        self._predict_ova = predict_ova
+
+    def predict(self, x: np.ndarray) -> np.ndarray:
+        return self._predict_ova(x)
+
+
 def load_header() -> List[str]:
-    with open(PATH_TO_NORM_DATA + sep + "train_full.csv", "r") as f:
+    with open(PATH_TO_NORM_DATA + sep + "full_train.csv", "r") as f:
         return f.readline()[:-1].split(",")[:-1]
 
 
@@ -462,10 +471,9 @@ def compute_accuracy(model, load_data: Callable[[], Tuple[np.memmap, np.memmap]]
     return acc, f1, rec, Y_predict
 
 
-def plot_confusion_matrix(model, data_loader: Callable[[], Tuple[np.memmap, np.memmap]]):
-    x, y = data_loader()
-
-    acc, f1, rec, y_pred = compute_accuracy(model, data_loader, 14)
+def plot_confusion_matrix(y_pred: np.ndarray, data_loader: Callable[[], Tuple[np.memmap, np.memmap]],
+                          acc: float, f1: float, rec: float):
+    _, y = data_loader()
 
     matrix = confusion_matrix(y, y_pred, normalize='true')
 
@@ -696,20 +704,45 @@ def get_best_features_decision_tree(path_to_model: str, number_of_features: int)
     return features[-number_of_features:], header[-number_of_features:]
 
 
-def logistic_regression_predict(path_to_model: str, x: np.ndarray) -> np.ndarray:
+def decision_tree_predict_ova(path_to_model: str, x: np.ndarray,
+                              features_list: List[int]) -> np.ndarray:
+    def data_loader():
+        return np.copy(x), np.array([])
+
+    path_to_model = path_to_model + sep + "decision_tree_cls_{}.joblib"
+
+    logging.info("Predicting.")
+
+    start = timer()
+
+    models_predictions = []
+    for cls, features in zip(list(range(15)), features_list):
+        logging.info("Class {}".format(cls))
+
+        dt = load_decision_tree(path_to_model.format(cls))
+        x_prepared, _ = provide_only_best_features_tree(data_loader, cls, features)
+
+        models_predictions.append(dt.predict_proba(x_prepared)[:, 1])
+
+    end = timer()
+
+    logging.info("Predicting is completed. (Took {:.2f} minutes)".format((end - start) / 60.))
+
+    return np.argmax(models_predictions, axis=0)
+
+
+def logistic_regression_predict_ova(path_to_model: str, x: np.ndarray) -> np.ndarray:
     path_to_model = path_to_model + sep + "logistic_regression_cls_{}.joblib"
-
-    lr_models = []
-
-    for cls in range(15):
-        lr_models.append(load_logistic_regression(path_to_model.format(cls)))
 
     logging.info("Predicting.")
 
     start = timer()
 
     models_predict = []
-    for lr in lr_models:
+    for cls in range(15):
+        logging.info("Class {}".format(cls))
+
+        lr = load_logistic_regression(path_to_model.format(cls))
         models_predict.append(lr.predict_proba(x)[:, 1])
 
     end = timer()
@@ -722,7 +755,7 @@ def logistic_regression_predict(path_to_model: str, x: np.ndarray) -> np.ndarray
 def logistic_regression_accuracy(path_to_model: str, data_loader: Callable[[], Tuple[np.memmap, np.memmap]]) -> Tuple[float, float, float]:
     x, y = data_loader()
 
-    predict = logistic_regression_predict(path_to_model, x)
+    predict = logistic_regression_predict_ova(path_to_model, x)
 
     acc = accuracy_score(y, predict)
 
@@ -868,7 +901,8 @@ if __name__ == "__main__":
 
     # testing random forest
     # rf = load_random_forest("../random_forest/random_forest.joblib")
-    # plot_confusion_matrix(rf, load_test_npy)
+    # acc, f1, rec, y_pred = compute_accuracy(rf, load_test_npy, 15)
+    # plot_confusion_matrix(y_pred, load_test_npy, acc, f1, rec)
 
     # random forest cross validation
     # result_1 = run_cross_validation(RandomForestClassifier(class_weight="balanced", n_estimators=200, random_state=42, n_jobs=3, verbose=1),
@@ -887,7 +921,8 @@ if __name__ == "__main__":
 
     # testing AdaBoost
     # ab = load_ada_boost("../ada_boost/ada_boost.joblib")
-    # plot_confusion_matrix(ab, load_test_npy)
+    # acc, f1, rec, y_pred = compute_accuracy(ab, load_test_npy, 15)
+    # plot_confusion_matrix(y_pred, load_test_npy, acc, f1, rec)
 
     # training SVM
     # train_svc("../svc/svc.joblib", load_smallest_train_npy)
@@ -896,7 +931,8 @@ if __name__ == "__main__":
 
     # testing SVM
     # svc = load_svc("../svc/svc.joblib")
-    # plot_confusion_matrix(svc, load_test_npy)
+    # acc, f1, rec, y_pred = compute_accuracy(svc, load_test_npy, 15)
+    # plot_confusion_matrix(y_pred, load_test_npy, acc, f1, rec)
     # for cls in [3, 9, 12, 13]:
     #     svc = load_svc("../svc/svc_cls_{}.joblib".format(cls))
     #     acc, f1, rec = compute_accuracy(svc, lambda: load_test_npy_cls(cls))
@@ -941,3 +977,14 @@ if __name__ == "__main__":
     #     acc, f1, rec, y_pred = compute_accuracy(dt, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features))
     #     plot_binary_confusion_matrix(y_pred, lambda: provide_only_best_features_tree(lambda: load_test_npy_cls(cls), cls, features),
     #                                  cls, acc, f1, rec)
+
+    # multiclass classification for dec tree
+    # dec_tree_ova = OVA(lambda x: decision_tree_predict_ova("../final_decision_tree", x,
+    #                                                        [23, 2, 9, 20, 5, 1, 5, 10, 8, 8, 23, 3, 63, 10, 6]))
+    # acc, f1, rec, y_pred = compute_accuracy(dec_tree_ova, load_test_npy, 15)
+    # plot_confusion_matrix(y_pred, load_test_npy, acc, f1, rec)
+
+    # multiclass classification for logistic regression
+    # log_reg_ova = OVA(lambda x: logistic_regression_predict_ova("../best_logistic_regression", x))
+    # acc, f1, rec, y_pred = compute_accuracy(log_reg_ova, load_test_npy, 15)
+    # plot_confusion_matrix(y_pred, load_test_npy, acc, f1, rec)
