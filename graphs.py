@@ -199,5 +199,5 @@ if __name__ == "__main__":
 
     # plot_classes_ratio("statistics/classes_results.csv")
     # plot_comparison("statistics/comparison_results.csv")
-    #plot_boxplot_for_all()
-    plot_boxplot_log()
+    # plot_boxplot_for_all()
+    # plot_boxplot_log()

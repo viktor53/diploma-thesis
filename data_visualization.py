@@ -13,7 +13,7 @@ from umap import UMAP
 def run_pca_explained_variance(path_to_data: str, number_of_samples: int = 12986236, dimensions: int = 2):
     logging.info("Loading data.")
 
-    X_memmap = np.memmap(path_to_data + sep + "X_train_full.npy", dtype=np.float32, mode="r", shape=(number_of_samples, 70))
+    X_memmap = np.memmap(path_to_data + sep + "X_full_train.npy", dtype=np.float32, mode="r", shape=(number_of_samples, 70))
 
     logging.info("Running PCA fit for {} components.".format(dimensions))
 
@@ -189,16 +189,17 @@ def plot_transformation(path_to_data: str, transformer: Callable[[str, int, int,
 
 
 def plot_explained_variance(path_to_data: str, number_of_samples: int = 12986236):
-    components = [i for i in range(1, 70, 2)]
+    components = [i for i in range(1, 70)]
     evs = []
     evrs = []
 
     logging.info("Running PCA.")
 
+    ev, evr = run_pca_explained_variance(path_to_data, number_of_samples, 69)
+
     for c in components:
-        ev, evr = run_pca_explained_variance(path_to_data, number_of_samples, c)
-        result_ev = sum(ev)
-        result_evr = sum(evr)
+        result_ev = sum(ev[:c])
+        result_evr = sum(evr[:c])
         logging.info("Explained variance for {} components: {}".format(c, result_ev))
         logging.info("Explained variance ratio for {} components: {}".format(c, result_evr))
         evs.append(result_ev)
@@ -213,10 +214,13 @@ def plot_explained_variance(path_to_data: str, number_of_samples: int = 12986236
 
     ax.plot(components, evs)
 
-    ax.set_xlabel("components")
-    ax.set_ylabel("explained variance")
+    ax.set_xlabel("components", fontsize=20)
+    ax.set_ylabel("explained variance", fontsize=20)
 
-    plt.title("Explained Variance")
+    plt.xticks(fontsize=18)
+    plt.yticks(fontsize=18)
+
+    plt.title("Explained Variance", fontsize=26)
 
     plt.savefig("exp_var.png", dpi=300)
 
@@ -226,10 +230,13 @@ def plot_explained_variance(path_to_data: str, number_of_samples: int = 12986236
 
     ax.plot(components, evrs)
 
-    ax.set_xlabel("components")
-    ax.set_ylabel("explained variance ratio")
+    ax.set_xlabel("components", fontsize=20)
+    ax.set_ylabel("explained variance ratio", fontsize=20)
 
-    plt.title("Explained Variance Ratio")
+    plt.xticks(fontsize=18)
+    plt.yticks(fontsize=18)
+
+    plt.title("Explained Variance Ratio", fontsize=26)
 
     plt.savefig("exp_var_rat.png", dpi=300)
 

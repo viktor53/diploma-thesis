@@ -13,6 +13,13 @@ from functools import partial
 
 
 class Transformer:
+    '''
+    Class Transformer provides transformations of dataset.
+    It can drop columns, replace values or transform values.
+
+    Before running it has to be configured and then it
+    applies all defined transformations.
+    '''
 
     _logger = logging.getLogger("Transformer")
 
@@ -48,26 +55,101 @@ class Transformer:
         return [row[i] for _, i in header_mapping.items()]
 
     def add_replacement(self, column: str, to_replace: str, replace_by: str) -> 'Transformer':
+        '''
+        Adds a replacement.
+
+        Parameters
+        ----------
+        column : str
+            A column where the replacement should be applied.
+        to_replace : str
+            A value that should be replaced.
+        replace_by : str
+            A value that should replace the original value.
+
+        Returns
+        -------
+        self
+        '''
+
         self._replacement.append((column, lambda value: replace_by if value == to_replace else value))
 
         return self
 
     def add_transformation(self, column: str, transformation: Callable[[str], str]) -> 'Transformer':
+        '''
+        Adds a transformation of column.
+
+        Parameters
+        ----------
+        column : str
+            A column to be transformed.
+        transformation: Callable[[str], str]
+            A transformation that gets an original value and returns a transformed value.
+
+        Returns
+        -------
+        self
+        '''
+
         self._transformation.append((column, transformation))
 
         return self
 
     def add_drop(self, column: str) -> 'Transformer':
+        '''
+        Adds a column that should be drop.
+
+        Parameters
+        ----------
+        column : str
+            A column to be drop.
+
+        Returns
+        -------
+        self
+        '''
+
         self._drop.append(column)
 
         return self
 
     def set_drop(self, columns: List[str]) -> 'Transformer':
+        '''
+        Sets columns that should be drop.
+
+        Parameters
+        ----------
+        columns : List[str]
+            Columns to be drop.
+
+        Returns
+        -------
+        self
+        '''
+
         self._drop = columns
 
         return self
 
     def transform(self, row: List[str], first_line: bool = False) -> List[str]:
+        '''
+        Transforms a single row.
+
+        Parameters
+        ----------
+        row : List[str]
+            A row to be transformed.
+        first_line : bool
+            If it is first line it extracts a header mapping that is
+            required in the later transformation.
+
+        Returns
+        -------
+        row : List[str]
+            A transformed row.
+        '''
+
         if first_line:
             self._header = self._extract_header_mapping(row)
             return [col for col, _ in self._header.items()]
@@ -79,6 +161,18 @@ class Transformer:
             return dropped
 
     def run(self, path_to_files: str, files: List[str], results_dir: str):
+        '''
+        Runs a transformation of the files and stores results into result_dir.
+
+        Parameters
+        ----------
+        path_to_files : str
+            A path to the directory with the CSV files.
+        files : List[str]
+            A list of CSV files to be transformed
+        results_dir : str
+            A directory where results should be stored.
+        '''
         for file in files:
             self._logger.info("Processing file: {}".format(file))
             with open(path_to_files + sep + file, "r") as in_file:
@@ -95,11 +189,31 @@ class Transformer:
 
 
 def load_header() -> List[str]:
+    '''
+    Loads a header of files.
+
+    Returns
+    -------
+    header : List[str]
+        A header of files.
+    '''
+
     with open(PATH_TO_DATA + sep + SPLIT_FILES[0], "r") as f:
         return f.readline()[:-1].split(",")
 
 
 def split_files_with_more_headers(path_to_data: str, files: List[str]):
+    '''
+    Splits files with more headers that are contained in middle of files.
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory with the CSV files.
+    files : List[str]
+        A list of files that should be split.
+    '''
+
     for file in files:
         logging.info("Processing file: {}".format(file))
         index = 0
@@ -124,6 +238,20 @@ def split_files_with_more_headers(path_to_data: str, files: List[str]):
 
 
 def get_number_of_classes_in_file(iterator: Iterable[str]) -> Counter:
+    '''
+    Gets a number of samples for each class in a file.
+
+    Parameters
+    ----------
+    iterator : Iterable[str]
+        An iterator over the file.
+
+    Returns
+    -------
+    counter : Counter
+        A counter with a number of samples for each class in a file.
+    '''
+
     counter = Counter()
 
     first_line = True
@@ -136,13 +264,49 @@ def get_number_of_classes_in_file(iterator: Iterable[str]) -> Counter:
     return counter
 
 
-def write_row(out_file, row_to_write: List[str], csv_sep: str = ","):
-    out_file.write(csv_sep.join(row_to_write))
+def write_row(out_file, row_to_write: List[str], csv_del: str = ","):
+    '''
+    Writes a row into a file.
+
+    Parameters
+    ----------
+    out_file
+        A file writer.
+    row_to_write : List[str]
+        A row that should be written into the file.
+    csv_del : str
+        A CSV delimiter. Default value is comma ",".
+
+    '''
+
+    out_file.write(csv_del.join(row_to_write))
     out_file.write(linesep)
 
 
 def split_train_test(path_to_data: str, files: List[str], path_to_results: str, transformer: Transformer = None,
-                     train_ratio: float = 0.8, val = False):
+                     train_ratio: float = 0.8, val: bool = False):
+    '''
+    Splits files to a train set and test set or train set and validation set.
+    The files are split based on the train_ratio. By default the train set
+    consists of 80% data and test sets consists of 20% data. The classes
+    ratio is preserved.
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory with the CSV files.
+    files : List[str]
+        A list of CSV files to be split.
+    path_to_results : str
+        A path to the directory with results.
+    transformer : Transformer
+        A row transformer. It is optional, by default None.
+    train_ratio : float
+        A train ratio. It means that test ratio is 1 - train_ratio. By default 0.8.
+    val : bool
+        If it is train/validation split.
+    '''
+
     train = path_to_results + sep + FULL_TRAIN if not val else path_to_results + sep + TRAIN
     test = path_to_results + sep + TEST if not val else path_to_results + sep + VALIDATION
     with open(train, "w") as train:
@@ -203,6 +367,17 @@ def split_train_test(path_to_data: str, files: List[str], path_to_results: str, 
 
 
 def check_time(path_to_data: str, files: List[str]):
+    '''
+    Checks if samples are sorted by timestamp.
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory with CSV files.
+    files : List[str]
+        A list of CSV files that should be checked.
+    '''
+
     for file in files:
         logging.info("Processing file: {}".format(file))
         with open(path_to_data + sep + file, "r") as in_file:
@@ -225,6 +400,21 @@ def check_time(path_to_data: str, files: List[str]):
 
 
 def get_size(dataset: str) -> Tuple[int, int, int]:
+    '''
+    Computes a size of dataset.
+
+    Parameters
+    ----------
+    dataset : str
+        A path to the dataset.
+
+    Returns
+    -------
+    size : Tuple[int, int, int]
+        The first is number of samples, the second is number of features
+        and the last is number of negative samples.
+    '''
+
     negatives = 0
     size = 0
     features = 0
@@ -255,6 +445,24 @@ def get_size(dataset: str) -> Tuple[int, int, int]:
 
 
 def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tuple[np.ndarray, np.ndarray, int, int]:
+    '''
+    Loads a dataset numpy array. It is possible to control
+    a number of negative samples.
+
+    Parameters
+    ----------
+    dataset : str
+        A path to the dataset.
+    number_of_negatives : int
+        A number of negative samples to be loaded.
+
+    Returns
+    -------
+    result : Tuple[np.ndarray, np.ndarray, int, int]
+        It contains in this order the X data (samples), the Y data (labels),
+        the number of samples and the number of features.
+    '''
+
     to_be_skipped = 0
 
     size, features, all_negatives = get_size(dataset)
@@ -308,13 +516,32 @@ def load_dataset_as_array(dataset: str, number_of_negatives: int = None) -> Tupl
 
 
 def convert_to_npy(path_to_data: str, type: str, path_to_result: str, number_of_negatives: int = None):
+    '''
+    Converts a dataset into numpy array and then stores it as memory map.
+
+    The path to the result is constructed as:
+    path_to_data + sep + type + sep + "X_{}.npy".format(type)
+    path_to_data + sep + type + sep + "Y_{}.npy".format(type)
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the dataset.
+    type : str
+        A type of the dataset - train, test, validation...
+    path_to_result : str
+        A path to the directory with result.
+    number_of_negatives : str
+        A number of negative samples to be loaded.
+    '''
+
     logging.info("Converting dataset into numpy array.")
 
     X, Y, size, features = load_dataset_as_array(path_to_data + sep + type + ".csv", number_of_negatives)
 
     logging.info("Storing X into memmap X.npy.")
 
-    X_memmap = np.memmap(path_to_result + sep + "X_{}.npy".format(type), dtype=np.float32, mode="write", shape=(size, features))
+    X_memmap = np.memmap(path_to_result + sep + type + sep + "X_{}.npy".format(type), dtype=np.float32, mode="write", shape=(size, features))
     X_memmap[:] = X[:]
     del X_memmap
 
@@ -323,7 +550,7 @@ def convert_to_npy(path_to_data: str, type: str, path_to_result: str, number_of_
     logging.info("Storing X is completed.")
     logging.info("Storing Y into memmap Y.npy.")
 
-    Y_memmap = np.memmap(path_to_result + sep + "Y_{}.npy".format(type), dtype=np.int, mode="write", shape=size)
+    Y_memmap = np.memmap(path_to_result + sep + type + sep + "Y_{}.npy".format(type), dtype=np.int, mode="write", shape=size)
     Y_memmap[:] = Y[:]
     del Y_memmap
 
@@ -333,6 +560,27 @@ def convert_to_npy(path_to_data: str, type: str, path_to_result: str, number_of_
 
 
 def create_labels_for_each_class_separately(path_to_data: str, type: str, size: int):
+    '''
+    Converts multiclass classification into binary classification.
+    It means that for each class it creates new labels that contains
+    only {1, 0} where 1 is the current class and 0 is the rest.
+
+    The path to the data is constructed as:
+    path_to_data + sep + type + sep + "Y_{}.npy".format(type)
+
+    The path to the result is constructed as:
+    path_to_data + sep + type + sep + "Y_{}_cls_{}.npy".format(type, class)
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory with data (e.g. normalized_data).
+    type : str
+        A type of the data (e.g. train or test).
+    size : int
+        A size of the dataset.
+    '''
+
     for cls in range(0, 15):
         logging.info("Processing class: {}".format(cls))
         y_old = np.memmap(path_to_data + sep + type + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
@@ -349,11 +597,41 @@ def create_labels_for_each_class_separately(path_to_data: str, type: str, size: 
         logging.info("Processing is completed.")
 
 
-def normalize(value: float, mean: float, std: float, digit=4) -> float:
+def normalize(value: float, mean: float, std: float, digit: int = 4) -> float:
+    '''
+    Makes standardization with specific precision.
+
+    Parameters
+    ----------
+    value : float
+        A value to be normalized.
+    mean : float
+        A mean of values.
+    std : float
+        A standard deviation of values.
+    digit : int
+        A number of digits after floating point.
+
+    Returns
+    -------
+    results : float
+        A normalized value by standardization.
+    '''
+
     return round((value - mean) / std, digit)
 
 
 def load_normalizer() -> Transformer:
+    '''
+    Loads a normalizer that does standardization
+    based on the train statistics.
+
+    Returns
+    -------
+    normalizer : Transformer
+        A loaded normalizer that does standardization.
+    '''
+
     def normalize_str(value: str, mean: float, std: float) -> str:
         return str(normalize(float(value), mean, std))
 
@@ -379,6 +657,15 @@ def load_normalizer() -> Transformer:
 
 
 def load_log_normalizer() -> Transformer:
+    '''
+    Loads a normalizer that takes logarithm of the data.
+
+    Returns
+    -------
+    normalizer : Transformer
+        A normalizer that takes logarithm of the data.
+    '''
+
     def normalize_str(value: str):
         return str(log(float(value) + 1))
 
@@ -395,6 +682,30 @@ def load_log_normalizer() -> Transformer:
 
 
 def select_samples(path_to_data: str, type: str, ratio: float, size: int, number_of_negatives: int = 1000000) -> int:
+    '''
+    Selects only part of the data based on specified ratio and number of negative samples.
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory with data.
+    type : str
+        A type of data (e.g. train or test)
+    ratio : float
+        How many percent of data should be selected with preserving
+        classes ratio if it is possible. At least 10 samples for
+        each class is preserved.
+    size : int
+        A number of samples.
+    number_of_negatives : int
+        A number of negative samples that is loaded before selecting.
+
+    Returns
+    -------
+    result : int
+        A final number of samples.
+    '''
+
     y_old = np.memmap(path_to_data + sep + type + sep + "Y_{}.npy".format(type), dtype=np.int, mode="r", shape=size)
 
     logging.info("Counting classes.")

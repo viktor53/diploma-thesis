@@ -12,6 +12,23 @@ from random import shuffle
 
 
 class Analyzer:
+    '''
+    Class Analyzer represents abstract class for all
+    specific analyzers. It defines processing a dataset
+    row by row. It is also possible to join results of
+    the same analyzer.
+
+    It provides basic values checks:
+    - _is_valid_number(number) -> bool
+    - _is_valid_str(s: str)
+
+    Inherited classes has to implement abstract methods.
+
+    Parameters
+    ----------
+    column : str
+        Column name where analysis should be done
+    '''
 
     def __init__(self, column: str):
         self._column = column
@@ -25,15 +42,69 @@ class Analyzer:
         return s is not None
 
     def analyze(self, row: Row):
+        '''
+        Analyzes a dataset row by row. It is incremental analysis.
+
+        Parameters
+        ----------
+        row : Row
+            A row to analyze.
+        '''
         raise NotImplementedError("You have to implement this method!")
 
     def get_result(self) -> List[str]:
+        '''
+        Gets result of the analysis. It can be called during the analysis
+        or after analysis.
+
+        Returns
+        -------
+        result : List[str]
+            It has length of 3, where first is a column name,
+            second is an analyzer name and last is the result.
+        '''
         raise NotImplementedError("You have to implement this method!")
 
     def join(self, analyzer: 'Analyzer') -> 'Analyzer':
+        '''
+        Joins results of two same analyzers.
+
+        Parameters
+        ----------
+        analyzer : Analyzer
+            The same analyzer for the same column.
+
+        Returns
+        -------
+        analyzer : Analyzer
+            Returns self, modified analyzer. It does not create a copy.
+
+        Raises
+        ------
+        TypeError
+            If the analyzer is for different column.
+        '''
         raise NotImplementedError("You have to implement this method!")
 
     def join_multiple(self, analyzers: List['Analyzer']) -> 'Analyzer':
+        '''
+        Joins results of multiple same analyzers.
+
+        Parameters
+        ----------
+        analyzers : List[Analyzer]
+            List of the same analyzers for the same column.
+
+        Returns
+        -------
+        analyzer : Analyzer
+            Returns self, modified analyzer. It does not create a copy.
+
+        Raises
+        ------
+        TypeError
+            If the analyzers are for different column.
+        '''
         raise NotImplementedError("You have to implement this method!")
 
 
@@ -367,12 +438,40 @@ class NumberOfRows(Analyzer):
 
 
 class Filter:
+    '''
+    Class Filter represents abstract class for all filters.
+    It provides possibility to filter out not suitable rows.
+    '''
 
     def filter(self, row: Row) -> bool:
+        '''
+        Filters out not suitable rows.
+
+        Parameters
+        ----------
+        row : Row
+            A row.
+
+        Returns
+        -------
+        True if the row is not suitable otherwise False.
+        '''
         raise NotImplementedError("You have to implement this method!")
 
 
 class ValueFilter(Filter):
+    '''
+    Class ValueFilter represents filter based on a value of a column.
+    All rows which do not have the value value_to_satisfy in the
+    column are filtered out.
+
+    Parameters
+    ----------
+    column : str
+        A column name where filter should be applied.
+    value_to_satisfy : str
+        A value which should be satisfied to pass the filter.
+    '''
 
     def __init__(self, column: str, value_to_satisfy: str):
         self._column = column
@@ -385,6 +484,17 @@ class ValueFilter(Filter):
 
 
 def get_analyzers_mapping() -> Dict[str, Callable[[str], Analyzer]]:
+    '''
+    Creates mapping between analyzer names and analyzer factory methods.
+    (It is used to parse yaml configurations)
+
+    Returns
+    -------
+    mapping : Dict[str, Callable[[str], Analyzer]
+        The key is a name of analyzer and the value is a factory method
+        which creates an analyzer for specific column.
+    '''
+
     mapping = dict()
     mapping.update([("Min", lambda c: Min(c))])
     mapping.update([("Max", lambda c: Max(c))])
@@ -413,6 +523,20 @@ def get_analyzers_mapping() -> Dict[str, Callable[[str], Analyzer]]:
 
 
 def load_analysis_conf(path_to_conf: str) -> Dict[str, List[str]]:
+    '''
+    Loads analysis configuration.
+
+    Parameters
+    ----------
+    path_to_conf : str
+        A path to an yaml configuration file.
+
+    Returns
+    -------
+    configuration : Dict[str, List[str]]
+        Loaded yaml configuration where the key is a column name
+        and the value is a list of analyzers for the column.
+    '''
     with open(path_to_conf, "r") as file:
         conf = yaml.load(file)
 
@@ -420,6 +544,31 @@ def load_analysis_conf(path_to_conf: str) -> Dict[str, List[str]]:
 
 
 class AnalysisRunner:
+    '''
+    Class AnalysisRunner represents runner of analysis.
+    It provides possibility to set up an analysis and
+    then run it in single thread or in multiple threads.
+    After analysis it stores its results.
+
+    Parameters
+    ----------
+    dataset : Dataset
+        A dataset to analyze
+    conf : Dict[str, List[str]]
+        A configuration of analysis where the key is a column name
+        and the value is a list of analyzers for the column.
+    analyzers_mapping : Dict[str, Callable[[str], Analyzer]]
+        A mapping between analyzer names and analyzer factory methods.
+        The key is a name of analyzer and the value is a factory method
+        which creates an analyzer for specific column.
+    filters : List[Filter]
+        A list of filters
+    max_analyzers : int
+        To reduce a consumption of resources user can specify
+        maximum analyzers to be used in a single passing of the dataset.
+        All analyzers will be processed, but it will go over the dataset
+        more times.
+    '''
 
     _logger = logging.getLogger("AnalysisRunner")
 
@@ -486,6 +635,15 @@ class AnalysisRunner:
                 self._logger.info("Thread " + str(thread) + " - Current row: " + str(number))
 
     def run(self, file_with_results: str):
+        '''
+        Runs the analysis in a single thread
+        and stores the result into file file_with_results.
+
+        Parameters
+        ----------
+        file_with_results : str
+            A file where the results should be stored.
+        '''
         self._logger.info("Running analysis.")
 
         analyzers = self._load_analyzers()
@@ -507,6 +665,18 @@ class AnalysisRunner:
         self._logger.info("Analysis completed.")
 
     def run_parallel(self, file_with_results: str, workers: int):
+        '''
+        Runs the analysis in parallel and the results stores
+        into file file_with_results. The number of workers
+        is specified by the parameter workers.
+
+        Parameters
+        ----------
+        file_with_results : str
+            A file where the results should be stored.
+        workers : int
+            A number of workers.
+        '''
         self._logger.info("Running analysis in " + str(workers) + " threads.")
 
         analyzers = []
@@ -552,6 +722,17 @@ class AnalysisRunner:
 
 
 def join_analysis_results(files: List[str], result: str):
+    '''
+    Joins analysis results into one CSV file.
+
+    Parameters
+    ----------
+    files : List[str]
+        A list of CSV files with analysis results.
+    result : str
+        A final CSV file.
+    '''
+
     header = ["Column", "Analyzer"]
     rows = []
 

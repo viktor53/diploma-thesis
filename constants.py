@@ -1,35 +1,27 @@
 from os import sep
 
+# Definitions of directories used in the project
 DATA_DIR = "data_csv"
-
 CLEAN_DATA_DIR = "clean_data"
-
 PREPARED_DATA_DIR = "prepared_data"
-
 NORMALIZED_DATA_DIR = "normalized_data"
-
 LOG_NORMALIZED_DATA_DIR = "log_normalized_data"
-
 CONF_DIR = "conf"
 
+# Definitions of paths to the specific data
 PATH_TO_DATA = ".." + sep + DATA_DIR
-
 PATH_TO_CLN_DATA = ".." + sep + CLEAN_DATA_DIR
-
 PATH_TO_PRPD_DATA = ".." + sep + PREPARED_DATA_DIR
-
 PATH_TO_NORM_DATA = ".." + sep + NORMALIZED_DATA_DIR
-
 PATH_TO_LOG_NORM_DATA = ".." + sep + LOG_NORMALIZED_DATA_DIR
 
+# Definitions of files representing the training set, test set, validation set and training set with validation set
 TRAIN = "train.csv"
-
 TEST = "test.csv"
-
 VALIDATION = "validation.csv"
-
 FULL_TRAIN = "full_train.csv"
 
+# CSV files included in the dataset
 ALL_ORIGINAL_FILES = [
      "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
      "Friday-16-02-2018_TrafficForML_CICFlowMeter.csv",
@@ -43,6 +35,7 @@ ALL_ORIGINAL_FILES = [
      "Wednesday-28-02-2018_TrafficForML_CICFlowMeter.csv"
 ]
 
+# CSV files dived into to groups based on their header
 ORIGINAL_FILES_WITH_SAME_HEADER = [
     [
         "Friday-02-03-2018_TrafficForML_CICFlowMeter.csv",
@@ -60,6 +53,7 @@ ORIGINAL_FILES_WITH_SAME_HEADER = [
     ]
 ]
 
+# CSV files after splitting by their headers in the middle of files
 SPLIT_FILES = [
     "Wednesday-14-02-2018_TrafficForML_CICFlowMeter_0.csv",
     "Thursday-15-02-2018_TrafficForML_CICFlowMeter_0.csv",
@@ -132,10 +126,11 @@ SPLIT_FILES = [
     "Friday-02-03-2018_TrafficForML_CICFlowMeter_0.csv"
 ]
 
+# Files with configuration of analysis
+# full analysis may take too much time so it is divided into 8 parts
+# classes analysis only discovers classes ratio
 FULL_ANALYSIS_CONF = "full_analysis.yaml"
-
 CLASSES_ANALYSIS_CONF = "classes_analysis.yaml"
-
 ANALYSIS_BY_PARTS = [
     "analysis_part_1.yaml",
     "analysis_part_2.yaml",
@@ -147,6 +142,7 @@ ANALYSIS_BY_PARTS = [
     "analysis_part_8.yaml",
 ]
 
+# classes appearing in the dataset
 CLASSES = [
     "Benign",
     "Bot",
@@ -165,6 +161,7 @@ CLASSES = [
     "SSH-Bruteforce",
 ]
 
+# classes mapping onto numbers
 CLASSES_MAPPING = {
     "Benign": 0,
     "Bot": 1,
@@ -183,7 +180,7 @@ CLASSES_MAPPING = {
     "SSH-Bruteforce": 14
 }
 
-
+# Files with results of analysis
 FILES_WITH_RESULTS = [
     "Benign/Benign_results.csv",
     "Bot/Bot_results.csv",
@@ -201,6 +198,7 @@ FILES_WITH_RESULTS = [
     "SSH-Bruteforce/SSH-Bruteforce_results.csv"
 ]
 
+# Number of samples in specific set
 FULL_TRAIN_SIZE = 12986236
 TRAIN_SIZE = 10388967
 SMALL_TRAIN_SIZE = 2758816

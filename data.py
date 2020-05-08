@@ -6,6 +6,21 @@ import csv
 
 
 class Row:
+    '''
+    Class Row represents one row in a dataset and
+    is capable of getting data in specific type.
+
+    For getting data from a column use one of the
+    get methods.
+
+    Parameters
+    ----------
+    mapping : Dict[str, int]
+        Mapping between column names and theirs indexes.
+    row : List[str]
+        List of string data from a dataset
+        (e.g. data retrieved from csv file).
+    '''
 
     def __init__(self, mapping: Dict[str, int], row: List[str]):
         self._mapping = mapping
@@ -52,10 +67,41 @@ class Row:
 
 
 class Dataset:
+    '''
+    Class Dataset represents a dataset and provides
+    possibility to iterate over the dataset, so user
+    does not have to care about reading from files.
+
+    During a dataset creation it checks header of files
+    and if some header is different then the others, it
+    raises ValueError.
+
+    To iterate over the dataset use one of the methods:
+    - raw_data_without_header(self) -> Callable[[], Iterable[Row]]
+      - provides one Iterable[Row]
+    - raw_data_without_header_parallel(self, workers: int) -> List[Callable[[], Iterable[Row]]]
+      - provides more Iterable[Row] based on the parameter workers
+      - provides possibility to read a dataset in parallel
+
+    Parameters
+    ----------
+    path_to_data : str
+        A path to the directory where CSV files are stored.
+    files_names : List[str]
+        List of CSV files which should be included in the dataset.
+    delimiter : str
+        A delimiter for CSV files. Default value is comma ",".
+
+    Raises
+    ------
+    ValueError
+        If the CSV files do not have the same headers.
+
+    '''
 
     _logger = logging.getLogger("Dataset")
 
-    def __init__(self, path_to_data: str, files_names: List[str], delimiter=","):
+    def __init__(self, path_to_data: str, files_names: List[str], delimiter: str = ","):
         self._path_to_data = path_to_data
         self._files_names = files_names
         self._delimiter = delimiter

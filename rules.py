@@ -1,11 +1,15 @@
 import numpy as np
-from sklearn.metrics import recall_score, f1_score, accuracy_score
+from sklearn.metrics import recall_score, f1_score, accuracy_score, precision_score
 from skrules import SkopeRules
-from feature_engineering import load_train_npy_cls, load_validation_npy_cls, load_full_train_npy_cls, load_test_npy_cls, load_header, plot_binary_confusion_matrix
+from model_training import load_train_npy_cls, load_validation_npy_cls, load_full_train_npy_cls, load_test_npy_cls, \
+    load_header, plot_binary_confusion_matrix, load_test_npy, plot_confusion_matrix
 from typing import List, Callable, Tuple
 from joblib import dump, load
 from timeit import default_timer as timer
 import logging
+import csv
+import pandas as pd
+import json
 
 
 def duplicate_pos_class(X_data: np.memmap, Y_data: np.memmap, times: int) -> Tuple[np.ndarray, np.ndarray]:
@@ -89,6 +93,120 @@ def test_skope_rules(clf: SkopeRules, cls: int, features_to_use: List[int]):
     plot_binary_confusion_matrix(Y_pred, lambda: load_test_npy_cls(cls), cls, acc, f1, recall)
 
 
+def denormalize_rules():
+    '''
+    Denormalizes values in rules. First it loads train statistics
+    and then goes through each rule and prints the denormalized form.
+    '''
+
+    column_mean_std = dict()
+    with open("../statistics/train/train_results.csv", mode="r") as stat:
+        column_stats = dict()
+        first_row = True
+        for row in csv.reader(stat, delimiter=","):
+            if first_row:
+                first_row = False
+            else:
+                if row[1] == "Mean":
+                    column_stats.update([("Mean", float(row[2]))])
+                elif row[1] == "StandardDeviation":
+                    column_stats.update([("StandardDeviation", float(row[2]))])
+
+                if len(column_stats) == 2:
+                    column_mean_std.update([(row[0], (column_stats["Mean"], column_stats["StandardDeviation"]))])
+
+    for cls in range(15):
+        print('******* cls {} *******'.format(cls))
+        clf = load_skope_rules(cls)
+        for rule_pair in clf.rules_:
+            rule_split = rule_pair[0].split(' ')
+
+            feature = []
+            for i in range(len(rule_split)):
+                if rule_split[i].replace('.', '', 1).replace('-', '', 1).isdigit():
+                    feature_name = " ".join(feature)
+                    value = float(rule_split[i])
+                    value = value * column_mean_std[feature_name][0] + column_mean_std[feature_name][1]
+                    rule_split[i] = str(value)
+                    feature = []
+                elif rule_split[i] != '<=' and rule_split[i] != '>' and rule_split[i] != 'and':
+                    feature.append(rule_split[i])
+
+            print(' '.join(rule_split))
+
+        print('**********************')
+
+
+def test_multiclass_classification(sorted_by: int = 0, from_scratch: bool = True):
+    '''
+    Tests multiclass classification. First it loads rules
+    and sorts them by one of the performance measures and
+    then it runs classification.
+
+    Parameters
+    ----------
+    sorted_by : int
+        By default 0 - Precision. Other options are 1 - Recall and 2 - OOB.
+    from_scratch : bool
+        It stores the rules as JSON file, so after second file it
+        does not have to load the rules from Skope-Rules model.
+    '''
+
+    header = np.array(load_header())
+    new_header = ["__C__{}".format(i) for i in range(70)]
+    header_mapping = dict()
+    header_mapping.update(list(zip(header, new_header)))
+
+    logging.info("Preparing rules...")
+
+    if from_scratch:
+        rules = []
+
+        for cls in range(1, 15):
+            clf = load_skope_rules(cls)
+
+            for rule in clf.rules_:
+                modified_rule = rule[0]
+                for old, new in header_mapping.items():
+                    modified_rule = modified_rule.replace(old, new)
+                rules.append((cls, modified_rule, rule[1]))
+
+        with open("rules_without_benign.json", "w") as f:
+            json.dump(rules, f)
+    else:
+        with open("rules_without_benign.json", "r") as f:
+            rules = json.load(f)
+
+    if sorted_by != 2:
+        sorted_rules = sorted(rules, key=lambda x: -x[2][sorted_by])
+    else:
+        sorted_rules = sorted(rules, key=lambda x: x[2][sorted_by])
+
+    X, Y_true = load_test_npy()
+
+    df = pd.DataFrame(X, columns=new_header)
+    Y_pred = np.zeros(X.shape[0])
+
+    logging.info("Predicting...")
+
+    for rule in sorted_rules:
+        indexes = df.query(rule[1]).index
+        for index in indexes:
+            if Y_pred[index] == 0:
+                Y_pred[index] = rule[0]
+
+    logging.info("Computing accuracy...")
+
+    acc = accuracy_score(Y_true, Y_pred)
+    f1 = f1_score(Y_true, Y_pred, average='micro')
+    rec = recall_score(Y_true, Y_pred, average='micro')
+    prec = precision_score(Y_true, Y_pred, average='micro')
+
+    logging.info("Accuracy: {}, F1 Score: {}, Recall: {}, Precision: {}".format(acc, f1, rec, prec))
+
+    plot_confusion_matrix(Y_pred, load_test_npy, acc, f1, rec)
+
+
 if __name__ == "__main__":
     logging.basicConfig(format="%(levelname)s %(name)s: %(message)s", level=logging.INFO)
 
@@ -109,7 +227,7 @@ if __name__ == "__main__":
     #                   [3, 5, 40, 0.3, 0.1])
     # train_skope_rules(11, [36, 16, 61], [3, 3, 30, 0.3, 0.1])
     # train_skope_rules(12, [63, 3, 4, 68, 56, 66, 67, 57, 64, 50, 62, 47, 69, 34, 55, 65, 45, 37, 5, 8, 25, 18, 23, 60],
-    #                   [3, 10, 40, 0.3, 0.1]) # not successful
+    #                   [5, 10, 40, 0.1, 0.1]) # not successful
     # train_skope_rules(13, [51, 21, 49, 58, 61, 0, 18, 2, 35, 14], [3, 5, 30, 0.3, 0.1], dup=10000)
     # train_skope_rules(14, [47, 8, 36, 33, 0, 34], [3, 3, 30, 0.3, 0.1])
 
@@ -158,3 +276,7 @@ if __name__ == "__main__":
     #
     # clf = load_skope_rules(14)
     # test_skope_rules(clf, 14, [47, 8, 36, 33, 0, 34])
+    #
+    # denormalize_rules()
+    #
+    # test_multiclass_classification(0, True)
