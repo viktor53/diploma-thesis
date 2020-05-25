@@ -592,8 +592,6 @@ def plot_permutation_importance(model_with_feature_imp, iter: int = 0):
 
     logging.info("Computing is completed. (Took {:.2f} minutes)".format((end - start) / 60))
 
-    sorted_idx = result.importances_mean.argsort()
-
     if iter > 0:
         prev = load_array("perm_imp_data_{}.npy".format(iter - 1), shape=(70, 3 * iter))
         next = np.concatenate((prev, result.importances), axis=1)
